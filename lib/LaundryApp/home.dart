@@ -206,7 +206,7 @@ class _loginpageState extends State<loginpage> {
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
                                   prefixIcon: Icon(Icons.lock),
-                                  suffixIcon: IconButton(icon:Icon(Icons.remove_red_eye,color: this._showloginpassword ? Colors.blue : Colors.grey),
+                                  suffixIcon: IconButton(icon:this._showloginpassword?Icon(Icons.visibility,color:Colors.blueAccent):Icon(Icons.visibility_off_rounded,color:Colors.grey),
                                     onPressed: (){
                                       setState(() {
                                         this._showloginpassword = !this._showloginpassword;
@@ -377,7 +377,7 @@ class _signupState extends State<signup> {
                             borderRadius: BorderRadius.circular(20.0),
                           ),
                           prefixIcon: Icon(Icons.lock,color: Colors.red.shade300),
-                            suffixIcon: IconButton(icon:Icon(Icons.visibility,color: Colors.black),
+                            suffixIcon: IconButton(icon:this._showPassword?Icon(Icons.visibility,color:Colors.blueAccent):Icon(Icons.visibility_off_rounded,color:Colors.grey),
                               onPressed: (){
                                 setState(() {
                                   this._showPassword = !this._showPassword;

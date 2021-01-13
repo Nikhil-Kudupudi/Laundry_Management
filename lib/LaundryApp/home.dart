@@ -206,18 +206,21 @@ class _loginpageState extends State<loginpage> {
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
                                   prefixIcon: Icon(Icons.lock),
-                                  suffixIcon: IconButton(icon:Icon(Icons.visibility,color: Colors.black),
+                                  suffixIcon: IconButton(icon:Icon(Icons.remove_red_eye,color: this._showloginpassword ? Colors.blue : Colors.grey),
                                     onPressed: (){
                                       setState(() {
                                         this._showloginpassword = !this._showloginpassword;
                                       });
                                     },
                                   ),
+
                                   hintText: "password",
                                   filled: true,
                                   fillColor: Colors.white,
                                   errorText: _validateloginpassword?"*this field is required":null,
+
                                 ),
+
                               ),
                             )
                           ],

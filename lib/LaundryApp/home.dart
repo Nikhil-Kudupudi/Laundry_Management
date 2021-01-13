@@ -107,6 +107,11 @@ class loginpage extends StatefulWidget {
 }
 class _loginpageState extends State<loginpage> {
   @override
+  bool _showloginpassword=false;
+  final _loginpassword=TextEditingController();
+  final _loginusername=TextEditingController();
+  bool _validateloginusername=false;
+  bool _validateloginpassword=false;
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
@@ -165,6 +170,7 @@ class _loginpageState extends State<loginpage> {
                                   left:MediaQuery.of(context).size.height * 0.03,
                                   right: MediaQuery.of(context).size.height * 0.03),
                               child: TextField(
+                                controller: _loginusername,
                                 decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20.0),
@@ -178,6 +184,8 @@ class _loginpageState extends State<loginpage> {
                                   hintText: "Username/Phone Number",
                                   filled: true,
                                   fillColor: Colors.white,
+                                  errorText:_validateloginusername ? "*this field is required":null,
+
                                 ),
                               ),
                             ),
@@ -186,7 +194,8 @@ class _loginpageState extends State<loginpage> {
                                   left:MediaQuery.of(context).size.height * 0.03,
                                   right: MediaQuery.of(context).size.height * 0.03),
                               child: TextField(
-                                obscureText: true,
+                                obscureText: !this._showloginpassword,
+                                controller: _loginpassword,
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
@@ -197,10 +206,17 @@ class _loginpageState extends State<loginpage> {
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
                                   prefixIcon: Icon(Icons.lock),
-                                  suffixIcon: Icon(Icons.visibility),
+                                  suffixIcon: IconButton(icon:Icon(Icons.visibility,color: Colors.black),
+                                    onPressed: (){
+                                      setState(() {
+                                        this._showloginpassword = !this._showloginpassword;
+                                      });
+                                    },
+                                  ),
                                   hintText: "password",
                                   filled: true,
                                   fillColor: Colors.white,
+                                  errorText: _validateloginpassword?"*this field is required":null,
                                 ),
                               ),
                             )
@@ -226,8 +242,15 @@ class _loginpageState extends State<loginpage> {
                       ),
                       InkWell(
                         onTap: (){
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => mainpage()));
+                          setState(() {
+                            _loginusername.text.isEmpty?_validateloginusername=true:_validateloginusername=false;
+                            _loginpassword.text.isEmpty? _validateloginpassword=true:_validateloginpassword=false;
+
+                          });
+                          if (_loginusername.text.isNotEmpty && _loginpassword.text.isNotEmpty ){
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (context) => mainpage()));
+                          }
                         },
                         child: Container(
                           height: 50,

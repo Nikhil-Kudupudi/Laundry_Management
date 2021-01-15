@@ -633,6 +633,7 @@ class _entrypageState extends State<entrypage> {
                 Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,),),
                 InkWell(
                   onTap: (){
+
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context) => selecttype()));
                   },
@@ -765,7 +766,7 @@ class _datetimeState extends State<datetime> {
   String yearMonthDay, yearMonthDayTime;
   TextEditingController ymdController = TextEditingController();
   TextEditingController ymdtController = TextEditingController();
-  bool autovalidate = false;
+  bool autovalidate = false; bool _validatedate=false;
   yearMonthDayPicker() async {
     final year = DateTime.now().year;
     final DateTime dateTime = await showDatePicker(
@@ -779,14 +780,18 @@ class _datetimeState extends State<datetime> {
     }
   }
   yearMonthDayTimePicker() async {
-    final year = DateTime.now().year;
+//    final year = DateTime.now().year;
     String hour, min;
-    final DateTime dateTime = await showDatePicker(
+    Future<TimeOfDay> dateTime = showTimePicker(
+      initialTime: TimeOfDay.now(),
+      context: context,
+    );
+    /*final DateTime dateTime = await showDatePicker(
       context: context,
      initialDate: DateTime.now(),
       firstDate: DateTime(year),
      lastDate: DateTime(year + 10),
-    );
+    );*/
    if (dateTime != null) {
       final TimeOfDay pickedTime = await showTimePicker(
         context: context,
@@ -840,13 +845,15 @@ class _datetimeState extends State<datetime> {
                       fillColor: Colors.white,
                   //    labelText: 'dd-mm-yyyy',
                       filled: true,
+                      errorText: _validatedate ?"this field is required":null,
+                      errorStyle: TextStyle(color: Colors.white)
                     ),
                     onSaved: (val) {
                       yearMonthDay = ymdController.text;
                     },
                     validator: (val) {
                       if (val == null || val.isEmpty) {
-                        return 'Year-Month-Date is necessary';
+                        return "*This field is required";
                       }
                       return null;
                     },

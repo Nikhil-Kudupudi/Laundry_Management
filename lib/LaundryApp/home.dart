@@ -1,5 +1,9 @@
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+RegExp userregex=new RegExp(r"[a-zA-Z]+\w[a-zA-Z]*"); RegExp passwordregex =new RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+RegExp emailregex=new RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+") ;
 
 class lgorsgpage extends StatefulWidget {
   @override
@@ -110,8 +114,8 @@ class _loginpageState extends State<loginpage> {
   bool _showloginpassword=false;
   final _loginpassword=TextEditingController();
   final _loginusername=TextEditingController();
-  bool _validateloginusername=false;
-  bool _validateloginpassword=false;
+  bool _validateloginusername=true;
+  bool _validateloginpassword=true;
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
@@ -184,7 +188,7 @@ class _loginpageState extends State<loginpage> {
                                   hintText: "Username/Phone Number",
                                   filled: true,
                                   fillColor: Colors.white,
-                                  errorText:_validateloginusername ? "*this field is required":null,
+                                  errorText:_validateloginusername? "this field is Required*":(!userregex.hasMatch(_loginusername.text)?"Ex:Mg@1234 ":null),
 
                                 ),
                               ),
@@ -217,7 +221,7 @@ class _loginpageState extends State<loginpage> {
                                   hintText: "password",
                                   filled: true,
                                   fillColor: Colors.white,
-                                  errorText: _validateloginpassword?"*this field is required":null,
+                                  errorText: _validateloginpassword?"*this field is required":(!passwordregex.hasMatch(_loginpassword.text)?"Ex:Mg@1234 ":null),
 
                                 ),
 
@@ -250,7 +254,7 @@ class _loginpageState extends State<loginpage> {
                             _loginpassword.text.isEmpty? _validateloginpassword=true:_validateloginpassword=false;
 
                           });
-                          if (_loginusername.text.isNotEmpty && _loginpassword.text.isNotEmpty ){
+                          if (_loginusername.text.isNotEmpty && _loginpassword.text.isNotEmpty && userregex.hasMatch(_loginusername.text) && passwordregex.hasMatch(_loginpassword.text) ){
                             Navigator.push(context, MaterialPageRoute(
                                 builder: (context) => mainpage()));
                           }
@@ -314,7 +318,10 @@ class _signupState extends State<signup> {
   final _username=TextEditingController();
   final _password=TextEditingController();
   final _email=TextEditingController();
-  bool _validateuser=false;bool _validatepassword=false;bool _validateemail=false;
+  bool _validateuser=true;bool _validatepassword=true;bool _validateemail=true;
+
+
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -336,33 +343,36 @@ class _signupState extends State<signup> {
                           ),),
                       ],
                     ),
+                     Container(
+                       child: TextFormField(
+
+                         cursorColor: Colors.black,
+                         controller: _username,
+                         decoration: InputDecoration(
+                           enabledBorder: OutlineInputBorder(
+                             borderRadius: BorderRadius.circular(20.0),
+                             borderSide: BorderSide(color: Colors.red.shade300,width: 2),
+                           ),
+                           focusedBorder: OutlineInputBorder(
+                             borderSide: BorderSide(color: Colors.red.shade300,width: 2),
+                             borderRadius: BorderRadius.circular(20.0),
+                           ),
+                           prefixIcon: Icon(Icons.person,color: Colors.red.shade300),
+                           hintText: "Username/Phone Number",
+                           filled: true,
+                           fillColor: Colors.white,
+                             errorText: _validateuser?"this field is Required*":(!userregex.hasMatch(_username.text)?"enter  alphabets only":null),
+                             errorStyle: TextStyle(color:Colors.red),
+                         ),
+                         
+                       ),
+                       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.04,
+                         left: MediaQuery.of(context).size.height * 0.03,
+                         right: MediaQuery.of(context).size.height * 0.03,),
+                     ),
+
                     Container(
-                      child: TextField(
-                        cursorColor: Colors.black,
-                        controller: _username,
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.red.shade300,width: 2),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red.shade300,width: 2),
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          prefixIcon: Icon(Icons.person,color: Colors.red.shade300),
-                          hintText: "Username/Phone Number",
-                          filled: true,
-                          fillColor: Colors.white,
-                            errorText: _validateuser ? "cant be empty":null,
-                            errorStyle: TextStyle(color:Colors.red)
-                        ),
-                      ),
-                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.04,
-                        left: MediaQuery.of(context).size.height * 0.03,
-                        right: MediaQuery.of(context).size.height * 0.03,),
-                    ),
-                    Container(
-                      child: TextField(
+                      child: TextFormField(
                         controller: _password,
                         obscureText: !this._showPassword,
                         cursorColor: Colors.black,
@@ -387,16 +397,18 @@ class _signupState extends State<signup> {
                           hintText: "Password",
                           filled: true,
                           fillColor: Colors.white,
-                            errorText:_validatepassword? "cant be empty":null,
+                            errorText:_validatepassword? "this field is Required*":(!passwordregex.hasMatch(_password.text)?"Ex:Mg@1234 ":null),
                             errorStyle: TextStyle(color:Colors.red)
                         ),
+                         
                       ),
                       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015,
                         left: MediaQuery.of(context).size.height * 0.03,
                         right: MediaQuery.of(context).size.height * 0.03,),
                     ),
                     Container(
-                      child: TextField(
+                      child: TextFormField(
+
                         controller: _email,
                         cursorColor: Colors.black,
                         decoration: InputDecoration(
@@ -412,9 +424,10 @@ class _signupState extends State<signup> {
                           hintText: "E-mail",
                           filled: true,
                           fillColor: Colors.white,
-                            errorText:_validateemail ? "cant be empty":null,
+                            errorText:_validateemail ? "this field is Required*":(!emailregex.hasMatch(_email.text)?"enter valid email":null),
                             errorStyle: TextStyle(color:Colors.red)
                         ),
+
                       ),
                       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015,
                         left: MediaQuery.of(context).size.height * 0.03,
@@ -431,7 +444,9 @@ class _signupState extends State<signup> {
                           _password.text.isEmpty? _validatepassword=true:_validatepassword=false;
                           _email.text.isEmpty?_validateemail=true:_validateemail=false;
                         });
-                        if (_username.text.isNotEmpty && _password.text.isNotEmpty && _email.text.isNotEmpty){
+
+                        if ((userregex.hasMatch(_username.text)&&passwordregex.hasMatch(_password.text)&& emailregex.hasMatch(_email.text))&&(_username.text.isNotEmpty && _password.text.isNotEmpty &&
+                            _email.text.isNotEmpty)){
                           Navigator.push(context, MaterialPageRoute(
                               builder: (context) => mainpage()));
                         }

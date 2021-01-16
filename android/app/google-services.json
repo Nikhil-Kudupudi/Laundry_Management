@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "985400758449",
+    "project_id": "wewash-5d145",
+    "storage_bucket": "wewash-5d145.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:985400758449:android:cbedea92ce86bc9a5d5290",
+        "android_client_info": {
+          "package_name": "com.example.we_wash"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "985400758449-79t513qjhlhkjktnfbmhj4ar0950t1ug.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-mjWOsdz30pAT4YTEn-2xrdichBHUj1o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "985400758449-79t513qjhlhkjktnfbmhj4ar0950t1ug.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

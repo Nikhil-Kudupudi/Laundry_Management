@@ -1051,6 +1051,11 @@ class detailspage extends StatefulWidget {
 }
 class _detailspageState extends State<detailspage> {
   int selectedposition = 0;
+  String dropdownValue = 'Andhra Pradesh';
+  List<String> States=['Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jammu and Kashmir', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', ' Uttarakhand', 'Uttar Pradesh', 'West Bengal', 'Andaman and Nicobar Islands', ''
+      'Chandigarh', 'Dadra and Nagar Haveli', 'Daman and Diu', 'Delhi', 'Lakshadweep', 'Puducherry'];
+String Name,House_no,SAC,CTV;
+int Phno,Pincode;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1106,6 +1111,9 @@ class _detailspageState extends State<detailspage> {
                                 filled: true,
                                 fillColor: Colors.white,
                               ),
+                              onChanged: (text){
+                                Name=text;
+                              },
                             ),
                             padding: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.025,
                             right: MediaQuery.of(context).size.height*0.025,),
@@ -1130,6 +1138,9 @@ class _detailspageState extends State<detailspage> {
                                 filled: true,
                                 fillColor: Colors.white,
                               ),
+                              onChanged: (text){
+                                Phno=int.parse(text);
+                              },
                             ),
                             padding: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.025,
                               right: MediaQuery.of(context).size.height*0.025,),
@@ -1165,6 +1176,9 @@ class _detailspageState extends State<detailspage> {
                                     contentPadding: EdgeInsets.all(10.0),
                                     hintText: "Pin Code",
                                   ),
+                                  onChanged: (text){
+                                    Pincode=int.parse(text);
+                                  },
                                 ),
                                 Padding(
                                     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)
@@ -1175,6 +1189,9 @@ class _detailspageState extends State<detailspage> {
                                     contentPadding: EdgeInsets.all(10.0),
                                     hintText: "House No.,Building name",
                                   ),
+                                  onChanged: (text){
+                                    House_no=text;
+                                  },
                                 ),
                                 Padding(
                                     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)
@@ -1185,6 +1202,9 @@ class _detailspageState extends State<detailspage> {
                                     contentPadding: EdgeInsets.all(10.0),
                                     hintText: "Street,Area,Colony",
                                   ),
+                                  onChanged: (text){
+                                    SAC=text;
+                                  },
                                 ),
                                 Padding(
                                     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)
@@ -1195,18 +1215,39 @@ class _detailspageState extends State<detailspage> {
                                     contentPadding: EdgeInsets.all(10.0),
                                     hintText: "City/Town/Village",
                                   ),
+                                  onChanged: (text){
+                                    CTV=text;
+                                  },
                                 ),
                                 Padding(
                                     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)
                                 ),
-                                TextField(
-                                  keyboardType: TextInputType.text,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(10.0),
-                                    hintText: "State",
-                                  ),
-                                ),
-                                Padding(
+
+
+                            DropdownButton<String>(
+                              value: dropdownValue,
+                              icon: Icon(Icons.arrow_drop_down_outlined),
+                              iconSize: 24,
+                              elevation: 16,
+                              style: TextStyle(color: Colors.deepPurple),
+                              underline: Container(
+                                height: 2,
+                                color: Colors.deepPurpleAccent,
+                              ),
+                              onChanged: (String newValue) {
+                                setState(() {
+                                  dropdownValue = newValue;
+                                });
+                              },
+                              items: States
+                                  .map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            ),
+                                 Padding(
                                     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.05)
                                 ),
                             InkWell(
@@ -1244,10 +1285,19 @@ class _detailspageState extends State<detailspage> {
 }
 class mypay extends StatefulWidget {
   @override
-  _mypayState createState() => _mypayState();
+  String Name,House_no,SAC,CTV,dropdownValue;
+  int Phno,Pincode;
+  mypay({ Key key ,this.Name,this.Phno,this.Pincode,this.House_no,this.SAC,this.CTV,this.dropdownValue }):super(key:key);
+  _mypayState createState() => _mypayState(Name,Phno,Pincode,House_no,SAC,CTV,dropdownValue);
 }
 class _mypayState extends State<mypay> {
+  String Name , House_no , SAC ,CTV ,dropdownValue;
+  int Phno , Pincode;
+  _mypayState(this.Name, this.Phno ,this.Pincode, this.House_no,this.SAC,this.CTV,this.dropdownValue);
+
   @override
+
+
   Widget build(BuildContext context) {
     var selectedposition;
     return Scaffold(

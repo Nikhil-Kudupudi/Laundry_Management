@@ -1283,6 +1283,7 @@ int Phno,Pincode;
     );
   }
 }
+enum Paymentoption{COD,Debit_or_Credit,Net_Banking}
 class mypay extends StatefulWidget {
   @override
   String Name,House_no,SAC,CTV,dropdownValue;
@@ -1294,7 +1295,7 @@ class _mypayState extends State<mypay> {
   String Name , House_no , SAC ,CTV ,dropdownValue;
   int Phno , Pincode;
   _mypayState(this.Name, this.Phno ,this.Pincode, this.House_no,this.SAC,this.CTV,this.dropdownValue);
-
+Paymentoption _paymentoption=Paymentoption.COD;
   @override
 
 
@@ -1383,37 +1384,37 @@ class _mypayState extends State<mypay> {
                   ),
                   child: Column(
                     children: <Widget>[
-                      RadioListTile(
-                        value: 0,
-                        groupValue: selectedposition,
+                      RadioListTile<Paymentoption>(
+                        value: Paymentoption.COD,
+                        groupValue: _paymentoption,
                         onChanged: (val){
                           print("selected $val");
                           setState(() {
-                            selectedposition = val;
+                            _paymentoption = val;
                           });
                         },
                         activeColor: Colors.orange,
                         title: Text("Cash on delivery"),
                       ),
                       RadioListTile(
-                        value: 1,
-                       groupValue: selectedposition,
+                        value: Paymentoption.Debit_or_Credit,
+                       groupValue: _paymentoption,
                         onChanged: (val){
                           print("selected $val");
                           setState(() {
-                            selectedposition = val;
+                            _paymentoption = val;
                           });
                         },
                         activeColor: Colors.orange,
                         title: Text("Debit Card/Credit Card"),
                       ),
                       RadioListTile(
-                        value: 2,
-                        groupValue: selectedposition,
+                        value: Paymentoption.Net_Banking,
+                        groupValue:_paymentoption,
                         onChanged: (val){
                           print("selected $val");
                           setState(() {
-                            selectedposition = val;
+                            _paymentoption = val;
                           });
                         },
                         activeColor: Colors.orange,

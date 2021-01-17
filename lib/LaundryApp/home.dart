@@ -1284,6 +1284,8 @@ int Phno,Pincode;
   }
 }
 enum Paymentoption{COD,Debit_or_Credit,Net_Banking}
+enum Upipayment{PhonePe,Gpay}
+enum Wallet{Paytm,Amazon_Pay}
 class mypay extends StatefulWidget {
   @override
   String Name,House_no,SAC,CTV,dropdownValue;
@@ -1296,6 +1298,8 @@ class _mypayState extends State<mypay> {
   int Phno , Pincode;
   _mypayState(this.Name, this.Phno ,this.Pincode, this.House_no,this.SAC,this.CTV,this.dropdownValue);
 Paymentoption _paymentoption=Paymentoption.COD;
+Upipayment _upipayment=Upipayment.PhonePe;
+Wallet _wallet=Wallet.Paytm;
   @override
 
 
@@ -1387,34 +1391,34 @@ Paymentoption _paymentoption=Paymentoption.COD;
                       RadioListTile<Paymentoption>(
                         value: Paymentoption.COD,
                         groupValue: _paymentoption,
-                        onChanged: (val){
-                          print("selected $val");
+                        onChanged: ( Paymentoption value){
+                          print("selected $value");
                           setState(() {
-                            _paymentoption = val;
+                            _paymentoption = value;
                           });
                         },
                         activeColor: Colors.orange,
                         title: Text("Cash on delivery"),
                       ),
-                      RadioListTile(
+                      RadioListTile<Paymentoption>(
                         value: Paymentoption.Debit_or_Credit,
                        groupValue: _paymentoption,
-                        onChanged: (val){
-                          print("selected $val");
+                        onChanged: (Paymentoption value){
+                          print("selected $value");
                           setState(() {
-                            _paymentoption = val;
+                            _paymentoption = value;
                           });
                         },
                         activeColor: Colors.orange,
                         title: Text("Debit Card/Credit Card"),
                       ),
-                      RadioListTile(
+                      RadioListTile<Paymentoption>(
                         value: Paymentoption.Net_Banking,
                         groupValue:_paymentoption,
-                        onChanged: (val){
-                          print("selected $val");
+                        onChanged: (Paymentoption value){
+                          print("selected $value");
                           setState(() {
-                            _paymentoption = val;
+                            _paymentoption = value;
                           });
                         },
                         activeColor: Colors.orange,
@@ -1425,25 +1429,25 @@ Paymentoption _paymentoption=Paymentoption.COD;
                           fontSize: 16,
                           fontWeight: FontWeight.w900,
                         ),),
-                      RadioListTile(
-                        value: 3,
-                        groupValue: selectedposition,
-                        onChanged: (val){
+                      RadioListTile<Upipayment>(
+                        value: Upipayment.PhonePe,
+                        groupValue: _upipayment,
+                        onChanged: (Upipayment val){
                           print("selected $val");
                           setState(() {
-                            selectedposition = val;
+                            _upipayment= val;
                           });
                         },
                         activeColor: Colors.orange,
                         title: Text("PhonePe"),
                       ),
-                      RadioListTile(
-                        value: 4,
-                        groupValue: selectedposition,
-                        onChanged: (val){
+                      RadioListTile<Upipayment>(
+                        value: Upipayment.Gpay,
+                        groupValue: _upipayment,
+                        onChanged: (Upipayment val){
                           print("selected $val");
                           setState(() {
-                           selectedposition = val;
+                           _upipayment = val;
                           });
                         },
                         activeColor: Colors.orange,
@@ -1454,25 +1458,25 @@ Paymentoption _paymentoption=Paymentoption.COD;
                           fontSize: 16,
                           fontWeight: FontWeight.w900,
                         ),),
-                      RadioListTile(
-                        value: 5,
-                        groupValue: selectedposition,
-                        onChanged: (val){
+                      RadioListTile<Wallet>(
+                        value: Wallet.Paytm,
+                        groupValue: _wallet,
+                        onChanged: (Wallet val){
                           print("selected $val");
                           setState(() {
-                            selectedposition = val;
+                            _wallet = val;
                           });
                         },
                         activeColor: Colors.orange,
                         title: Text("Paytm"),
                       ),
-                      RadioListTile(
-                        value: 6,
-                        groupValue: selectedposition,
-                        onChanged: (val){
+                      RadioListTile<Wallet>(
+                        value: Wallet.Amazon_Pay,
+                        groupValue: _wallet,
+                        onChanged: (Wallet val){
                           print("selected $val");
                           setState(() {
-                           selectedposition = val;
+                            _wallet= val;
                           });
                         },
                         activeColor: Colors.orange,

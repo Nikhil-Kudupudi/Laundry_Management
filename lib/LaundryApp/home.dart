@@ -1283,9 +1283,8 @@ int Phno,Pincode;
     );
   }
 }
-enum Paymentoption{COD,Debit_or_Credit,Net_Banking}
-enum Upipayment{PhonePe,Gpay}
-enum Wallet{Paytm,Amazon_Pay}
+enum Paymentoption{COD,Debit_or_Credit,Net_Banking,PhonePe,Gpay,Paytm,Amazon_Pay}
+
 class mypay extends StatefulWidget {
   @override
   String Name,House_no,SAC,CTV,dropdownValue;
@@ -1298,13 +1297,12 @@ class _mypayState extends State<mypay> {
   int Phno , Pincode;
   _mypayState(this.Name, this.Phno ,this.Pincode, this.House_no,this.SAC,this.CTV,this.dropdownValue);
 Paymentoption _paymentoption=Paymentoption.COD;
-Upipayment _upipayment=Upipayment.PhonePe;
-Wallet _wallet=Wallet.Paytm;
+
+
   @override
 
 
   Widget build(BuildContext context) {
-    var selectedposition;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red.shade300,
@@ -1429,25 +1427,25 @@ Wallet _wallet=Wallet.Paytm;
                           fontSize: 16,
                           fontWeight: FontWeight.w900,
                         ),),
-                      RadioListTile<Upipayment>(
-                        value: Upipayment.PhonePe,
-                        groupValue: _upipayment,
-                        onChanged: (Upipayment val){
+                      RadioListTile<Paymentoption>(
+                        value: Paymentoption.PhonePe,
+                        groupValue: _paymentoption,
+                        onChanged: (Paymentoption val){
                           print("selected $val");
                           setState(() {
-                            _upipayment= val;
+                            _paymentoption= val;
                           });
                         },
                         activeColor: Colors.orange,
                         title: Text("PhonePe"),
                       ),
-                      RadioListTile<Upipayment>(
-                        value: Upipayment.Gpay,
-                        groupValue: _upipayment,
-                        onChanged: (Upipayment val){
+                      RadioListTile<Paymentoption>(
+                        value: Paymentoption.Gpay,
+                        groupValue: _paymentoption,
+                        onChanged: (Paymentoption val){
                           print("selected $val");
                           setState(() {
-                           _upipayment = val;
+                           _paymentoption = val;
                           });
                         },
                         activeColor: Colors.orange,
@@ -1458,25 +1456,25 @@ Wallet _wallet=Wallet.Paytm;
                           fontSize: 16,
                           fontWeight: FontWeight.w900,
                         ),),
-                      RadioListTile<Wallet>(
-                        value: Wallet.Paytm,
-                        groupValue: _wallet,
-                        onChanged: (Wallet val){
+                      RadioListTile<Paymentoption>(
+                        value: Paymentoption.Paytm,
+                        groupValue: _paymentoption,
+                        onChanged: (Paymentoption val){
                           print("selected $val");
                           setState(() {
-                            _wallet = val;
+                            _paymentoption = val;
                           });
                         },
                         activeColor: Colors.orange,
                         title: Text("Paytm"),
                       ),
-                      RadioListTile<Wallet>(
-                        value: Wallet.Amazon_Pay,
-                        groupValue: _wallet,
-                        onChanged: (Wallet val){
+                      RadioListTile<Paymentoption>(
+                        value: Paymentoption.Amazon_Pay,
+                        groupValue: _paymentoption,
+                        onChanged: (Paymentoption val){
                           print("selected $val");
                           setState(() {
-                            _wallet= val;
+                            _paymentoption= val;
                           });
                         },
                         activeColor: Colors.orange,

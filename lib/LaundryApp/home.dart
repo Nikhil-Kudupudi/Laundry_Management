@@ -912,9 +912,16 @@ class _datetimeState extends State<datetime> {
 }
 class bookingspage extends StatefulWidget {
   @override
-  _bookingspageState createState() => _bookingspageState();
+  String Name,House_no,SAC,CTV,dropdownValue;
+  int Phno,Pincode;
+  bookingspage({ Key key ,this.Name,this.Phno,this.Pincode,this.House_no,this.SAC,this.CTV,this.dropdownValue }):super(key:key);
+  _bookingspageState createState() => _bookingspageState(Name,Phno,Pincode,House_no,SAC,CTV,dropdownValue);
 }
 class _bookingspageState extends State<bookingspage> {
+  String Name,House_no,SAC,CTV,dropdownValue;
+  int Phno,Pincode;
+  _bookingspageState(this.Name, this.Phno ,this.Pincode, this.House_no,this.SAC,this.CTV,this.dropdownValue);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1287,21 +1294,14 @@ enum Paymentoption{COD,Debit_or_Credit,Net_Banking,PhonePe,Gpay,Paytm,Amazon_Pay
 
 class mypay extends StatefulWidget {
   @override
-  String Name,House_no,SAC,CTV,dropdownValue;
-  int Phno,Pincode;
-  mypay({ Key key ,this.Name,this.Phno,this.Pincode,this.House_no,this.SAC,this.CTV,this.dropdownValue }):super(key:key);
-  _mypayState createState() => _mypayState(Name,Phno,Pincode,House_no,SAC,CTV,dropdownValue);
+  _mypayState createState() => _mypayState();
 }
 class _mypayState extends State<mypay> {
-  String Name , House_no , SAC ,CTV ,dropdownValue;
-  int Phno , Pincode;
-  _mypayState(this.Name, this.Phno ,this.Pincode, this.House_no,this.SAC,this.CTV,this.dropdownValue);
-Paymentoption _paymentoption=Paymentoption.COD;
-
-
+  bool validatecoupoun=true;
+  Paymentoption _paymentoption=Paymentoption.COD;
+  List<String> checkCoupoun=["Firsttime","secondVisit","developed","experienced"];
+  final entercoupoun=TextEditingController();
   @override
-
-
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -1324,6 +1324,7 @@ Paymentoption _paymentoption=Paymentoption.COD;
                   height: 70,
                   width: MediaQuery.of(context).size.width*0.7,
                   child: TextField(
+                    controller: entercoupoun,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
@@ -1335,6 +1336,7 @@ Paymentoption _paymentoption=Paymentoption.COD;
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       hintText: "Coupoun Code",
+                      errorText: entercoupoun.text.isEmpty?null:(checkCoupoun.contains(entercoupoun.text)?"coupoun valid":"not found"),
                       filled: true,
                       fillColor: Colors.white,
                     ),
@@ -1344,8 +1346,13 @@ Paymentoption _paymentoption=Paymentoption.COD;
                 InkWell(
                  // borderRadius: BorderRadius.circular(20.0),
                   onTap: (){
+                  if(entercoupoun.text.isEmpty || checkCoupoun.contains(entercoupoun.text) ) {
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context) => lastpage()));
+                  }
+
+
+
                   },
                   child: Container(
                     height: 40,

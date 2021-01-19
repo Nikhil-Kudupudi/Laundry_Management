@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 RegExp userregex=new RegExp(r"[a-zA-Z]+\w[a-zA-Z]*"); RegExp passwordregex =new RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
-RegExp emailregex=new RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+") ;
+RegExp emailregex=new RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
 class lgorsgpage extends StatefulWidget {
   @override
@@ -172,22 +172,23 @@ class _loginpageState extends State<loginpage> {
                                   left:MediaQuery.of(context).size.height * 0.03,
                                   right: MediaQuery.of(context).size.height * 0.03),
                               child: TextField(
+                                cursorColor: Colors.red.shade300,
+                                keyboardType: TextInputType.text,
                                 controller: _loginusername,
                                 decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20.0),
-                                  borderSide: BorderSide(color: Colors.black,width: 2),
+                                  borderSide: BorderSide(color: Colors.red.shade300,width: 2),
                                     ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.black,width: 2),
+                                    borderSide: BorderSide(color: Colors.red.shade300,width: 2),
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                prefixIcon: Icon(Icons.person),
+                                prefixIcon: Icon(Icons.person,color: Colors.red.shade300),
                                   hintText: "Username/Phone Number",
                                   filled: true,
                                   fillColor: Colors.white,
                                   errorText:_validateloginusername? "this field is Required*":(!userregex.hasMatch(_loginusername.text)?"Ex:Mg@1234 ":null),
-
                                 ),
                               ),
                             ),
@@ -196,33 +197,32 @@ class _loginpageState extends State<loginpage> {
                                   left:MediaQuery.of(context).size.height * 0.03,
                                   right: MediaQuery.of(context).size.height * 0.03),
                               child: TextField(
+                                keyboardType: TextInputType.text,
                                 obscureText: !this._showloginpassword,
                                 controller: _loginpassword,
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
-                                    borderSide: BorderSide(color: Colors.black,width: 2),
+                                    borderSide: BorderSide(color: Colors.red.shade300,width: 2),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.black,width: 2),
+                                    borderSide: BorderSide(color: Colors.red.shade300,width: 2),
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                  prefixIcon: Icon(Icons.lock),
-                                  suffixIcon: IconButton(icon:this._showloginpassword?Icon(Icons.visibility,color:Colors.blueAccent):Icon(Icons.visibility_off_rounded,color:Colors.grey),
+                                  prefixIcon: Icon(Icons.lock,color: Colors.red.shade300,),
+                                  suffixIcon: IconButton(icon:this._showloginpassword?Icon(Icons.visibility,color:Colors.red.shade300)
+                                              :Icon(Icons.visibility_off_rounded,color:Colors.red.shade300),
                                     onPressed: (){
                                       setState(() {
                                         this._showloginpassword = !this._showloginpassword;
                                       });
                                     },
                                   ),
-
                                   hintText: "password",
                                   filled: true,
                                   fillColor: Colors.white,
-                                  errorText: _validateloginpassword?"*this field is required":(!passwordregex.hasMatch(_loginpassword.text)?"Ex:Mg@1234 ":null),
-
+                                  errorText: _validateloginpassword?"this field is required*":(!passwordregex.hasMatch(_loginpassword.text)?"Ex:Mg@1234 ":null),
                                 ),
-
                               ),
                             )
                           ],
@@ -367,7 +367,7 @@ class _signupState extends State<signup> {
                       child: TextFormField(
                         controller: _password,
                         obscureText: !this._showPassword,
-                        cursorColor: Colors.black,
+                        cursorColor: Colors.red.shade300,
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
@@ -400,7 +400,7 @@ class _signupState extends State<signup> {
                       child: TextFormField(
 
                         controller: _email,
-                        cursorColor: Colors.black,
+                        cursorColor: Colors.red.shade300,
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
@@ -417,7 +417,6 @@ class _signupState extends State<signup> {
                             errorText:_validateemail ? "this field is Required*":(!emailregex.hasMatch(_email.text)?"enter valid email":null),
                             errorStyle: TextStyle(color:Colors.red)
                         ),
-
                       ),
                       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015,
                         left: MediaQuery.of(context).size.height * 0.03,

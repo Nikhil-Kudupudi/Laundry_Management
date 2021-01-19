@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-RegExp userregex=new RegExp(r"[a-zA-Z]+\w[a-zA-Z]*"); RegExp passwordregex =new RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+RegExp userregex=new RegExp(r"[a-zA-Z]+\w[a-zA-Z]*");
+RegExp passwordregex =new RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
 RegExp emailregex=new RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
 class lgorsgpage extends StatefulWidget {
@@ -495,7 +496,8 @@ class _signupState extends State<signup> {
                     ),
                     InkWell(
                       onTap: (){
-
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => mainpage()));
                       },
                       child: Container(
                         height: 50,
@@ -523,7 +525,8 @@ class _signupState extends State<signup> {
                     ),
                     InkWell(
                       onTap: (){
-
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => mainpage()));
                       },
                       child: Container(
                         height: 50,

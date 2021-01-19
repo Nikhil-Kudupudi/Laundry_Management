@@ -317,9 +317,6 @@ class _signupState extends State<signup> {
   final _password=TextEditingController();
   final _email=TextEditingController();
   bool _validateuser=true;bool _validatepassword=true;bool _validateemail=true;
-
-
-
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -343,7 +340,6 @@ class _signupState extends State<signup> {
                     ),
                      Container(
                        child: TextFormField(
-
                          cursorColor: Colors.black,
                          controller: _username,
                          decoration: InputDecoration(
@@ -362,13 +358,11 @@ class _signupState extends State<signup> {
                              errorText: _validateuser?"this field is Required*":(!userregex.hasMatch(_username.text)?"enter  alphabets only":null),
                              errorStyle: TextStyle(color:Colors.red),
                          ),
-                         
                        ),
                        padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.04,
                          left: MediaQuery.of(context).size.height * 0.03,
                          right: MediaQuery.of(context).size.height * 0.03,),
                      ),
-
                     Container(
                       child: TextFormField(
                         controller: _password,
@@ -378,7 +372,6 @@ class _signupState extends State<signup> {
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
                             borderSide: BorderSide(color: Colors.red.shade300,width: 2),
-
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.red.shade300,width: 2),
@@ -398,7 +391,6 @@ class _signupState extends State<signup> {
                             errorText:_validatepassword? "this field is Required*":(!passwordregex.hasMatch(_password.text)?"Ex:Mg@1234 ":null),
                             errorStyle: TextStyle(color:Colors.red)
                         ),
-                         
                       ),
                       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015,
                         left: MediaQuery.of(context).size.height * 0.03,

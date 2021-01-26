@@ -1,8 +1,11 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-RegExp userregex=new RegExp(r"[a-zA-Z]+\w[a-zA-Z]*");
-RegExp passwordregex =new RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
-RegExp emailregex=new RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+
+//for date format
+//for date locale
+RegExp userregex=new RegExp(r"[a-zA-Z]+\w[a-zA-Z]*"); RegExp passwordregex =new RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+RegExp emailregex=new RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+") ;
 
 class lgorsgpage extends StatefulWidget {
   @override
@@ -20,23 +23,28 @@ class _lgorsgpageState extends State<lgorsgpage> {
                   Padding(
                       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.3,)
                   ),
-                  Row(
-                    children: <Widget>[
-                      Padding(
-                          padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.25,)
+                  Center(
+                    child: Container(
+                      child: Row(
+                        children: <Widget>[
+                          Padding(
+                              padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.33333333333333333333333333333333333333333333333)
+                          ),
+                          Text("We",style: TextStyle(
+                            fontSize: 50.0,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.red.shade300,
+                            fontStyle: FontStyle.italic
+                          ),),
+                          Text("Wash",style: TextStyle(
+                            fontSize: 50.0,
+                            fontWeight: FontWeight.w700,
+                              fontStyle: FontStyle.italic
+                          ),),
+
+                        ],
                       ),
-                      Text("We",style: TextStyle(
-                        fontSize: 50.0,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.red.shade300,
-                        fontStyle: FontStyle.italic
-                      ),),
-                      Text("Wash",style: TextStyle(
-                        fontSize: 50.0,
-                        fontWeight: FontWeight.w700,
-                          fontStyle: FontStyle.italic
-                      ),),
-                    ],
+                    ),
                   ),
                   Padding(
                       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.05,)
@@ -173,23 +181,22 @@ class _loginpageState extends State<loginpage> {
                                   left:MediaQuery.of(context).size.height * 0.03,
                                   right: MediaQuery.of(context).size.height * 0.03),
                               child: TextField(
-                                cursorColor: Colors.red.shade300,
-                                keyboardType: TextInputType.text,
                                 controller: _loginusername,
                                 decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20.0),
-                                  borderSide: BorderSide(color: Colors.red.shade300,width: 2),
+                                  borderSide: BorderSide(color: Colors.black,width: 2),
                                     ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.red.shade300,width: 2),
+                                    borderSide: BorderSide(color: Colors.black,width: 2),
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                prefixIcon: Icon(Icons.person,color: Colors.red.shade300),
+                                prefixIcon: Icon(Icons.person),
                                   hintText: "Username/Phone Number",
                                   filled: true,
                                   fillColor: Colors.white,
                                   errorText:_validateloginusername? "this field is Required*":(!userregex.hasMatch(_loginusername.text)?"Ex:Mg@1234 ":null),
+
                                 ),
                               ),
                             ),
@@ -198,32 +205,33 @@ class _loginpageState extends State<loginpage> {
                                   left:MediaQuery.of(context).size.height * 0.03,
                                   right: MediaQuery.of(context).size.height * 0.03),
                               child: TextField(
-                                keyboardType: TextInputType.text,
                                 obscureText: !this._showloginpassword,
                                 controller: _loginpassword,
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
-                                    borderSide: BorderSide(color: Colors.red.shade300,width: 2),
+                                    borderSide: BorderSide(color: Colors.black,width: 2),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.red.shade300,width: 2),
+                                    borderSide: BorderSide(color: Colors.black,width: 2),
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                  prefixIcon: Icon(Icons.lock,color: Colors.red.shade300,),
-                                  suffixIcon: IconButton(icon:this._showloginpassword?Icon(Icons.visibility,color:Colors.red.shade300)
-                                              :Icon(Icons.visibility_off_rounded,color:Colors.red.shade300),
+                                  prefixIcon: Icon(Icons.lock),
+                                  suffixIcon: IconButton(icon:this._showloginpassword?Icon(Icons.visibility,color:Colors.blueAccent):Icon(Icons.visibility_off_rounded,color:Colors.grey),
                                     onPressed: (){
                                       setState(() {
                                         this._showloginpassword = !this._showloginpassword;
                                       });
                                     },
                                   ),
+
                                   hintText: "password",
                                   filled: true,
                                   fillColor: Colors.white,
-                                  errorText: _validateloginpassword?"this field is required*":(!passwordregex.hasMatch(_loginpassword.text)?"Ex:Mg@1234 ":null),
+                                  errorText: _validateloginpassword?"*this field is required":(!passwordregex.hasMatch(_loginpassword.text)?"Ex:Mg@1234 ":null),
+
                                 ),
+
                               ),
                             )
                           ],
@@ -368,7 +376,7 @@ class _signupState extends State<signup> {
                       child: TextFormField(
                         controller: _password,
                         obscureText: !this._showPassword,
-                        cursorColor: Colors.red.shade300,
+                        cursorColor: Colors.black,
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
@@ -401,7 +409,7 @@ class _signupState extends State<signup> {
                       child: TextFormField(
 
                         controller: _email,
-                        cursorColor: Colors.red.shade300,
+                        cursorColor: Colors.black,
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
@@ -418,6 +426,7 @@ class _signupState extends State<signup> {
                             errorText:_validateemail ? "this field is Required*":(!emailregex.hasMatch(_email.text)?"enter valid email":null),
                             errorStyle: TextStyle(color:Colors.red)
                         ),
+
                       ),
                       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015,
                         left: MediaQuery.of(context).size.height * 0.03,
@@ -496,8 +505,7 @@ class _signupState extends State<signup> {
                     ),
                     InkWell(
                       onTap: (){
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => mainpage()));
+
                       },
                       child: Container(
                         height: 50,
@@ -525,8 +533,7 @@ class _signupState extends State<signup> {
                     ),
                     InkWell(
                       onTap: (){
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => mainpage()));
+
                       },
                       child: Container(
                         height: 50,
@@ -611,6 +618,7 @@ class _entrypageState extends State<entrypage> {
         children: <Widget>[
           Container(
             height: MediaQuery.of(context).size.height*0.42,
+            width: MediaQuery.of(context).size.width*0.42,
             margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.05,),
             decoration: BoxDecoration(
               color: Colors.red.shade300,
@@ -776,48 +784,46 @@ class _datetimeState extends State<datetime> {
   bool autovalidate = false; bool _validatedate=false;
   yearMonthDayPicker() async {
     final year = DateTime.now().year;
+
     final DateTime dateTime = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(year),
-      lastDate: DateTime(year + 10),
+      lastDate: DateTime(year + 1),
     );
     if (dateTime != null) {
-      ymdController.text = dateTime.toString().split(' ')[0];
+      //ymdController.text = DateFormat.('en_US').parse(dateTime.toString().split(' ')[0]).toString();
+      ymdController.text=formatDate(dateTime, [dd,'-',M,'-',yyyy]).toString();
     }
   }
   yearMonthDayTimePicker() async {
 //    final year = DateTime.now().year;
     String hour, min;
-    Future<TimeOfDay> dateTime = showTimePicker(
-      initialTime: TimeOfDay.now(),
+
+    final TimeOfDay pickedTime = await showTimePicker(
       context: context,
+      initialTime: TimeOfDay(hour: 0, minute: 0),
     );
+    if (pickedTime != null) {
+      if (pickedTime.hour < 10) {
+        hour = '0' + pickedTime.hour.toString();
+      } else {
+        hour = pickedTime.hour.toString();
+      }
+      if (pickedTime.minute < 10) {
+        min = '0' + pickedTime.minute.toString();
+      } else {
+        min = pickedTime.minute.toString();
+      }
+      ymdtController.text = '$hour:$min';
+    }
     /*final DateTime dateTime = await showDatePicker(
       context: context,
      initialDate: DateTime.now(),
       firstDate: DateTime(year),
      lastDate: DateTime(year + 10),
     );*/
-   if (dateTime != null) {
-      final TimeOfDay pickedTime = await showTimePicker(
-        context: context,
-        initialTime: TimeOfDay(hour: 0, minute: 0),
-      );
-      if (pickedTime != null) {
-        if (pickedTime.hour < 10) {
-          hour = '0' + pickedTime.hour.toString();
-        } else {
-          hour = pickedTime.hour.toString();
-        }
-        if (pickedTime.minute < 10) {
-          min = '0' + pickedTime.minute.toString();
-        } else {
-          min = pickedTime.minute.toString();
-        }
-        ymdtController.text = '$hour:$min';
-      }
-    }
+
   }
   submit() {
     setState(() => autovalidate = true);
@@ -888,7 +894,7 @@ class _datetimeState extends State<datetime> {
                     },
                     validator: (val) {
                       if (val == null || val.isEmpty) {
-                        return 'Year-Month-Date-Time is necessary';
+                        return '*this field is required';
                       }
                       return null;
                     },
@@ -926,15 +932,19 @@ class userprofile extends StatefulWidget {
   _userprofileState createState() => _userprofileState();
 }
 class _userprofileState extends State<userprofile> {
-  final List useroptions = [
-    "Account Details",
-    "Bookings",
-    "Help",
-    "feedback",
-    "logout",
-  ];
+
+final List useroptions=["Account Details",
+  "Bookings",
+  "Help",
+  "feedback",
+  "logout"];
+final vals=[userprofile(),bookingspage(),userprofile(),selecttype(),bookingspage()];
+
+
   @override
+
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -942,6 +952,7 @@ class _userprofileState extends State<userprofile> {
         ),
         child: Column(
           children: <Widget>[
+
             Container(
               height: 200,
             ),
@@ -956,6 +967,7 @@ class _userprofileState extends State<userprofile> {
                     left: MediaQuery.of(context).size.height * 0.02,
                   right: MediaQuery.of(context).size.height * 0.02,),
                   child: ListView.builder(
+
                       itemCount: useroptions.length,
                       itemBuilder: (BuildContext context, int index){
                         return Card(
@@ -967,6 +979,10 @@ class _userprofileState extends State<userprofile> {
                                 color: Colors.red.shade300,
                             ),),
                             trailing: Icon(Icons.arrow_forward_ios,color: Colors.red.shade300,),
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => vals[index]));
+                            },
                           ),
                         );
                       }

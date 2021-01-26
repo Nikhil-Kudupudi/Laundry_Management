@@ -210,10 +210,10 @@ class _loginpageState extends State<loginpage> {
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
-                                    borderSide: BorderSide(color: Colors.black,width: 2),
+                                    borderSide: BorderSide(color: Colors.red.shade300,width: 2),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.black,width: 2),
+                                    borderSide: BorderSide(color: Colors.red.shade300,width: 2),
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
                                   prefixIcon: Icon(Icons.lock),
@@ -661,7 +661,7 @@ class _entrypageState extends State<entrypage> {
                     ),
                     child: Center(
                       child: Text("DONE",style: TextStyle(
-                          color: Colors.black,
+                          color: Colors.red.shade300,
                           fontWeight: FontWeight.w500,
                           fontSize: 16.0
                       ),

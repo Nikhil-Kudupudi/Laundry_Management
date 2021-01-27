@@ -28,7 +28,7 @@ class _lgorsgpageState extends State<lgorsgpage> {
                       child: Row(
                         children: <Widget>[
                           Padding(
-                              padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.33333333333333333333333333333333333333333333333)
+                              padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.25)
                           ),
                           Text("We",style: TextStyle(
                             fontSize: 50.0,
@@ -185,10 +185,10 @@ class _loginpageState extends State<loginpage> {
                                 decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20.0),
-                                  borderSide: BorderSide(color: Colors.black,width: 2),
+                                  borderSide: BorderSide(color: Colors.red.shade300,width: 2),
                                     ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.black,width: 2),
+                                    borderSide: BorderSide(color: Colors.red.shade300,width: 2),
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
                                 prefixIcon: Icon(Icons.person),
@@ -606,10 +606,12 @@ class _mainpageState extends State<mainpage> {
   }
 }
 class entrypage extends StatefulWidget {
+
   @override
   _entrypageState createState() => _entrypageState();
 }
 class _entrypageState extends State<entrypage> {
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -645,30 +647,7 @@ class _entrypageState extends State<entrypage> {
                 ),
                 Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03,),),
                 datetime(),
-                Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,),),
-                InkWell(
-                  onTap: (){
 
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => selecttype()));
-                  },
-                  child: Container(
-                    height: 45,
-                    width: 150,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                    ),
-                    child: Center(
-                      child: Text("DONE",style: TextStyle(
-                          color: Colors.red.shade300,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16.0
-                      ),
-                      ),
-                    ),
-                  ),
-                )
               ],
             ),
           ),
@@ -777,11 +756,11 @@ class datetime extends StatefulWidget {
   _datetimeState createState() => _datetimeState();
 }
 class _datetimeState extends State<datetime> {
-  GlobalKey<FormState> _fKey = GlobalKey<FormState>();
+
   String yearMonthDay, yearMonthDayTime;
   TextEditingController ymdController = TextEditingController();
   TextEditingController ymdtController = TextEditingController();
-  bool autovalidate = false; bool _validatedate=false;
+  bool _validatedate=true,_validatetime=true;
   yearMonthDayPicker() async {
     final year = DateTime.now().year;
 
@@ -817,28 +796,14 @@ class _datetimeState extends State<datetime> {
       }
       ymdtController.text = '$hour:$min';
     }
-    /*final DateTime dateTime = await showDatePicker(
-      context: context,
-     initialDate: DateTime.now(),
-      firstDate: DateTime(year),
-     lastDate: DateTime(year + 10),
-    );*/
 
   }
-  submit() {
-    setState(() => autovalidate = true);
-    if (!_fKey.currentState.validate()) {
-      return;
-    }
-    _fKey.currentState.save();
-    print('year-month-day: $yearMonthDay');
-    print('year-month-day-time: $yearMonthDayTime');
-  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Form(
-          key: _fKey,
+
           autovalidateMode: AutovalidateMode.always,
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 25.0),
@@ -855,21 +820,19 @@ class _datetimeState extends State<datetime> {
                         borderSide: BorderSide(color: Colors.transparent),
                       ),
                       prefixIcon: Icon(Icons.calendar_today),
+                      hintText: "please select date",
                       fillColor: Colors.white,
                   //    labelText: 'dd-mm-yyyy',
                       filled: true,
-                      errorText: _validatedate ?"this field is required":null,
+                      errorText: _validatedate ?"*this field is required":null,
                       errorStyle: TextStyle(color: Colors.white)
                     ),
                     onSaved: (val) {
                       yearMonthDay = ymdController.text;
                     },
-                    validator: (val) {
-                      if (val == null || val.isEmpty) {
-                        return "*This field is required";
-                      }
-                      return null;
-                    },
+
+
+
                   ),
                 ),
               ),
@@ -888,23 +851,53 @@ class _datetimeState extends State<datetime> {
                       prefixIcon: Icon(Icons.access_time),
                       fillColor: Colors.white,
                       filled: true,
+                      hintText: "please select time",
+                      errorText: _validatetime?"*this field is required":null,
                     ),
                     onSaved: (val) {
                       yearMonthDayTime = ymdtController.text;
                     },
-                    validator: (val) {
-                      if (val == null || val.isEmpty) {
-                        return '*this field is required';
-                      }
-                      return null;
-                    },
                   ),
                 ),
               ),
+              Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,),),
+              InkWell(
+                onTap: (){
+                  setState(() {
+                    ymdController.text.isEmpty?_validatedate=true:_validatedate=false;
+                    ymdtController.text.isEmpty?_validatetime=true:_validatetime=false;
+                  });
+
+
+
+                  if(ymdtController.text.isNotEmpty&&ymdController.text.isNotEmpty){
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => selecttype()));
+                  }
+
+                },
+                child: Container(
+                  height: 45,
+                  width: 150,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                  ),
+                  child: Center(
+                    child: Text("DONE",style: TextStyle(
+                        color: Colors.red.shade300,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16.0
+                    ),
+                    ),
+                  ),
+                ),
+              )
             ],
       ),
     ),
     ),
+
     );
   }
 }

@@ -902,83 +902,6 @@ class _datetimeState extends State<datetime> {
     );
   }
 }
-class bookingspage extends StatefulWidget {
-  @override
-  String Name,House_no,SAC,CTV,dropdownValue;
-  int Phno,Pincode;
-  bookingspage({ Key key ,this.Name,this.Phno,this.Pincode,this.House_no,this.SAC,this.CTV,this.dropdownValue }):super(key:key);
-  _bookingspageState createState() => _bookingspageState(Name,Phno,Pincode,House_no,SAC,CTV,dropdownValue);
-}
-class _bookingspageState extends State<bookingspage> {
-  String Name,House_no,SAC,CTV,dropdownValue;
-  int Phno,Pincode;
-  _bookingspageState(this.Name, this.Phno ,this.Pincode, this.House_no,this.SAC,this.CTV,this.dropdownValue);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-
-    );
-  }
-}
-class userprofile extends StatefulWidget {
-  @override
-  _userprofileState createState() => _userprofileState();
-}
-class _userprofileState extends State<userprofile> {
-  final List useroptions = [
-    "Account Details",
-    "Bookings",
-    "Help",
-    "feedback",
-    "logout",
-  ];
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          color: Colors.red.shade300,
-        ),
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: 200,
-            ),
-            Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
-                      topRight: Radius.circular(45),),
-                  ),
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.04,
-                    left: MediaQuery.of(context).size.height * 0.02,
-                  right: MediaQuery.of(context).size.height * 0.02,),
-                  child: ListView.builder(
-                      itemCount: useroptions.length,
-                      itemBuilder: (BuildContext context, int index){
-                        return Card(
-                          margin: EdgeInsets.all(10.0),
-                          elevation: 6.0,
-                          color: Colors.grey.shade300,
-                          child: ListTile(
-                            title: Text(useroptions[index],style: TextStyle(
-                                color: Colors.red.shade300,
-                            ),),
-                            trailing: Icon(Icons.arrow_forward_ios,color: Colors.red.shade300,),
-                          ),
-                        );
-                      }
-                  ),
-                ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 class selecttype extends StatefulWidget {
   @override
   _selecttypeState createState() => _selecttypeState();
@@ -1003,9 +926,9 @@ class _selecttypeState extends State<selecttype> {
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
                     topRight: Radius.circular(45),),
                 ),
-                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03,
+                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.08,
                   left: MediaQuery.of(context).size.height * 0.025,
-                  right: MediaQuery.of(context).size.height * 0.02,),
+                  right: MediaQuery.of(context).size.height * 0.025,),
                 child: ListView(
                   children: <Widget>[
                     Column(
@@ -1013,11 +936,11 @@ class _selecttypeState extends State<selecttype> {
                             InkWell(
                               onTap: (){
                                 Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => detailspage()));
+                                    builder: (context) => addmenclothes()));
                                 },
                               child: Container(
-                                height: MediaQuery.of(context).size.height*0.08,
-                                width: MediaQuery.of(context).size.height*0.4,
+                                height: MediaQuery.of(context).size.height*0.1,
+                                width: MediaQuery.of(context).size.width*0.9,
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade300,
                                   borderRadius: BorderRadius.circular(20.0),
@@ -1031,7 +954,54 @@ class _selecttypeState extends State<selecttype> {
                                 ),),
                               ),
                             ),
-
+                        Padding(
+                          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.025),
+                        ),
+                        InkWell(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (context) => addwomenclothes()));
+                          },
+                          child: Container(
+                            height: MediaQuery.of(context).size.height*0.1,
+                            width: MediaQuery.of(context).size.width*0.9,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.025,
+                                left: MediaQuery.of(context).size.height*0.03),
+                            child: Text("Women",style: TextStyle(
+                              color: Colors.red.shade300,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.025),
+                        ),
+                        InkWell(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (context) => addkidsclothes()));
+                          },
+                          child: Container(
+                            height: MediaQuery.of(context).size.height*0.1,
+                            width: MediaQuery.of(context).size.width*0.9,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.025,
+                                left: MediaQuery.of(context).size.height*0.03),
+                            child: Text("Kids (3-10 years)",style: TextStyle(
+                              color: Colors.red.shade300,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),),
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -1041,6 +1011,42 @@ class _selecttypeState extends State<selecttype> {
           ],
         ),
       ),
+    );
+  }
+}
+class addmenclothes extends StatefulWidget {
+  @override
+  _addmenclothesState createState() => _addmenclothesState();
+}
+class _addmenclothesState extends State<addmenclothes> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+
+    );
+  }
+}
+class addwomenclothes extends StatefulWidget {
+  @override
+  _addwomenclothesState createState() => _addwomenclothesState();
+}
+class _addwomenclothesState extends State<addwomenclothes> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+
+    );
+  }
+}
+class addkidsclothes extends StatefulWidget {
+  @override
+  _addkidsclothesState createState() => _addkidsclothesState();
+}
+class _addkidsclothesState extends State<addkidsclothes> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+
     );
   }
 }
@@ -1170,6 +1176,7 @@ int Phno,Pincode;
                             child: Column(
                               children: <Widget>[
                                 TextField(
+                                  cursorColor: Colors.red.shade300,
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.all(10.0),
@@ -1183,6 +1190,7 @@ int Phno,Pincode;
                                     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)
                                 ),
                                 TextField(
+                                  cursorColor: Colors.red.shade300,
                                   keyboardType: TextInputType.text,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.all(10.0),
@@ -1196,6 +1204,7 @@ int Phno,Pincode;
                                     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)
                                 ),
                                 TextField(
+                                  cursorColor: Colors.red.shade300,
                                   keyboardType: TextInputType.text,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.all(10.0),
@@ -1209,6 +1218,7 @@ int Phno,Pincode;
                                     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)
                                 ),
                                 TextField(
+                                  cursorColor: Colors.red.shade300,
                                   keyboardType: TextInputType.text,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.all(10.0),
@@ -1221,17 +1231,15 @@ int Phno,Pincode;
                                 Padding(
                                     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)
                                 ),
-
-
                             DropdownButton<String>(
                               value: dropdownValue,
                               icon: Icon(Icons.arrow_drop_down_outlined),
                               iconSize: 24,
                               elevation: 16,
-                              style: TextStyle(color: Colors.deepPurple),
+                              style: TextStyle(color: Colors.red.shade300),
                               underline: Container(
                                 height: 2,
-                                color: Colors.deepPurpleAccent,
+                                color: Colors.grey,
                               ),
                               onChanged: (String newValue) {
                                 setState(() {
@@ -1612,6 +1620,83 @@ class _lastpageState extends State<lastpage> {
               ),
             ],
           )
+      ),
+    );
+  }
+}
+class bookingspage extends StatefulWidget {
+  @override
+  String Name,House_no,SAC,CTV,dropdownValue;
+  int Phno,Pincode;
+  bookingspage({ Key key ,this.Name,this.Phno,this.Pincode,this.House_no,this.SAC,this.CTV,this.dropdownValue }):super(key:key);
+  _bookingspageState createState() => _bookingspageState(Name,Phno,Pincode,House_no,SAC,CTV,dropdownValue);
+}
+class _bookingspageState extends State<bookingspage> {
+  String Name,House_no,SAC,CTV,dropdownValue;
+  int Phno,Pincode;
+  _bookingspageState(this.Name, this.Phno ,this.Pincode, this.House_no,this.SAC,this.CTV,this.dropdownValue);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+
+    );
+  }
+}
+class userprofile extends StatefulWidget {
+  @override
+  _userprofileState createState() => _userprofileState();
+}
+class _userprofileState extends State<userprofile> {
+  final List useroptions = [
+    "Account Details",
+    "Bookings",
+    "Help",
+    "feedback",
+    "logout",
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.red.shade300,
+        ),
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 200,
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
+                    topRight: Radius.circular(45),),
+                ),
+                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.04,
+                  left: MediaQuery.of(context).size.height * 0.02,
+                  right: MediaQuery.of(context).size.height * 0.02,),
+                child: ListView.builder(
+                    itemCount: useroptions.length,
+                    itemBuilder: (BuildContext context, int index){
+                      return Card(
+                        margin: EdgeInsets.all(10.0),
+                        elevation: 6.0,
+                        color: Colors.grey.shade300,
+                        child: ListTile(
+                          title: Text(useroptions[index],style: TextStyle(
+                            color: Colors.red.shade300,
+                          ),),
+                          trailing: Icon(Icons.arrow_forward_ios,color: Colors.red.shade300,),
+                        ),
+                      );
+                    }
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

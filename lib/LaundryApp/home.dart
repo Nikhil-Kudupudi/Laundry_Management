@@ -1,8 +1,11 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-RegExp userregex=new RegExp(r"[a-zA-Z]+\w[a-zA-Z]*");
-RegExp passwordregex =new RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
-RegExp emailregex=new RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+
+//for date format
+//for date locale
+RegExp userregex=new RegExp(r"[a-zA-Z]+\w[a-zA-Z]*"); RegExp passwordregex =new RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+RegExp emailregex=new RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+") ;
 
 class lgorsgpage extends StatefulWidget {
   @override
@@ -20,23 +23,28 @@ class _lgorsgpageState extends State<lgorsgpage> {
                   Padding(
                       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.3,)
                   ),
-                  Row(
-                    children: <Widget>[
-                      Padding(
-                          padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.25,)
+                  Center(
+                    child: Container(
+                      child: Row(
+                        children: <Widget>[
+                          Padding(
+                              padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.25)
+                          ),
+                          Text("We",style: TextStyle(
+                            fontSize: 50.0,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.red.shade300,
+                            fontStyle: FontStyle.italic
+                          ),),
+                          Text("Wash",style: TextStyle(
+                            fontSize: 50.0,
+                            fontWeight: FontWeight.w700,
+                              fontStyle: FontStyle.italic
+                          ),),
+
+                        ],
                       ),
-                      Text("We",style: TextStyle(
-                        fontSize: 50.0,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.red.shade300,
-                        fontStyle: FontStyle.italic
-                      ),),
-                      Text("Wash",style: TextStyle(
-                        fontSize: 50.0,
-                        fontWeight: FontWeight.w700,
-                          fontStyle: FontStyle.italic
-                      ),),
-                    ],
+                    ),
                   ),
                   Padding(
                       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.05,)
@@ -185,11 +193,12 @@ class _loginpageState extends State<loginpage> {
                                     borderSide: BorderSide(color: Colors.red.shade300,width: 2),
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                prefixIcon: Icon(Icons.person,color: Colors.red.shade300),
+                                prefixIcon: Icon(Icons.person),
                                   hintText: "Username/Phone Number",
                                   filled: true,
                                   fillColor: Colors.white,
                                   errorText:_validateloginusername? "this field is Required*":(!userregex.hasMatch(_loginusername.text)?"Ex:Mg@1234 ":null),
+
                                 ),
                               ),
                             ),
@@ -219,11 +228,14 @@ class _loginpageState extends State<loginpage> {
                                       });
                                     },
                                   ),
+
                                   hintText: "password",
                                   filled: true,
                                   fillColor: Colors.white,
-                                  errorText: _validateloginpassword?"this field is required*":(!passwordregex.hasMatch(_loginpassword.text)?"Ex:Mg@1234 ":null),
+                                  errorText: _validateloginpassword?"*this field is required":(!passwordregex.hasMatch(_loginpassword.text)?"Ex:Mg@1234 ":null),
+
                                 ),
+
                               ),
                             )
                           ],
@@ -418,6 +430,7 @@ class _signupState extends State<signup> {
                             errorText:_validateemail ? "this field is Required*":(!emailregex.hasMatch(_email.text)?"enter valid email":null),
                             errorStyle: TextStyle(color:Colors.red)
                         ),
+
                       ),
                       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015,
                         left: MediaQuery.of(context).size.height * 0.03,
@@ -611,6 +624,7 @@ class _entrypageState extends State<entrypage> {
         children: <Widget>[
           Container(
             height: MediaQuery.of(context).size.height*0.42,
+            width: MediaQuery.of(context).size.width*0.42,
             margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.05,),
             decoration: BoxDecoration(
               color: Colors.red.shade300,
@@ -637,30 +651,7 @@ class _entrypageState extends State<entrypage> {
                 ),
                 Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03,),),
                 datetime(),
-                Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,),),
-                InkWell(
-                  onTap: (){
 
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => selecttype()));
-                  },
-                  child: Container(
-                    height: 45,
-                    width: 150,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                    ),
-                    child: Center(
-                      child: Text("DONE",style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16.0
-                      ),
-                      ),
-                    ),
-                  ),
-                )
               ],
             ),
           ),
@@ -769,70 +760,54 @@ class datetime extends StatefulWidget {
   _datetimeState createState() => _datetimeState();
 }
 class _datetimeState extends State<datetime> {
-  GlobalKey<FormState> _fKey = GlobalKey<FormState>();
+
   String yearMonthDay, yearMonthDayTime;
   TextEditingController ymdController = TextEditingController();
   TextEditingController ymdtController = TextEditingController();
-  bool autovalidate = false; bool _validatedate=false;
+  bool _validatedate=true,_validatetime=true;
   yearMonthDayPicker() async {
     final year = DateTime.now().year;
+
     final DateTime dateTime = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(year),
-      lastDate: DateTime(year + 10),
+      lastDate: DateTime(year + 1),
     );
     if (dateTime != null) {
-      ymdController.text = dateTime.toString().split(' ')[0];
+      //ymdController.text = DateFormat.('en_US').parse(dateTime.toString().split(' ')[0]).toString();
+      ymdController.text=formatDate(dateTime, [dd,'-',M,'-',yyyy]).toString();
     }
   }
   yearMonthDayTimePicker() async {
 //    final year = DateTime.now().year;
     String hour, min;
-    Future<TimeOfDay> dateTime = showTimePicker(
-      initialTime: TimeOfDay.now(),
+
+    final TimeOfDay pickedTime = await showTimePicker(
       context: context,
+      initialTime: TimeOfDay(hour: 0, minute: 0),
     );
-    /*final DateTime dateTime = await showDatePicker(
-      context: context,
-     initialDate: DateTime.now(),
-      firstDate: DateTime(year),
-     lastDate: DateTime(year + 10),
-    );*/
-   if (dateTime != null) {
-      final TimeOfDay pickedTime = await showTimePicker(
-        context: context,
-        initialTime: TimeOfDay(hour: 0, minute: 0),
-      );
-      if (pickedTime != null) {
-        if (pickedTime.hour < 10) {
-          hour = '0' + pickedTime.hour.toString();
-        } else {
-          hour = pickedTime.hour.toString();
-        }
-        if (pickedTime.minute < 10) {
-          min = '0' + pickedTime.minute.toString();
-        } else {
-          min = pickedTime.minute.toString();
-        }
-        ymdtController.text = '$hour:$min';
+    if (pickedTime != null) {
+      if (pickedTime.hour < 10) {
+        hour = '0' + pickedTime.hour.toString();
+      } else {
+        hour = pickedTime.hour.toString();
       }
+      if (pickedTime.minute < 10) {
+        min = '0' + pickedTime.minute.toString();
+      } else {
+        min = pickedTime.minute.toString();
+      }
+      ymdtController.text = '$hour:$min';
     }
+
   }
-  submit() {
-    setState(() => autovalidate = true);
-    if (!_fKey.currentState.validate()) {
-      return;
-    }
-    _fKey.currentState.save();
-    print('year-month-day: $yearMonthDay');
-    print('year-month-day-time: $yearMonthDayTime');
-  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Form(
-          key: _fKey,
+
           autovalidateMode: AutovalidateMode.always,
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 25.0),
@@ -849,10 +824,11 @@ class _datetimeState extends State<datetime> {
                         borderSide: BorderSide(color: Colors.transparent),
                       ),
                       prefixIcon: Icon(Icons.calendar_today),
+                      hintText: "please select date",
                       fillColor: Colors.white,
                   //    labelText: 'dd-mm-yyyy',
                       filled: true,
-                      errorText: _validatedate ?"this field is required":null,
+                      errorText: _validatedate ?"*this field is required":null,
                       errorStyle: TextStyle(color: Colors.white)
                     ),
                     onSaved: (val) {
@@ -882,23 +858,140 @@ class _datetimeState extends State<datetime> {
                       prefixIcon: Icon(Icons.access_time),
                       fillColor: Colors.white,
                       filled: true,
+                      hintText: "please select time",
+                      errorText: _validatetime?"*this field is required":null,
                     ),
                     onSaved: (val) {
                       yearMonthDayTime = ymdtController.text;
                     },
-                    validator: (val) {
-                      if (val == null || val.isEmpty) {
-                        return 'Year-Month-Date-Time is necessary';
-                      }
-                      return null;
-                    },
                   ),
                 ),
               ),
+              Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,),),
+              InkWell(
+                onTap: (){
+                  setState(() {
+                    ymdController.text.isEmpty?_validatedate=true:_validatedate=false;
+                    ymdtController.text.isEmpty?_validatetime=true:_validatetime=false;
+                  });
+
+
+
+                  if(ymdtController.text.isNotEmpty&&ymdController.text.isNotEmpty){
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => selecttype()));
+                  }
+
+                },
+                child: Container(
+                  height: 45,
+                  width: 150,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                  ),
+                  child: Center(
+                    child: Text("DONE",style: TextStyle(
+                        color: Colors.red.shade300,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16.0
+                    ),
+                    ),
+                  ),
+                ),
+              )
             ],
       ),
     ),
     ),
+
+    );
+  }
+}
+class bookingspage extends StatefulWidget {
+  @override
+  String Name,House_no,SAC,CTV,dropdownValue;
+  int Phno,Pincode;
+  bookingspage({ Key key ,this.Name,this.Phno,this.Pincode,this.House_no,this.SAC,this.CTV,this.dropdownValue }):super(key:key);
+  _bookingspageState createState() => _bookingspageState(Name,Phno,Pincode,House_no,SAC,CTV,dropdownValue);
+}
+class _bookingspageState extends State<bookingspage> {
+  String Name,House_no,SAC,CTV,dropdownValue;
+  int Phno,Pincode;
+  _bookingspageState(this.Name, this.Phno ,this.Pincode, this.House_no,this.SAC,this.CTV,this.dropdownValue);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+
+    );
+  }
+}
+class userprofile extends StatefulWidget {
+  @override
+  _userprofileState createState() => _userprofileState();
+}
+class _userprofileState extends State<userprofile> {
+
+final List useroptions=["Account Details",
+  "Bookings",
+  "Help",
+  "feedback",
+  "logout"];
+final vals=[userprofile(),bookingspage(),userprofile(),selecttype(),bookingspage()];
+
+
+  @override
+
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.red.shade300,
+        ),
+        child: Column(
+          children: <Widget>[
+
+            Container(
+              height: 200,
+            ),
+            Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
+                      topRight: Radius.circular(45),),
+                  ),
+                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.04,
+                    left: MediaQuery.of(context).size.height * 0.02,
+                  right: MediaQuery.of(context).size.height * 0.02,),
+                  child: ListView.builder(
+
+                      itemCount: useroptions.length,
+                      itemBuilder: (BuildContext context, int index){
+                        return Card(
+                          margin: EdgeInsets.all(10.0),
+                          elevation: 6.0,
+                          color: Colors.grey.shade300,
+                          child: ListTile(
+                            title: Text(useroptions[index],style: TextStyle(
+                                color: Colors.red.shade300,
+                            ),),
+                            trailing: Icon(Icons.arrow_forward_ios,color: Colors.red.shade300,),
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => vals[index]));
+                            },
+                          ),
+                        );
+                      }
+                  ),
+                ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -926,9 +1019,9 @@ class _selecttypeState extends State<selecttype> {
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
                     topRight: Radius.circular(45),),
                 ),
-                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.08,
+                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03,
                   left: MediaQuery.of(context).size.height * 0.025,
-                  right: MediaQuery.of(context).size.height * 0.025,),
+                  right: MediaQuery.of(context).size.height * 0.02,),
                 child: ListView(
                   children: <Widget>[
                     Column(
@@ -936,11 +1029,11 @@ class _selecttypeState extends State<selecttype> {
                             InkWell(
                               onTap: (){
                                 Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => addmenclothes()));
+                                    builder: (context) => detailspage()));
                                 },
                               child: Container(
-                                height: MediaQuery.of(context).size.height*0.1,
-                                width: MediaQuery.of(context).size.width*0.9,
+                                height: MediaQuery.of(context).size.height*0.08,
+                                width: MediaQuery.of(context).size.height*0.4,
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade300,
                                   borderRadius: BorderRadius.circular(20.0),
@@ -954,54 +1047,7 @@ class _selecttypeState extends State<selecttype> {
                                 ),),
                               ),
                             ),
-                        Padding(
-                          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.025),
-                        ),
-                        InkWell(
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(
-                                builder: (context) => addwomenclothes()));
-                          },
-                          child: Container(
-                            height: MediaQuery.of(context).size.height*0.1,
-                            width: MediaQuery.of(context).size.width*0.9,
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.025,
-                                left: MediaQuery.of(context).size.height*0.03),
-                            child: Text("Women",style: TextStyle(
-                              color: Colors.red.shade300,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                            ),),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.025),
-                        ),
-                        InkWell(
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(
-                                builder: (context) => addkidsclothes()));
-                          },
-                          child: Container(
-                            height: MediaQuery.of(context).size.height*0.1,
-                            width: MediaQuery.of(context).size.width*0.9,
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.025,
-                                left: MediaQuery.of(context).size.height*0.03),
-                            child: Text("Kids (3-10 years)",style: TextStyle(
-                              color: Colors.red.shade300,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                            ),),
-                          ),
-                        ),
+
                       ],
                     ),
                   ],
@@ -1011,42 +1057,6 @@ class _selecttypeState extends State<selecttype> {
           ],
         ),
       ),
-    );
-  }
-}
-class addmenclothes extends StatefulWidget {
-  @override
-  _addmenclothesState createState() => _addmenclothesState();
-}
-class _addmenclothesState extends State<addmenclothes> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-
-    );
-  }
-}
-class addwomenclothes extends StatefulWidget {
-  @override
-  _addwomenclothesState createState() => _addwomenclothesState();
-}
-class _addwomenclothesState extends State<addwomenclothes> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-
-    );
-  }
-}
-class addkidsclothes extends StatefulWidget {
-  @override
-  _addkidsclothesState createState() => _addkidsclothesState();
-}
-class _addkidsclothesState extends State<addkidsclothes> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-
     );
   }
 }
@@ -1176,7 +1186,6 @@ int Phno,Pincode;
                             child: Column(
                               children: <Widget>[
                                 TextField(
-                                  cursorColor: Colors.red.shade300,
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.all(10.0),
@@ -1190,7 +1199,6 @@ int Phno,Pincode;
                                     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)
                                 ),
                                 TextField(
-                                  cursorColor: Colors.red.shade300,
                                   keyboardType: TextInputType.text,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.all(10.0),
@@ -1204,7 +1212,6 @@ int Phno,Pincode;
                                     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)
                                 ),
                                 TextField(
-                                  cursorColor: Colors.red.shade300,
                                   keyboardType: TextInputType.text,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.all(10.0),
@@ -1218,7 +1225,6 @@ int Phno,Pincode;
                                     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)
                                 ),
                                 TextField(
-                                  cursorColor: Colors.red.shade300,
                                   keyboardType: TextInputType.text,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.all(10.0),
@@ -1231,15 +1237,17 @@ int Phno,Pincode;
                                 Padding(
                                     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)
                                 ),
+
+
                             DropdownButton<String>(
                               value: dropdownValue,
                               icon: Icon(Icons.arrow_drop_down_outlined),
                               iconSize: 24,
                               elevation: 16,
-                              style: TextStyle(color: Colors.red.shade300),
+                              style: TextStyle(color: Colors.deepPurple),
                               underline: Container(
                                 height: 2,
-                                color: Colors.grey,
+                                color: Colors.deepPurpleAccent,
                               ),
                               onChanged: (String newValue) {
                                 setState(() {
@@ -1620,83 +1628,6 @@ class _lastpageState extends State<lastpage> {
               ),
             ],
           )
-      ),
-    );
-  }
-}
-class bookingspage extends StatefulWidget {
-  @override
-  String Name,House_no,SAC,CTV,dropdownValue;
-  int Phno,Pincode;
-  bookingspage({ Key key ,this.Name,this.Phno,this.Pincode,this.House_no,this.SAC,this.CTV,this.dropdownValue }):super(key:key);
-  _bookingspageState createState() => _bookingspageState(Name,Phno,Pincode,House_no,SAC,CTV,dropdownValue);
-}
-class _bookingspageState extends State<bookingspage> {
-  String Name,House_no,SAC,CTV,dropdownValue;
-  int Phno,Pincode;
-  _bookingspageState(this.Name, this.Phno ,this.Pincode, this.House_no,this.SAC,this.CTV,this.dropdownValue);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-
-    );
-  }
-}
-class userprofile extends StatefulWidget {
-  @override
-  _userprofileState createState() => _userprofileState();
-}
-class _userprofileState extends State<userprofile> {
-  final List useroptions = [
-    "Account Details",
-    "Bookings",
-    "Help",
-    "feedback",
-    "logout",
-  ];
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          color: Colors.red.shade300,
-        ),
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: 200,
-            ),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
-                    topRight: Radius.circular(45),),
-                ),
-                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.04,
-                  left: MediaQuery.of(context).size.height * 0.02,
-                  right: MediaQuery.of(context).size.height * 0.02,),
-                child: ListView.builder(
-                    itemCount: useroptions.length,
-                    itemBuilder: (BuildContext context, int index){
-                      return Card(
-                        margin: EdgeInsets.all(10.0),
-                        elevation: 6.0,
-                        color: Colors.grey.shade300,
-                        child: ListTile(
-                          title: Text(useroptions[index],style: TextStyle(
-                            color: Colors.red.shade300,
-                          ),),
-                          trailing: Icon(Icons.arrow_forward_ios,color: Colors.red.shade300,),
-                        ),
-                      );
-                    }
-                ),
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

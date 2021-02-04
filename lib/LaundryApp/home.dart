@@ -2,8 +2,6 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-//for date format
-//for date locale
 RegExp userregex=new RegExp(r"[a-zA-Z]+\w[a-zA-Z]*"); RegExp passwordregex =new RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
 RegExp emailregex=new RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+") ;
 
@@ -23,29 +21,24 @@ class _lgorsgpageState extends State<lgorsgpage> {
                   Padding(
                       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.3,)
                   ),
-                  Center(
-                    child: Container(
+                  Container(
+                    margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.30),
                       child: Row(
                         children: <Widget>[
-                          Padding(
-                              padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.25)
-                          ),
                           Text("We",style: TextStyle(
-                            fontSize: 50.0,
+                            fontSize: MediaQuery.of(context).size.width*0.1,
                             fontWeight: FontWeight.w700,
                             color: Colors.red.shade300,
                             fontStyle: FontStyle.italic
                           ),),
                           Text("Wash",style: TextStyle(
-                            fontSize: 50.0,
+                            fontSize: MediaQuery.of(context).size.width*0.1,
                             fontWeight: FontWeight.w700,
                               fontStyle: FontStyle.italic
                           ),),
-
                         ],
                       ),
                     ),
-                  ),
                   Padding(
                       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.05,)
                   ),
@@ -56,9 +49,9 @@ class _lgorsgpageState extends State<lgorsgpage> {
                     },
                     child: Container(
                       height: 50,
-                      width: MediaQuery.of(context).size.height*0.25,
-                      margin: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.1,
-                      right: MediaQuery.of(context).size.height*0.1),
+                      width: MediaQuery.of(context).size.width*0.25,
+                      margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.1,
+                      right: MediaQuery.of(context).size.width*0.1),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
                         color: Colors.red.shade300,
@@ -83,9 +76,9 @@ class _lgorsgpageState extends State<lgorsgpage> {
                     },
                     child: Container(
                       height: 50,
-                      width: MediaQuery.of(context).size.height*0.25,
-                      margin: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.1,
-                          right: MediaQuery.of(context).size.height*0.1),
+                      width: MediaQuery.of(context).size.width*0.25,
+                      margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.1,
+                          right: MediaQuery.of(context).size.width*0.1),
                       decoration: BoxDecoration(
                             border: Border.all(
                                 color: Colors.red.shade300,
@@ -193,12 +186,11 @@ class _loginpageState extends State<loginpage> {
                                     borderSide: BorderSide(color: Colors.red.shade300,width: 2),
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                prefixIcon: Icon(Icons.person),
+                                prefixIcon: Icon(Icons.person,color: Colors.red.shade300,),
                                   hintText: "Username/Phone Number",
                                   filled: true,
                                   fillColor: Colors.white,
-                                  errorText:_validateloginusername? "this field is Required*":(!userregex.hasMatch(_loginusername.text)?"Ex:Mg@1234 ":null),
-
+                                  errorText:_validateloginusername? "*this field is Required":(!userregex.hasMatch(_loginusername.text)?"Ex:Mg@1234 ":null),
                                 ),
                               ),
                             ),
@@ -207,6 +199,7 @@ class _loginpageState extends State<loginpage> {
                                   left:MediaQuery.of(context).size.height * 0.03,
                                   right: MediaQuery.of(context).size.height * 0.03),
                               child: TextField(
+                                cursorColor: Colors.red.shade300,
                                 keyboardType: TextInputType.text,
                                 obscureText: !this._showloginpassword,
                                 controller: _loginpassword,
@@ -228,14 +221,11 @@ class _loginpageState extends State<loginpage> {
                                       });
                                     },
                                   ),
-
                                   hintText: "password",
                                   filled: true,
                                   fillColor: Colors.white,
                                   errorText: _validateloginpassword?"*this field is required":(!passwordregex.hasMatch(_loginpassword.text)?"Ex:Mg@1234 ":null),
-
                                 ),
-
                               ),
                             )
                           ],
@@ -263,7 +253,6 @@ class _loginpageState extends State<loginpage> {
                           setState(() {
                             _loginusername.text.isEmpty?_validateloginusername=true:_validateloginusername=false;
                             _loginpassword.text.isEmpty? _validateloginpassword=true:_validateloginpassword=false;
-
                           });
                           if (_loginusername.text.isNotEmpty && _loginpassword.text.isNotEmpty && userregex.hasMatch(_loginusername.text) && passwordregex.hasMatch(_loginpassword.text) ){
                             Navigator.push(context, MaterialPageRoute(
@@ -353,7 +342,7 @@ class _signupState extends State<signup> {
                     ),
                      Container(
                        child: TextFormField(
-                         cursorColor: Colors.black,
+                         cursorColor: Colors.red.shade300,
                          controller: _username,
                          decoration: InputDecoration(
                            enabledBorder: OutlineInputBorder(
@@ -369,7 +358,7 @@ class _signupState extends State<signup> {
                            filled: true,
                            fillColor: Colors.white,
                              errorText: _validateuser?"this field is Required*":(!userregex.hasMatch(_username.text)?"enter  alphabets only":null),
-                             errorStyle: TextStyle(color:Colors.red),
+                             errorStyle: TextStyle(color:Colors.red.shade300),
                          ),
                        ),
                        padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.04,
@@ -391,7 +380,7 @@ class _signupState extends State<signup> {
                             borderRadius: BorderRadius.circular(20.0),
                           ),
                           prefixIcon: Icon(Icons.lock,color: Colors.red.shade300),
-                            suffixIcon: IconButton(icon:this._showPassword?Icon(Icons.visibility,color:Colors.blueAccent):Icon(Icons.visibility_off_rounded,color:Colors.grey),
+                            suffixIcon: IconButton(icon:this._showPassword?Icon(Icons.visibility,color:Colors.red.shade300):Icon(Icons.visibility_off_rounded,color:Colors.red.shade300),
                               onPressed: (){
                                 setState(() {
                                   this._showPassword = !this._showPassword;
@@ -402,7 +391,7 @@ class _signupState extends State<signup> {
                           filled: true,
                           fillColor: Colors.white,
                             errorText:_validatepassword? "this field is Required*":(!passwordregex.hasMatch(_password.text)?"Ex:Mg@1234 ":null),
-                            errorStyle: TextStyle(color:Colors.red)
+                            errorStyle: TextStyle(color:Colors.red.shade300)
                         ),
                       ),
                       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015,
@@ -428,9 +417,8 @@ class _signupState extends State<signup> {
                           filled: true,
                           fillColor: Colors.white,
                             errorText:_validateemail ? "this field is Required*":(!emailregex.hasMatch(_email.text)?"enter valid email":null),
-                            errorStyle: TextStyle(color:Colors.red)
+                            errorStyle: TextStyle(color:Colors.red.shade300)
                         ),
-
                       ),
                       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015,
                         left: MediaQuery.of(context).size.height * 0.03,
@@ -447,7 +435,6 @@ class _signupState extends State<signup> {
                           _password.text.isEmpty? _validatepassword=true:_validatepassword=false;
                           _email.text.isEmpty?_validateemail=true:_validateemail=false;
                         });
-
                         if ((userregex.hasMatch(_username.text)&&passwordregex.hasMatch(_password.text)&& emailregex.hasMatch(_email.text))&&(_username.text.isNotEmpty && _password.text.isNotEmpty &&
                             _email.text.isNotEmpty)){
                           Navigator.push(context, MaterialPageRoute(
@@ -590,7 +577,6 @@ class _mainpageState extends State<mainpage> {
       [
         BottomNavigationBarItem(icon: Icon(Icons.home, color: Colors.red.shade300,),
             label: 'home',
-
         ),
         BottomNavigationBarItem(icon: Icon(Icons.reorder, color: Colors.red.shade300,),
             label:"bookings"
@@ -623,8 +609,8 @@ class _entrypageState extends State<entrypage> {
         scrollDirection: Axis.vertical,
         children: <Widget>[
           Container(
-            height: MediaQuery.of(context).size.height*0.42,
-            width: MediaQuery.of(context).size.width*0.42,
+            height: MediaQuery.of(context).size.height*0.43,
+            width: MediaQuery.of(context).size.width*0.43,
             margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.05,),
             decoration: BoxDecoration(
               color: Colors.red.shade300,
@@ -651,7 +637,6 @@ class _entrypageState extends State<entrypage> {
                 ),
                 Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03,),),
                 datetime(),
-
               ],
             ),
           ),
@@ -760,14 +745,12 @@ class datetime extends StatefulWidget {
   _datetimeState createState() => _datetimeState();
 }
 class _datetimeState extends State<datetime> {
-
   String yearMonthDay, yearMonthDayTime;
   TextEditingController ymdController = TextEditingController();
   TextEditingController ymdtController = TextEditingController();
   bool _validatedate=true,_validatetime=true;
   yearMonthDayPicker() async {
     final year = DateTime.now().year;
-
     final DateTime dateTime = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -782,7 +765,6 @@ class _datetimeState extends State<datetime> {
   yearMonthDayTimePicker() async {
 //    final year = DateTime.now().year;
     String hour, min;
-
     final TimeOfDay pickedTime = await showTimePicker(
       context: context,
       initialTime: TimeOfDay(hour: 0, minute: 0),
@@ -800,14 +782,11 @@ class _datetimeState extends State<datetime> {
       }
       ymdtController.text = '$hour:$min';
     }
-
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Form(
-
           autovalidateMode: AutovalidateMode.always,
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 25.0),
@@ -826,17 +805,16 @@ class _datetimeState extends State<datetime> {
                       prefixIcon: Icon(Icons.calendar_today),
                       hintText: "please select date",
                       fillColor: Colors.white,
-                  //    labelText: 'dd-mm-yyyy',
                       filled: true,
-                      errorText: _validatedate ?"*this field is required":null,
-                      errorStyle: TextStyle(color: Colors.white)
+                    //  errorText: _validatedate ?"*this field is required":null,
+                    //  errorStyle: TextStyle(color: Colors.white)
                     ),
                     onSaved: (val) {
                       yearMonthDay = ymdController.text;
                     },
                     validator: (val) {
                       if (val == null || val.isEmpty) {
-                        return "*This field is required";
+                       // return "*This field is required";
                       }
                       return null;
                     },
@@ -859,7 +837,7 @@ class _datetimeState extends State<datetime> {
                       fillColor: Colors.white,
                       filled: true,
                       hintText: "please select time",
-                      errorText: _validatetime?"*this field is required":null,
+                      //errorText: _validatetime?"*this field is required":null,
                     ),
                     onSaved: (val) {
                       yearMonthDayTime = ymdtController.text;
@@ -874,18 +852,14 @@ class _datetimeState extends State<datetime> {
                     ymdController.text.isEmpty?_validatedate=true:_validatedate=false;
                     ymdtController.text.isEmpty?_validatetime=true:_validatetime=false;
                   });
-
-
-
                   if(ymdtController.text.isNotEmpty&&ymdController.text.isNotEmpty){
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context) => selecttype()));
                   }
-
                 },
                 child: Container(
-                  height: 45,
-                  width: 150,
+                  height: MediaQuery.of(context).size.height*0.07,
+                  width: MediaQuery.of(context).size.width*0.35,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.white,
@@ -904,94 +878,6 @@ class _datetimeState extends State<datetime> {
       ),
     ),
     ),
-
-    );
-  }
-}
-class bookingspage extends StatefulWidget {
-  @override
-  String Name,House_no,SAC,CTV,dropdownValue;
-  int Phno,Pincode;
-  bookingspage({ Key key ,this.Name,this.Phno,this.Pincode,this.House_no,this.SAC,this.CTV,this.dropdownValue }):super(key:key);
-  _bookingspageState createState() => _bookingspageState(Name,Phno,Pincode,House_no,SAC,CTV,dropdownValue);
-}
-class _bookingspageState extends State<bookingspage> {
-  String Name,House_no,SAC,CTV,dropdownValue;
-  int Phno,Pincode;
-  _bookingspageState(this.Name, this.Phno ,this.Pincode, this.House_no,this.SAC,this.CTV,this.dropdownValue);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-
-    );
-  }
-}
-class userprofile extends StatefulWidget {
-  @override
-  _userprofileState createState() => _userprofileState();
-}
-class _userprofileState extends State<userprofile> {
-
-final List useroptions=["Account Details",
-  "Bookings",
-  "Help",
-  "feedback",
-  "logout"];
-final vals=[userprofile(),bookingspage(),userprofile(),selecttype(),bookingspage()];
-
-
-  @override
-
-  Widget build(BuildContext context) {
-
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          color: Colors.red.shade300,
-        ),
-        child: Column(
-          children: <Widget>[
-
-            Container(
-              height: 200,
-            ),
-            Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
-                      topRight: Radius.circular(45),),
-                  ),
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.04,
-                    left: MediaQuery.of(context).size.height * 0.02,
-                  right: MediaQuery.of(context).size.height * 0.02,),
-                  child: ListView.builder(
-
-                      itemCount: useroptions.length,
-                      itemBuilder: (BuildContext context, int index){
-                        return Card(
-                          margin: EdgeInsets.all(10.0),
-                          elevation: 6.0,
-                          color: Colors.grey.shade300,
-                          child: ListTile(
-                            title: Text(useroptions[index],style: TextStyle(
-                                color: Colors.red.shade300,
-                            ),),
-                            trailing: Icon(Icons.arrow_forward_ios,color: Colors.red.shade300,),
-                            onTap: (){
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => vals[index]));
-                            },
-                          ),
-                        );
-                      }
-                  ),
-                ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
@@ -1564,11 +1450,11 @@ class _lastpageState extends State<lastpage> {
                     ),
                   ),
                   Padding(
-                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.04)
+                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)
                   ),
                   Container(
                     height: 200,
-                    margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.02,
+                   margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.02,
                         right: MediaQuery.of(context).size.width*0.02),
                     color: Colors.grey.shade200,
                     child: Center(
@@ -1582,43 +1468,44 @@ class _lastpageState extends State<lastpage> {
                           ),),
                           Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.03,
                           ),),
-                          Row(
-                            children: <Widget>[
-                              Padding(padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.24,
-                              ),),
-                              InkWell(
-                                onTap: (){
+                          Center(
+                            child: Row(
+                              children: <Widget>[
+                                Padding(padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.36,),),
+                                InkWell(
+                                  onTap: (){
 
-                                },
-                                child: Container(
-                                  height: 40,
-                                  width: 90,
-                                  color: Colors.red.shade300,
-                                  child: Center(
-                                    child: Text("YES",style: TextStyle(
-                                        fontWeight: FontWeight.bold
-                                    ),),
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: MediaQuery.of(context).size.width*0.1,
+                                    color: Colors.red.shade300,
+                                    child: Center(
+                                      child: Text("YES",style: TextStyle(
+                                          fontWeight: FontWeight.bold
+                                      ),),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Padding(padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.03,
-                              ),),
-                              InkWell(
-                                onTap: (){
+                                Padding(padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.03,
+                                ),),
+                                InkWell(
+                                  onTap: (){
 
-                                },
-                                child: Container(
-                                  height: 40,
-                                  width: 90,
-                                  color: Colors.red.shade300,
-                                  child: Center(
-                                    child: Text("NO",style: TextStyle(
-                                        fontWeight: FontWeight.bold
-                                    ),),
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: MediaQuery.of(context).size.width*0.1,
+                                    color: Colors.red.shade300,
+                                    child: Center(
+                                      child: Text("NO",style: TextStyle(
+                                          fontWeight: FontWeight.bold
+                                      ),),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           )
                         ],
                       ),
@@ -1628,6 +1515,90 @@ class _lastpageState extends State<lastpage> {
               ),
             ],
           )
+      ),
+    );
+  }
+}
+class bookingspage extends StatefulWidget {
+  @override
+  String Name,House_no,SAC,CTV,dropdownValue;
+  int Phno,Pincode;
+  bookingspage({ Key key ,this.Name,this.Phno,this.Pincode,this.House_no,this.SAC,this.CTV,this.dropdownValue }):super(key:key);
+  _bookingspageState createState() => _bookingspageState(Name,Phno,Pincode,House_no,SAC,CTV,dropdownValue);
+}
+class _bookingspageState extends State<bookingspage> {
+  String Name,House_no,SAC,CTV,dropdownValue;
+  int Phno,Pincode;
+  _bookingspageState(this.Name, this.Phno ,this.Pincode, this.House_no,this.SAC,this.CTV,this.dropdownValue);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+
+    );
+  }
+}
+class userprofile extends StatefulWidget {
+  @override
+  _userprofileState createState() => _userprofileState();
+}
+class _userprofileState extends State<userprofile> {
+  final List useroptions=["Account Details",
+    "Bookings",
+    "Help",
+    "feedback",
+    "logout"];
+  final vals=[userprofile(),bookingspage(),userprofile(),selecttype(),bookingspage()];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.red.shade300,
+        ),
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 200,
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
+                    topRight: Radius.circular(45),),
+                ),
+                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.04,
+                  left: MediaQuery.of(context).size.height * 0.02,
+                  right: MediaQuery.of(context).size.height * 0.02,),
+                child: ListView.builder(
+                    itemCount: useroptions.length,
+                    itemBuilder: (BuildContext context, int index){
+                      return Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0.0),
+                            side: BorderSide(color: Colors.transparent)
+                        ),
+                        margin: EdgeInsets.all(10.0),
+                        elevation: 6.0,
+                        color: Colors.grey.shade300,
+                        child: ListTile(
+                          title: Text(useroptions[index],style: TextStyle(
+                            color: Colors.red.shade300,
+                          ),),
+                          trailing: Icon(Icons.arrow_forward_ios,color: Colors.red.shade300,),
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (context) => vals[index]));
+                          },
+                        ),
+                      );
+                    }
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -644,7 +644,7 @@ class _entrypageState extends State<entrypage> {
           Container(
             child: Row(
               children: <Widget>[
-
+                Padding(padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.5)),
                 InkWell(
                   onTap: (){
 
@@ -1109,6 +1109,7 @@ int Phno,Pincode;
                             child: Column(
                               children: <Widget>[
                                 TextField(
+                                  cursorColor: Colors.black,
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.all(10.0),
@@ -1122,6 +1123,7 @@ int Phno,Pincode;
                                     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)
                                 ),
                                 TextField(
+                                  cursorColor: Colors.black,
                                   keyboardType: TextInputType.text,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.all(10.0),
@@ -1135,6 +1137,7 @@ int Phno,Pincode;
                                     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)
                                 ),
                                 TextField(
+                                  cursorColor: Colors.black,
                                   keyboardType: TextInputType.text,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.all(10.0),
@@ -1148,6 +1151,7 @@ int Phno,Pincode;
                                     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)
                                 ),
                                 TextField(
+                                  cursorColor: Colors.black,
                                   keyboardType: TextInputType.text,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.all(10.0),
@@ -1160,17 +1164,16 @@ int Phno,Pincode;
                                 Padding(
                                     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)
                                 ),
-
-
                             DropdownButton<String>(
+                              isExpanded: true,
                               value: dropdownValue,
                               icon: Icon(Icons.arrow_drop_down_outlined),
                               iconSize: 24,
                               elevation: 16,
-                              style: TextStyle(color: Colors.deepPurple),
+                              style: TextStyle(color: Colors.black),
                               underline: Container(
-                                height: 2,
-                                color: Colors.deepPurpleAccent,
+                                height: 1.5,
+                                color: Colors.grey.shade400,
                               ),
                               onChanged: (String newValue) {
                                 setState(() {
@@ -1181,7 +1184,7 @@ int Phno,Pincode;
                                   .map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
-                                  child: Text(value),
+                                  child: Text("   "+value),
                                 );
                               }).toList(),
                             ),

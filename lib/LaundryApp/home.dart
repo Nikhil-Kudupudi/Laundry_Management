@@ -2,7 +2,8 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-RegExp userregex=new RegExp(r"[a-zA-Z]+\w[a-zA-Z]*"); RegExp passwordregex =new RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+RegExp userregex=new RegExp(r"[a-zA-Z]+\w[a-zA-Z]*");
+RegExp passwordregex =new RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
 RegExp emailregex=new RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+") ;
 
 class lgorsgpage extends StatefulWidget {
@@ -643,10 +644,7 @@ class _entrypageState extends State<entrypage> {
           Container(
             child: Row(
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.23,
-                  ),
-                ),
+
                 InkWell(
                   onTap: (){
 
@@ -666,10 +664,7 @@ class _entrypageState extends State<entrypage> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.03,
-                  ),
-                ),
+
                 InkWell(
                   onTap: (){
 
@@ -802,12 +797,11 @@ class _datetimeState extends State<datetime> {
                         borderRadius: BorderRadius.circular(20.0),
                         borderSide: BorderSide(color: Colors.transparent),
                       ),
-                      prefixIcon: Icon(Icons.calendar_today),
-                      hintText: "please select date",
+                      prefixIcon: Icon(Icons.calendar_today,color: Colors.black,),
+                      hintText: "Please Select Date",
+                      hintStyle: TextStyle(color: Colors.black),
                       fillColor: Colors.white,
                       filled: true,
-                    //  errorText: _validatedate ?"*this field is required":null,
-                    //  errorStyle: TextStyle(color: Colors.white)
                     ),
                     onSaved: (val) {
                       yearMonthDay = ymdController.text;
@@ -833,11 +827,11 @@ class _datetimeState extends State<datetime> {
                         borderRadius: BorderRadius.circular(20.0),
                         borderSide: BorderSide(color: Colors.transparent),
                       ),
-                      prefixIcon: Icon(Icons.access_time),
+                      prefixIcon: Icon(Icons.access_time,color: Colors.black,),
                       fillColor: Colors.white,
                       filled: true,
-                      hintText: "please select time",
-                      //errorText: _validatetime?"*this field is required":null,
+                      hintText: "Please Select Time",
+                      hintStyle: TextStyle(color: Colors.black),
                     ),
                     onSaved: (val) {
                       yearMonthDayTime = ymdtController.text;
@@ -905,9 +899,9 @@ class _selecttypeState extends State<selecttype> {
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
                     topRight: Radius.circular(45),),
                 ),
-                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03,
+                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1,
                   left: MediaQuery.of(context).size.height * 0.025,
-                  right: MediaQuery.of(context).size.height * 0.02,),
+                  right: MediaQuery.of(context).size.height * 0.025,),
                 child: ListView(
                   children: <Widget>[
                     Column(
@@ -915,16 +909,16 @@ class _selecttypeState extends State<selecttype> {
                             InkWell(
                               onTap: (){
                                 Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => detailspage()));
+                                    builder: (context) => menselectpage()));
                                 },
                               child: Container(
                                 height: MediaQuery.of(context).size.height*0.08,
-                                width: MediaQuery.of(context).size.height*0.4,
+                                width: MediaQuery.of(context).size.width*0.9,
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade300,
                                   borderRadius: BorderRadius.circular(20.0),
                                 ),
-                                padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.025,
+                                padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.022,
                                     left: MediaQuery.of(context).size.height*0.03),
                                 child: Text("Men",style: TextStyle(
                                   color: Colors.red.shade300,
@@ -933,7 +927,50 @@ class _selecttypeState extends State<selecttype> {
                                 ),),
                               ),
                             ),
-
+                        Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.015)),
+                        InkWell(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (context) => womenselectpage()));
+                          },
+                          child: Container(
+                            height: MediaQuery.of(context).size.height*0.08,
+                            width: MediaQuery.of(context).size.width*0.9,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.022,
+                                left: MediaQuery.of(context).size.height*0.03),
+                            child: Text("Women",style: TextStyle(
+                              color: Colors.red.shade300,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),),
+                          ),
+                        ),
+                        Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.015)),
+                        InkWell(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (context) => kidsselectpage()));
+                          },
+                          child: Container(
+                            height: MediaQuery.of(context).size.height*0.08,
+                            width: MediaQuery.of(context).size.width*0.9,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.022,
+                                left: MediaQuery.of(context).size.height*0.03),
+                            child: Text("Kids (3-10 Years)",style: TextStyle(
+                              color: Colors.red.shade300,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),),
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -1603,3 +1640,42 @@ class _userprofileState extends State<userprofile> {
     );
   }
 }
+class menselectpage extends StatefulWidget {
+  @override
+  _menselectpageState createState() => _menselectpageState();
+}
+class _menselectpageState extends State<menselectpage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+
+    );
+  }
+}
+class womenselectpage extends StatefulWidget {
+  @override
+  _womenselectpageState createState() => _womenselectpageState();
+}
+class _womenselectpageState extends State<womenselectpage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+
+    );
+  }
+}
+class kidsselectpage extends StatefulWidget {
+  @override
+  _kidsselectpageState createState() => _kidsselectpageState();
+}
+class _kidsselectpageState extends State<kidsselectpage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+
+    );
+  }
+}
+
+
+

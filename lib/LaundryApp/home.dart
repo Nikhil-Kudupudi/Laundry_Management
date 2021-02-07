@@ -1648,10 +1648,135 @@ class menselectpage extends StatefulWidget {
   _menselectpageState createState() => _menselectpageState();
 }
 class _menselectpageState extends State<menselectpage> {
+  int _personcount=0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.red.shade300,
+        ),
+        child: Column(
+          children: <Widget>[
+          Container(
+          height: 100,
+        ),
+            Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
+                      topRight: Radius.circular(45),),
+                  ),
+                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1,
+                    left: MediaQuery.of(context).size.height * 0.025,
+                    right: MediaQuery.of(context).size.height * 0.025,),
+                  child: ListView(
+                    children: [
+                      Column(
+                        children: [
+                          Container(
+                            height: MediaQuery.of(context).size.height*0.18,
+                            width: MediaQuery.of(context).size.width*0.9,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.025,),
+                            child: Row(
+                              children: [
+                                Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.025,
+                                            left: MediaQuery.of(context).size.height*0.05),),
+                                        Text("Shirt",style: TextStyle(
+                                          color: Colors.red.shade300,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        InkWell(
+                                          onTap: (){
+                                            setState(() {
+                                              if(_personcount>1){
+                                                _personcount--;
+                                              }
+                                              else{
+                                                //do nothing
+                                                }
+                                             });
+                                          },
+                                          child: Container(
+                                            width: 30,
+                                            height: 30,
+                                            margin: EdgeInsets.only(left: 20,top: 8,right: 15),
+                                            decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(7.0),
+                                            color: Colors.grey,
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              "-",style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 20.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        ),
+                                        ),
+                                        Text("$_personcount", style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 17.0
+                                        ),),
+                                        InkWell(
+                                          onTap: (){
+                                            setState(() {
+                                              _personcount++;
+                                            });
+                                          },
+                                          child: Container(
+                                            width: 30,
+                                            height: 30,
+                                            margin: EdgeInsets.only(left: 15,top: 8),
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(7.0),
+                                              color: Colors.grey,
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                "+",style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 20.0,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+            ),
+        ],
+      ),
+      ),
     );
   }
 }

@@ -1682,7 +1682,8 @@ class _menselectpageState extends State<menselectpage> {
                               color: Colors.grey.shade300,
                               borderRadius: BorderRadius.circular(20.0),
                             ),
-                            padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.025,),
+                            padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.025,
+                                       left: MediaQuery.of(context).size.width*0.025                                                 ),
                             child: Row(
                               children: [
                                 Column(
@@ -1693,8 +1694,9 @@ class _menselectpageState extends State<menselectpage> {
                                             left: MediaQuery.of(context).size.height*0.05),),
                                         Text("Shirt",style: TextStyle(
                                           color: Colors.red.shade300,
-                                          fontSize: 18,
+                                          fontSize:18,
                                           fontWeight: FontWeight.w500,
+
                                         ),
                                         ),
                                       ],
@@ -1704,7 +1706,7 @@ class _menselectpageState extends State<menselectpage> {
                                         InkWell(
                                           onTap: (){
                                             setState(() {
-                                              if(_personcount>1){
+                                              if(_personcount>0){
                                                 _personcount--;
                                               }
                                               else{
@@ -1715,7 +1717,9 @@ class _menselectpageState extends State<menselectpage> {
                                           child: Container(
                                             width: 30,
                                             height: 30,
-                                            margin: EdgeInsets.only(left: 20,top: 8,right: 15),
+                                            margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.04,
+                                                top: MediaQuery.of(context).size.height*0.010,
+                                                right: 10,),
                                             decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(7.0),
                                             color: Colors.grey,
@@ -1734,7 +1738,7 @@ class _menselectpageState extends State<menselectpage> {
                                         Text("$_personcount", style: TextStyle(
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 17.0
+                                            fontSize: 17.0,
                                         ),),
                                         InkWell(
                                           onTap: (){
@@ -1745,7 +1749,8 @@ class _menselectpageState extends State<menselectpage> {
                                           child: Container(
                                             width: 30,
                                             height: 30,
-                                            margin: EdgeInsets.only(left: 15,top: 8),
+                                            margin: EdgeInsets.only(left:10,
+                                                top: MediaQuery.of(context).size.height*0.010),
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.circular(7.0),
                                               color: Colors.grey,
@@ -1765,6 +1770,27 @@ class _menselectpageState extends State<menselectpage> {
                                     ),
                                   ],
                                 ),
+                                InkWell(
+                                  onTap: (){},
+                                  child: Container(
+                                    margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.53,),
+                                    height: 30,
+                                    width: MediaQuery.of(context).size.width*0.1,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.red.shade300,
+                                          width: 2
+                                      ),
+                                      borderRadius: BorderRadius.circular(35),
+                                      color: Colors.white,
+                                    ),
+                                    child: Center(child: Text("Add",style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),),),
+                                  ),
+                                )
                               ],
                             ),
                           ),

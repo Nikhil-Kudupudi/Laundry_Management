@@ -119,7 +119,7 @@ class _loginpageState extends State<loginpage> {
   bool _validateloginpassword=true;
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      //resizeToAvoidBottomPadding: false,
       body: Container(
         decoration: BoxDecoration(
             color: Colors.red.shade300,

@@ -1585,7 +1585,132 @@ class menselectpage extends StatefulWidget {
 }
 class _menselectpageState extends State<menselectpage> {
   int _personcount=0;
+  List men_dresses=["Shirt","T-Shirt","Trouser","Jean","Short","Track Pant"];
   @override
+  mens_dress(var name){
+    return  Container(
+      height: MediaQuery.of(context).size.height*0.17,
+      width: MediaQuery.of(context).size.width*0.9,
+      decoration: BoxDecoration(
+        color: Colors.grey.shade300,
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.025,
+          left: MediaQuery.of(context).size.width*0.025                                                 ),
+      child: Row(
+        children: [
+          Column(
+            children: [
+              Row(
+                children: [
+                  Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.025,
+                      left: MediaQuery.of(context).size.height*0.04),),
+                  Text("$name",style: TextStyle(
+                    color: Colors.red.shade300,
+                    fontSize:18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  InkWell(
+                    onTap: (){
+                      setState(() {
+                        if(_personcount>0){
+                          _personcount--;
+                        }
+                        else{
+                          //do nothing
+                        }
+                      });
+                    },
+                    child: Container(
+                      width: 30,
+                      height: 30,
+                      margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.04,
+                        top: MediaQuery.of(context).size.height*0.010,
+                        right: 10,),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(7.0),
+                        color: Colors.grey,
+                      ),
+                      child: Center(
+                        child: Text(
+                          "-",style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Text("$_personcount", style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 17.0,
+                  ),),
+                  InkWell(
+                    onTap: (){
+                      setState(() {
+                        _personcount++;
+                      });
+                    },
+                    child: Container(
+                      width: 30,
+                      height: 30,
+                      margin: EdgeInsets.only(left:10,
+                          top: MediaQuery.of(context).size.height*0.010),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(7.0),
+                        color: Colors.grey,
+                      ),
+                      child: Center(
+                        child: Text(
+                          "+",style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          InkWell(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => detailspage()));
+            },
+            child: Container(
+              margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.53,),
+              height: 30,
+              width: MediaQuery.of(context).size.width*0.1,
+              decoration: BoxDecoration(
+                border: Border.all(
+                    color: Colors.red.shade300,
+                    width: 2
+                ),
+                borderRadius: BorderRadius.circular(35),
+                color: Colors.white,
+              ),
+              child: Center(child: Text("Add",style: TextStyle(
+                color: Colors.black,
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),),),
+            ),
+          )
+        ],
+      ),
+    );
+
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -1595,7 +1720,13 @@ class _menselectpageState extends State<menselectpage> {
         child: Column(
           children: <Widget>[
           Container(
-          height: 100,
+            height: 100,
+            child: Column(
+              children: [
+                Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.1)),
+                Text("Add Your Clothes",style: TextStyle(fontWeight: FontWeight.w800),),
+              ],
+            ),
         ),
             Expanded(
                 child: Container(
@@ -1611,128 +1742,17 @@ class _menselectpageState extends State<menselectpage> {
                     children: [
                       Column(
                         children: [
-                          Container(
-                            height: MediaQuery.of(context).size.height*0.18,
-                            width: MediaQuery.of(context).size.width*0.9,
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.025,
-                                       left: MediaQuery.of(context).size.width*0.025                                                 ),
-                            child: Row(
-                              children: [
-                                Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.025,
-                                            left: MediaQuery.of(context).size.height*0.05),),
-                                        Text("Shirt",style: TextStyle(
-                                          color: Colors.red.shade300,
-                                          fontSize:18,
-                                          fontWeight: FontWeight.w500,
-
-                                        ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        InkWell(
-                                          onTap: (){
-                                            setState(() {
-                                              if(_personcount>0){
-                                                _personcount--;
-                                              }
-                                              else{
-                                                //do nothing
-                                                }
-                                             });
-                                          },
-                                          child: Container(
-                                            width: 30,
-                                            height: 30,
-                                            margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.04,
-                                                top: MediaQuery.of(context).size.height*0.010,
-                                                right: 10,),
-                                            decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(7.0),
-                                            color: Colors.grey,
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              "-",style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 20.0,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                        ),
-                                        ),
-                                        Text("$_personcount", style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 17.0,
-                                        ),),
-                                        InkWell(
-                                          onTap: (){
-                                            setState(() {
-                                              _personcount++;
-                                            });
-                                          },
-                                          child: Container(
-                                            width: 30,
-                                            height: 30,
-                                            margin: EdgeInsets.only(left:10,
-                                                top: MediaQuery.of(context).size.height*0.010),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(7.0),
-                                              color: Colors.grey,
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                "+",style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 20.0,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                InkWell(
-                                  onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) => detailspage()));
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.53,),
-                                    height: 30,
-                                    width: MediaQuery.of(context).size.width*0.1,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.red.shade300,
-                                          width: 2
-                                      ),
-                                      borderRadius: BorderRadius.circular(35),
-                                      color: Colors.white,
-                                    ),
-                                    child: Center(child: Text("Add",style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                    ),),),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
+                          mens_dress(men_dresses[0]),
+                          Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.02)),
+                          mens_dress(men_dresses[1]),
+                          Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.02)),
+                          mens_dress(men_dresses[2]),
+                          Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.02)),
+                          mens_dress(men_dresses[3]),
+                          Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.02)),
+                          mens_dress(men_dresses[4]),
+                          Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.02)),
+                          mens_dress(men_dresses[5]),
                         ],
                       ),
                     ],
@@ -1750,10 +1770,178 @@ class womenselectpage extends StatefulWidget {
   _womenselectpageState createState() => _womenselectpageState();
 }
 class _womenselectpageState extends State<womenselectpage> {
+  int _personcount=0;
+  List ladies_dresses=["Shirt","T-Shirt","Legging","Jean","Saree","Top"];
   @override
+  womens_dress(var name){
+    return  Container(
+      height: MediaQuery.of(context).size.height*0.17,
+      width: MediaQuery.of(context).size.width*0.9,
+      decoration: BoxDecoration(
+        color: Colors.grey.shade300,
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.025,
+          left: MediaQuery.of(context).size.width*0.025                                                 ),
+      child: Row(
+        children: [
+          Column(
+            children: [
+              Row(
+                children: [
+                  Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.025,
+                      left: MediaQuery.of(context).size.height*0.04),),
+                  Text("$name",style: TextStyle(
+                    color: Colors.red.shade300,
+                    fontSize:18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  InkWell(
+                    onTap: (){
+                      setState(() {
+                        if(_personcount>0){
+                          _personcount--;
+                        }
+                        else{
+                          //do nothing
+                        }
+                      });
+                    },
+                    child: Container(
+                      width: 30,
+                      height: 30,
+                      margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.04,
+                        top: MediaQuery.of(context).size.height*0.010,
+                        right: 10,),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(7.0),
+                        color: Colors.grey,
+                      ),
+                      child: Center(
+                        child: Text(
+                          "-",style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Text("$_personcount", style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 17.0,
+                  ),),
+                  InkWell(
+                    onTap: (){
+                      setState(() {
+                        _personcount++;
+                      });
+                    },
+                    child: Container(
+                      width: 30,
+                      height: 30,
+                      margin: EdgeInsets.only(left:10,
+                          top: MediaQuery.of(context).size.height*0.010),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(7.0),
+                        color: Colors.grey,
+                      ),
+                      child: Center(
+                        child: Text(
+                          "+",style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          InkWell(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => detailspage()));
+            },
+            child: Container(
+              margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.53,),
+              height: 30,
+              width: MediaQuery.of(context).size.width*0.1,
+              decoration: BoxDecoration(
+                border: Border.all(
+                    color: Colors.red.shade300,
+                    width: 2
+                ),
+                borderRadius: BorderRadius.circular(35),
+                color: Colors.white,
+              ),
+              child: Center(child: Text("Add",style: TextStyle(
+                color: Colors.black,
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),),),
+            ),
+          )
+        ],
+      ),
+    );
+
+  }
   Widget build(BuildContext context) {
     return Scaffold(
-
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.red.shade300,
+        ),
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 100,
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
+                    topRight: Radius.circular(45),),
+                ),
+                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1,
+                  left: MediaQuery.of(context).size.height * 0.025,
+                  right: MediaQuery.of(context).size.height * 0.025,),
+                child: ListView(
+                  children: [
+                    Column(
+                      children: [
+                        womens_dress(ladies_dresses[0]),
+                        Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)),
+                        womens_dress(ladies_dresses[1]),
+                        Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)),
+                        womens_dress(ladies_dresses[2]),
+                        Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)),
+                        womens_dress(ladies_dresses[3]),
+                        Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)),
+                        womens_dress(ladies_dresses[4]),
+                        Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)),
+                        womens_dress(ladies_dresses[5]),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -1769,6 +1957,7 @@ class _kidsselectpageState extends State<kidsselectpage> {
     );
   }
 }
+
 
 
 

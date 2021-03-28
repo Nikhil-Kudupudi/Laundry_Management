@@ -652,8 +652,27 @@ class _entrypageState extends State<entrypage> {
               margin: EdgeInsets.all(10),
               height: MediaQuery.of(context).size.height*0.2,
               width: MediaQuery.of(context).size.width*0.2,
-              color: Colors.grey,
+              child: Center(
+                child: Text("Flat 50% off on first two booking",style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16.0,
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold
+                ),),
+              ),
+              decoration: BoxDecoration(
+                color: Colors.black87,
+                borderRadius: BorderRadius.circular(20)
+              ),
             ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.02),
+            child: Text("USE CODE : TWO50",style: TextStyle(
+              color: Colors.red.shade300,
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold
+            ),),
           ),
           InkWell(
             onTap: (){
@@ -663,8 +682,27 @@ class _entrypageState extends State<entrypage> {
               margin: EdgeInsets.all(10),
               height: MediaQuery.of(context).size.height*0.2,
               width: MediaQuery.of(context).size.width*0.2,
-              color: Colors.grey,
+              child: Center(
+                child: Text("Flat 20% off on Weekends",style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.0,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold
+                ),),
+              ),
+              decoration: BoxDecoration(
+                  color: Colors.black87,
+                  borderRadius: BorderRadius.circular(20)
+              ),
             ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.02),
+            child: Text("USE CODE : WEEKEND20",style: TextStyle(
+                color: Colors.red.shade300,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold
+            ),),
           ),
         ],
       ),
@@ -1182,16 +1220,24 @@ class _mypayState extends State<mypay> {
         children: <Widget>[
           Container(
             height: 200,
-            color: Colors.grey,
-          ),
-          Container(
-            height: 80,
             margin: EdgeInsets.all(10.0),
-            child: Row(
+            child: Center(child: Text("selected items and total",style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),)),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.0),
+              border: Border.all(
+                color: Colors.black,
+                width: 1,
+              )
+            ),
+          ),
+          Row(
               children: <Widget>[
                 Container(
                   height: 70,
-                  width: MediaQuery.of(context).size.width*0.7,
+                  width: MediaQuery.of(context).size.width*0.75,
+                  margin: EdgeInsets.only(left: 40),
                   child: TextField(
                     controller: entercoupoun,
                     keyboardType: TextInputType.text,
@@ -1211,22 +1257,17 @@ class _mypayState extends State<mypay> {
                     ),
                   ),
                 ),
-                Padding(padding:EdgeInsets.only(left: MediaQuery.of(context).size.height*0.02)),
+                Padding(padding:EdgeInsets.only(left: MediaQuery.of(context).size.width*0.03)),
                 InkWell(
-                 // borderRadius: BorderRadius.circular(20.0),
                   onTap: (){
                   if(entercoupoun.text.isEmpty || checkCoupoun.contains(entercoupoun.text) ) {
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context) => lastpage()));
                   }
-
-
-
                   },
                   child: Container(
-                    height: 40,
-                    width: 80,
-                    color: Colors.red.shade300,
+                    height: 50,
+                    width: MediaQuery.of(context).size.width*0.15,
                     child: Center(
                       child: Text("APPLY",style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -1234,11 +1275,14 @@ class _mypayState extends State<mypay> {
                         color: Colors.white
                       ),),
                     ),
+                    decoration: BoxDecoration(
+                      color: Colors.red.shade300,
+                      borderRadius: BorderRadius.circular(17.0)
+                    ),
                   ),
                 )
               ],
             ),
-          ),
           Container(
             child: Column(
               children: <Widget>[
@@ -1271,7 +1315,7 @@ class _mypayState extends State<mypay> {
                             _paymentoption = value;
                           });
                         },
-                        activeColor: Colors.orange,
+                        activeColor: Colors.red.shade300,
                         title: Text("Cash on delivery"),
                       ),
                       RadioListTile<Paymentoption>(
@@ -1283,7 +1327,7 @@ class _mypayState extends State<mypay> {
                             _paymentoption = value;
                           });
                         },
-                        activeColor: Colors.orange,
+                        activeColor: Colors.red.shade300,
                         title: Text("Debit Card/Credit Card"),
                       ),
                       RadioListTile<Paymentoption>(
@@ -1295,7 +1339,7 @@ class _mypayState extends State<mypay> {
                             _paymentoption = value;
                           });
                         },
-                        activeColor: Colors.orange,
+                        activeColor: Colors.red.shade300,
                         title: Text("Net Banking"),
                       ),
                       Text("UPI Payments",
@@ -1312,7 +1356,7 @@ class _mypayState extends State<mypay> {
                             _paymentoption= val;
                           });
                         },
-                        activeColor: Colors.orange,
+                        activeColor: Colors.red.shade300,
                         title: Text("PhonePe"),
                       ),
                       RadioListTile<Paymentoption>(
@@ -1324,7 +1368,7 @@ class _mypayState extends State<mypay> {
                            _paymentoption = val;
                           });
                         },
-                        activeColor: Colors.orange,
+                        activeColor: Colors.red.shade300,
                         title: Text("Google Pay"),
                       ),
                       Text("Wallet",
@@ -1341,7 +1385,7 @@ class _mypayState extends State<mypay> {
                             _paymentoption = val;
                           });
                         },
-                        activeColor: Colors.orange,
+                        activeColor: Colors.red.shade300,
                         title: Text("Paytm"),
                       ),
                       RadioListTile<Paymentoption>(
@@ -1353,7 +1397,7 @@ class _mypayState extends State<mypay> {
                             _paymentoption= val;
                           });
                         },
-                        activeColor: Colors.orange,
+                        activeColor: Colors.red.shade300,
                         title: Text("Amazon Pay"),
                       ),
                     ],
@@ -1584,11 +1628,69 @@ class menselectpage extends StatefulWidget {
   _menselectpageState createState() => _menselectpageState();
 }
 class _menselectpageState extends State<menselectpage> {
-  int _personcount=0;
   List men_dresses=["Shirt","T-Shirt","Trouser","Jean","Short","Track Pant"];
   @override
-  mens_dress(var name){
-    return  Container(
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.red.shade300,
+        ),
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 100,
+              child: Column(
+                children: [
+                  Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.1)),
+                  Text("Add Your Clothes",style: TextStyle(fontWeight: FontWeight.w800),),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
+                    topRight: Radius.circular(45),),
+                ),
+                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1,
+                  left: MediaQuery.of(context).size.height * 0.025,
+                  right: MediaQuery.of(context).size.height * 0.025,),
+                child: ListView.builder(
+                  itemCount: men_dresses.length,
+                  itemBuilder: (BuildContext context,int index){
+                    return ListTile(
+                      subtitle: Column(
+                        children: [
+                          cloth_counter(name:men_dresses[index])
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+class cloth_counter extends StatefulWidget {
+  @override
+  final String name;
+  cloth_counter({Key key,this.name}):super(key:key);
+  _cloth_counterState createState() => _cloth_counterState(name:this.name);
+}
+class _cloth_counterState extends State<cloth_counter> {
+  @override
+  String name;
+  int _personcount=0;
+
+  _cloth_counterState({this.name});
+  Widget build(BuildContext context) {
+    return Container(
       height: MediaQuery.of(context).size.height*0.17,
       width: MediaQuery.of(context).size.width*0.9,
       decoration: BoxDecoration(
@@ -1679,7 +1781,7 @@ class _menselectpageState extends State<menselectpage> {
                     ),
                   ),
                 ],
-              ),
+              )
             ],
           ),
           InkWell(
@@ -1707,60 +1809,6 @@ class _menselectpageState extends State<menselectpage> {
             ),
           )
         ],
-      ),
-    );
-
-  }
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          color: Colors.red.shade300,
-        ),
-        child: Column(
-          children: <Widget>[
-          Container(
-            height: 100,
-            child: Column(
-              children: [
-                Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.1)),
-                Text("Add Your Clothes",style: TextStyle(fontWeight: FontWeight.w800),),
-              ],
-            ),
-        ),
-            Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
-                      topRight: Radius.circular(45),),
-                  ),
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1,
-                    left: MediaQuery.of(context).size.height * 0.025,
-                    right: MediaQuery.of(context).size.height * 0.025,),
-                  child: ListView(
-                    children: [
-                      Column(
-                        children: [
-                          mens_dress(men_dresses[0]),
-                          Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.02)),
-                          mens_dress(men_dresses[1]),
-                          Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.02)),
-                          mens_dress(men_dresses[2]),
-                          Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.02)),
-                          mens_dress(men_dresses[3]),
-                          Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.02)),
-                          mens_dress(men_dresses[4]),
-                          Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.02)),
-                          mens_dress(men_dresses[5]),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-            ),
-        ],
-      ),
       ),
     );
   }

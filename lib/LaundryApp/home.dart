@@ -1821,7 +1821,8 @@ class _womenselectpageState extends State<womenselectpage> {
         borderRadius: BorderRadius.circular(20.0),
       ),
       padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.025,
-          left: MediaQuery.of(context).size.width*0.025                                                 ),
+          left: MediaQuery.of(context).size.width*0.025
+      ),
       child: Row(
         children: [
           Column(

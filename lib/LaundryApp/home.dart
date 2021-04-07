@@ -119,7 +119,7 @@ class _loginpageState extends State<loginpage> {
   bool _validateloginpassword=true;
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      //resizeToAvoidBottomPadding: false,
       body: Container(
         decoration: BoxDecoration(
             color: Colors.red.shade300,
@@ -1685,6 +1685,8 @@ class cloth_counter extends StatefulWidget {
 }
 class _cloth_counterState extends State<cloth_counter> {
   @override
+  String add_symbol="add";
+  bool change_to=false;
   String name;
   int _personcount=0;
 
@@ -1722,6 +1724,10 @@ class _cloth_counterState extends State<cloth_counter> {
                       setState(() {
                         if(_personcount>0){
                           _personcount--;
+                          if(_personcount==0) {
+                            this.change_to = false;
+                            this.add_symbol=this.change_to?"added":"add";
+                          }
                         }
                         else{
                           //do nothing
@@ -1786,8 +1792,12 @@ class _cloth_counterState extends State<cloth_counter> {
           ),
           InkWell(
             onTap: (){
-              Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => detailspage()));
+              setState(() {
+                if(_personcount>0)
+                this.change_to=!this.change_to;
+                this.add_symbol=this.change_to?"added":"add";
+              });
+
             },
             child: Container(
               margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.53,),
@@ -1795,14 +1805,14 @@ class _cloth_counterState extends State<cloth_counter> {
               width: MediaQuery.of(context).size.width*0.1,
               decoration: BoxDecoration(
                 border: Border.all(
-                    color: Colors.red.shade300,
+                    color: this.change_to?Colors.green:Colors.red.shade300,
                     width: 2
                 ),
                 borderRadius: BorderRadius.circular(35),
                 color: Colors.white,
               ),
-              child: Center(child: Text("Add",style: TextStyle(
-                color: Colors.black,
+              child: Center(child: Text(this.add_symbol,style: TextStyle(
+                color: this.change_to?Colors.green:Colors.black,
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
               ),),),

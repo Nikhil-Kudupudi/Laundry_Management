@@ -1725,18 +1725,7 @@ class _cloth_counterState extends State<cloth_counter> {
                       setState(() {
                         if(_personcount>0){
                           _personcount--;
-                          if(_personcount==0) {
-                            this.change_to = false;
-                            this.add_symbol=this.change_to?"added":"add";
-                            Fluttertoast.showToast(
-                              msg: "Removed Succesfully ",
-                              toastLength: Toast.LENGTH_LONG,
-
-                              timeInSecForIosWeb: 3,
-
-
-                            );
-                          }
+                          flutter_toast("Removed Successfully");
                         }
                         else{
                           //do nothing
@@ -1773,6 +1762,9 @@ class _cloth_counterState extends State<cloth_counter> {
                     onTap: (){
                       setState(() {
                         _personcount++;
+                        if(_personcount>0){
+                          flutter_toast("Successfully added to cart");
+                        }
                       });
                     },
                     child: Container(
@@ -1799,58 +1791,16 @@ class _cloth_counterState extends State<cloth_counter> {
               )
             ],
           ),
-          InkWell(
-            onTap: (){
-
-
-              setState(() {
-                if(_personcount>0){
-                this.change_to=!this.change_to;
-                this.add_symbol=this.change_to?"added":"add";
-                Fluttertoast.showToast(
-                  msg: "Succesfully added to cart",
-                  toastLength: Toast.LENGTH_LONG,
-
-                  timeInSecForIosWeb: 3,
-                );
-                }
-
-              });
-
-            },
-            child: Container(
-              margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.53,),
-              height: 30,
-              width: MediaQuery.of(context).size.width*0.1,
-              decoration: BoxDecoration(
-                border: Border.all(
-                    color: this.change_to?Colors.green:Colors.red.shade300,
-                    width: 2
-                ),
-                borderRadius: BorderRadius.circular(35),
-                color: Colors.white,
-              ),
-              child: Center(child: Text(this.add_symbol,style: TextStyle(
-                color: this.change_to?Colors.green:Colors.black,
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-              ),),),
-            ),
-          )
         ],
       ),
     );
   }
 
-   flutter_toast(){
+   flutter_toast(String a){
    return Fluttertoast.showToast(
-        msg: "Succesfully added to cart",
+        msg: "$a",
         toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb:60,
-        backgroundColor: Colors.red,
-        textColor: Colors.yellow,
-        fontSize: 22.0
+     
     );
   }
 }

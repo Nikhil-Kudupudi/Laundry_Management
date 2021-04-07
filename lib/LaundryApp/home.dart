@@ -1,6 +1,7 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 RegExp userregex=new RegExp(r"[a-zA-Z]+\w[a-zA-Z]*");
 RegExp passwordregex =new RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
@@ -1727,6 +1728,14 @@ class _cloth_counterState extends State<cloth_counter> {
                           if(_personcount==0) {
                             this.change_to = false;
                             this.add_symbol=this.change_to?"added":"add";
+                            Fluttertoast.showToast(
+                              msg: "Removed Succesfully ",
+                              toastLength: Toast.LENGTH_LONG,
+
+                              timeInSecForIosWeb: 3,
+
+
+                            );
                           }
                         }
                         else{
@@ -1792,10 +1801,20 @@ class _cloth_counterState extends State<cloth_counter> {
           ),
           InkWell(
             onTap: (){
+
+
               setState(() {
-                if(_personcount>0)
+                if(_personcount>0){
                 this.change_to=!this.change_to;
                 this.add_symbol=this.change_to?"added":"add";
+                Fluttertoast.showToast(
+                  msg: "Succesfully added to cart",
+                  toastLength: Toast.LENGTH_LONG,
+
+                  timeInSecForIosWeb: 3,
+                );
+                }
+
               });
 
             },
@@ -1820,6 +1839,18 @@ class _cloth_counterState extends State<cloth_counter> {
           )
         ],
       ),
+    );
+  }
+
+   flutter_toast(){
+   return Fluttertoast.showToast(
+        msg: "Succesfully added to cart",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb:60,
+        backgroundColor: Colors.red,
+        textColor: Colors.yellow,
+        fontSize: 22.0
     );
   }
 }

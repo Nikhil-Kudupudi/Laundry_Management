@@ -2,7 +2,10 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:we_wash/LaundryApp/Mens_info.dart';
 
 RegExp userregex=new RegExp(r"[a-zA-Z]+\w[a-zA-Z]*");
 RegExp passwordregex =new RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
@@ -1631,6 +1634,24 @@ class menselectpage extends StatefulWidget {
 }
 class _menselectpageState extends State<menselectpage> {
   List men_dresses=["Shirt","T-Shirt","Trouser","Jean","Short","Track Pant"];
+  List<Mens_info> _Mens_info;
+  Future<List<Mens_info>> fetchMens_info() async{
+    var url=Uri.https('https://github.com', '/Nikhil-Kudupudi/android_app/blob/master/lib/LaundryApp/Mens_clothes.json',{'q': '{http}'});
+    var response=await http.get(url);
+    if(response.statusCode==200){
+  var jsonResponse=json.decode(response.body);
+  for (var i in jsonResponse){
+    _Mens_info.add(Mens_info.fromJson(i));
+  }
+    }
+  }
+  void initState(){
+    fetchMens_info().then((value){
+      setState(() {
+        _Mens_info.addAll(value);
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1660,12 +1681,13 @@ class _menselectpageState extends State<menselectpage> {
                   left: MediaQuery.of(context).size.height * 0.025,
                   right: MediaQuery.of(context).size.height * 0.025,),
                 child: ListView.builder(
-                  itemCount: men_dresses.length,
+                  itemCount: _Mens_info.length,
                   itemBuilder: (BuildContext context,int index){
                     return ListTile(
                       subtitle: Column(
                         children: [
-                          cloth_counter(name:men_dresses[index])
+                          cloth_counter(name:_Mens_info[index].Name),
+                          cloth_counter(price:_Mens_info[index].Price)
                         ],
                       ),
                     );
@@ -1681,18 +1703,18 @@ class _menselectpageState extends State<menselectpage> {
 }
 class cloth_counter extends StatefulWidget {
   @override
-  final String name;
-  cloth_counter({Key key,this.name}):super(key:key);
-  _cloth_counterState createState() => _cloth_counterState(name:this.name);
+  final String name;final String price;
+  cloth_counter({Key key,this.name,this.price}):super(key:key);
+  _cloth_counterState createState() => _cloth_counterState(name:this.name,price:this.price);
 }
 class _cloth_counterState extends State<cloth_counter> {
   @override
   String add_symbol="add";
   bool change_to=false;
-  String name;
+  String name,price;
   int _personcount=0;
 
-  _cloth_counterState({this.name});
+  _cloth_counterState({this.name,this.price});
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height*0.17,

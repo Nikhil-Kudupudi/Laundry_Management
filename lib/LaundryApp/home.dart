@@ -1720,6 +1720,7 @@ class _cloth_counterState extends State<cloth_counter> {
                 ],
               ),
               Row(
+                //
                 children: [
                   InkWell(
                     onTap: (){

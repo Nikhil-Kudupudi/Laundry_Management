@@ -1,7 +1,6 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 RegExp userregex=new RegExp(r"[a-zA-Z]+\w[a-zA-Z]*");
 RegExp passwordregex =new RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
@@ -24,17 +23,17 @@ class _lgorsgpageState extends State<lgorsgpage> {
                       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.3,)
                   ),
                   Container(
-                    margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.29),
+                    margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.30),
                       child: Row(
                         children: <Widget>[
                           Text("We",style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width*0.11,
+                            fontSize: MediaQuery.of(context).size.width*0.1,
                             fontWeight: FontWeight.w700,
                             color: Colors.red.shade300,
                             fontStyle: FontStyle.italic
                           ),),
                           Text("Wash",style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width*0.11,
+                            fontSize: MediaQuery.of(context).size.width*0.1,
                             fontWeight: FontWeight.w700,
                               fontStyle: FontStyle.italic
                           ),),
@@ -51,7 +50,7 @@ class _lgorsgpageState extends State<lgorsgpage> {
                     },
                     child: Container(
                       height: 50,
-                      width: MediaQuery.of(context).size.width*0.35,
+                      width: MediaQuery.of(context).size.width*0.25,
                       margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.1,
                       right: MediaQuery.of(context).size.width*0.1),
                       decoration: BoxDecoration(
@@ -78,7 +77,7 @@ class _lgorsgpageState extends State<lgorsgpage> {
                     },
                     child: Container(
                       height: 50,
-                      width: MediaQuery.of(context).size.width*0.35,
+                      width: MediaQuery.of(context).size.width*0.25,
                       margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.1,
                           right: MediaQuery.of(context).size.width*0.1),
                       decoration: BoxDecoration(
@@ -166,15 +165,14 @@ class _loginpageState extends State<loginpage> {
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
                     topRight: Radius.circular(45),),
                 ),
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.03),
-                  child: ListView(
-                    scrollDirection: Axis.vertical,
+                  child: Column(
                     children: <Widget>[
                       Container(
                         child: Column(
                           children: <Widget>[
                             Container(
-                              padding: EdgeInsets.only(left:MediaQuery.of(context).size.height * 0.03,
+                              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.07,
+                                  left:MediaQuery.of(context).size.height * 0.03,
                                   right: MediaQuery.of(context).size.height * 0.03),
                               child: TextField(
                                 cursorColor: Colors.red.shade300,
@@ -234,9 +232,21 @@ class _loginpageState extends State<loginpage> {
                           ],
                         ),
                       ),
-
+                      Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
+                              ),
+                        ),
+                      ),
+                      Text("forgot password",
+                        style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          color: Colors.grey,
+                          fontSize: 13,
+                        ),
+                      ),
                       Padding(
-                        padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03,
+                        padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
                             ),
                       ),
                       InkWell(
@@ -526,7 +536,7 @@ class _signupState extends State<signup> {
                             right: MediaQuery.of(context).size.height*0.05),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
-                          color: Colors.deepOrange.shade400,
+                          color: Colors.deepOrange,
                         ),
                         child: Center(
                           child: Text(
@@ -631,6 +641,9 @@ class _entrypageState extends State<entrypage> {
               ],
             ),
           ),
+          Padding(
+              padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.02)
+          ),
           InkWell(
             onTap: (){
 
@@ -657,7 +670,7 @@ class _entrypageState extends State<entrypage> {
             padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.02),
             child: Text("USE CODE : TWO50",style: TextStyle(
               color: Colors.red.shade300,
-              fontSize: 16.0,
+              fontSize: 18.0,
               fontWeight: FontWeight.bold
             ),),
           ),
@@ -687,7 +700,7 @@ class _entrypageState extends State<entrypage> {
             padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.02),
             child: Text("USE CODE : WEEKEND20",style: TextStyle(
                 color: Colors.red.shade300,
-                fontSize: 16.0,
+                fontSize: 18.0,
                 fontWeight: FontWeight.bold
             ),),
           ),
@@ -860,7 +873,7 @@ class _selecttypeState extends State<selecttype> {
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
                     topRight: Radius.circular(45),),
                 ),
-                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05,
+                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1,
                   left: MediaQuery.of(context).size.height * 0.025,
                   right: MediaQuery.of(context).size.height * 0.025,),
                 child: ListView(
@@ -1208,7 +1221,7 @@ class _mypayState extends State<mypay> {
           Container(
             height: 200,
             margin: EdgeInsets.all(10.0),
-            child: Center(child: Text("address details check and total amount",style: TextStyle(
+            child: Center(child: Text("selected items and total",style: TextStyle(
               fontWeight: FontWeight.bold,
             ),)),
             decoration: BoxDecoration(
@@ -1630,7 +1643,7 @@ class _menselectpageState extends State<menselectpage> {
               child: Column(
                 children: [
                   Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.1)),
-                  Text("Add Your Clothes",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 16.0),),
+                  Text("Add Your Clothes",style: TextStyle(fontWeight: FontWeight.w800),),
                 ],
               ),
             ),
@@ -1641,7 +1654,7 @@ class _menselectpageState extends State<menselectpage> {
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
                     topRight: Radius.circular(45),),
                 ),
-                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03,
+                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1,
                   left: MediaQuery.of(context).size.height * 0.025,
                   right: MediaQuery.of(context).size.height * 0.025,),
                 child: ListView.builder(
@@ -1676,6 +1689,7 @@ class _cloth_counterState extends State<cloth_counter> {
   bool change_to=false;
   String name;
   int _personcount=0;
+
   _cloth_counterState({this.name});
   Widget build(BuildContext context) {
     return Container(

@@ -1,6 +1,8 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:convert';
 
 RegExp userregex=new RegExp(r"[a-zA-Z]+\w[a-zA-Z]*");
 RegExp passwordregex =new RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
@@ -14,8 +16,8 @@ class _lgorsgpageState extends State<lgorsgpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body:Container(
-            child: ListView(
+      body:Container(
+          child: ListView(
             children: <Widget>[
               Column(
                 children: <Widget>[
@@ -23,23 +25,23 @@ class _lgorsgpageState extends State<lgorsgpage> {
                       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.3,)
                   ),
                   Container(
-                    margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.30),
-                      child: Row(
-                        children: <Widget>[
-                          Text("We",style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width*0.1,
+                    margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.28),
+                    child: Row(
+                      children: <Widget>[
+                        Text("We",style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width*0.12,
                             fontWeight: FontWeight.w700,
                             color: Colors.red.shade300,
                             fontStyle: FontStyle.italic
-                          ),),
-                          Text("Wash",style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width*0.1,
+                        ),),
+                        Text("Wash",style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width*0.12,
                             fontWeight: FontWeight.w700,
-                              fontStyle: FontStyle.italic
-                          ),),
-                        ],
-                      ),
+                            fontStyle: FontStyle.italic
+                        ),),
+                      ],
                     ),
+                  ),
                   Padding(
                       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.05,)
                   ),
@@ -50,25 +52,25 @@ class _lgorsgpageState extends State<lgorsgpage> {
                     },
                     child: Container(
                       height: 50,
-                      width: MediaQuery.of(context).size.width*0.25,
+                      width: MediaQuery.of(context).size.width*0.35,
                       margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.1,
-                      right: MediaQuery.of(context).size.width*0.1),
+                          right: MediaQuery.of(context).size.width*0.1),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
                         color: Colors.red.shade300,
                       ),
                       child: Center(
                         child: Text("Login",style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16.0
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16.0
                         ),
                         ),
                       ),
                     ),
                   ),
                   Padding(
-                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.01),
+                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.01),
                   ),
                   InkWell(
                     onTap: (){
@@ -77,20 +79,20 @@ class _lgorsgpageState extends State<lgorsgpage> {
                     },
                     child: Container(
                       height: 50,
-                      width: MediaQuery.of(context).size.width*0.25,
+                      width: MediaQuery.of(context).size.width*0.35,
                       margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.1,
                           right: MediaQuery.of(context).size.width*0.1),
                       decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Colors.red.shade300,
-                                width: 2
-                            ),
+                        border: Border.all(
+                            color: Colors.red.shade300,
+                            width: 2
+                        ),
                         borderRadius: BorderRadius.circular(50),
                         color: Colors.white,
-                        ),
+                      ),
                       child: Center(
                         child: Text("Sign Up",style: TextStyle(
-                          color: Colors.red.shade300,
+                            color: Colors.red.shade300,
                             fontWeight: FontWeight.w500,
                             fontSize: 16.0
                         ),
@@ -98,12 +100,12 @@ class _lgorsgpageState extends State<lgorsgpage> {
                       ),
                     ),
                   ),
-              ],
-            )
-          ],
-        )
-    ),
-      );
+                ],
+              )
+            ],
+          )
+      ),
+    );
   }
 }
 class loginpage extends StatefulWidget {
@@ -122,7 +124,7 @@ class _loginpageState extends State<loginpage> {
       //resizeToAvoidBottomPadding: false,
       body: Container(
         decoration: BoxDecoration(
-            color: Colors.red.shade300,
+          color: Colors.red.shade300,
         ),
         child: Column(
           children: <Widget>[
@@ -165,142 +167,131 @@ class _loginpageState extends State<loginpage> {
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
                     topRight: Radius.circular(45),),
                 ),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.07,
-                                  left:MediaQuery.of(context).size.height * 0.03,
-                                  right: MediaQuery.of(context).size.height * 0.03),
-                              child: TextField(
-                                cursorColor: Colors.red.shade300,
-                                keyboardType: TextInputType.text,
-                                controller: _loginusername,
-                                decoration: InputDecoration(
+                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02),
+                child: ListView(
+                  scrollDirection: Axis.vertical,
+                  children: <Widget>[
+                    Container(
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.0,
+                                left:MediaQuery.of(context).size.height * 0.03,
+                                right: MediaQuery.of(context).size.height * 0.03),
+                            child: TextField(
+                              cursorColor: Colors.red.shade300,
+                              keyboardType: TextInputType.text,
+                              controller: _loginusername,
+                              decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20.0),
                                   borderSide: BorderSide(color: Colors.red.shade300,width: 2),
-                                    ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.red.shade300,width: 2),
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.red.shade300,width: 2),
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
                                 prefixIcon: Icon(Icons.person,color: Colors.red.shade300,),
-                                  hintText: "Username/Phone Number",
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  errorText:_validateloginusername? "*this field is Required":(!userregex.hasMatch(_loginusername.text)?"Ex:Mg@1234 ":null),
-                                ),
+                                hintText: "Username/Phone Number",
+                                filled: true,
+                                fillColor: Colors.white,
+                                errorText:_validateloginusername? "*this field is Required":(!userregex.hasMatch(_loginusername.text)?"Ex:Mg@1234 ":null),
                               ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
-                                  left:MediaQuery.of(context).size.height * 0.03,
-                                  right: MediaQuery.of(context).size.height * 0.03),
-                              child: TextField(
-                                cursorColor: Colors.red.shade300,
-                                keyboardType: TextInputType.text,
-                                obscureText: !this._showloginpassword,
-                                controller: _loginpassword,
-                                decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    borderSide: BorderSide(color: Colors.red.shade300,width: 2),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.red.shade300,width: 2),
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                  prefixIcon: Icon(Icons.lock,color: Colors.red.shade300,),
-                                  suffixIcon: IconButton(icon:this._showloginpassword?Icon(Icons.visibility,color:Colors.red.shade300)
-                                              :Icon(Icons.visibility_off_rounded,color:Colors.red.shade300),
-                                    onPressed: (){
-                                      setState(() {
-                                        this._showloginpassword = !this._showloginpassword;
-                                      });
-                                    },
-                                  ),
-                                  hintText: "password",
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  errorText: _validateloginpassword?"*this field is required":(!passwordregex.hasMatch(_loginpassword.text)?"Ex:Mg@1234 ":null),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      Center(
-                        child: Padding(
-                          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
-                              ),
-                        ),
-                      ),
-                      Text("forgot password",
-                        style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                          color: Colors.grey,
-                          fontSize: 13,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
-                            ),
-                      ),
-                      InkWell(
-                        onTap: (){
-                          setState(() {
-                            _loginusername.text.isEmpty?_validateloginusername=true:_validateloginusername=false;
-                            _loginpassword.text.isEmpty? _validateloginpassword=true:_validateloginpassword=false;
-                          });
-                          if (_loginusername.text.isNotEmpty && _loginpassword.text.isNotEmpty && userregex.hasMatch(_loginusername.text) && passwordregex.hasMatch(_loginpassword.text) ){
-                            Navigator.push(context, MaterialPageRoute(
-                                builder: (context) => mainpage()));
-                          }
-                        },
-                        child: Container(
-                          height: 50,
-                          width: MediaQuery.of(context).size.height*0.25,
-                          margin: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.1,
-                              right: MediaQuery.of(context).size.height*0.1),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            color: Colors.red.shade300,
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Login",style: TextStyle(
-                              color: Colors.white,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16.0
-                            ),
                             ),
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text("Don't have an account ? "),
-                          GestureDetector(
-                            onTap: (){
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => signup()));
-                            },
-                            child: Text("Sign Up",style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),),
+                          Container(
+                            padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
+                                left:MediaQuery.of(context).size.height * 0.03,
+                                right: MediaQuery.of(context).size.height * 0.03),
+                            child: TextField(
+                              cursorColor: Colors.red.shade300,
+                              keyboardType: TextInputType.text,
+                              obscureText: !this._showloginpassword,
+                              controller: _loginpassword,
+                              decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  borderSide: BorderSide(color: Colors.red.shade300,width: 2),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.red.shade300,width: 2),
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
+                                prefixIcon: Icon(Icons.lock,color: Colors.red.shade300,),
+                                suffixIcon: IconButton(icon:this._showloginpassword?Icon(Icons.visibility,color:Colors.red.shade300)
+                                    :Icon(Icons.visibility_off_rounded,color:Colors.red.shade300),
+                                  onPressed: (){
+                                    setState(() {
+                                      this._showloginpassword = !this._showloginpassword;
+                                    });
+                                  },
+                                ),
+                                hintText: "password",
+                                filled: true,
+                                fillColor: Colors.white,
+                                errorText: _validateloginpassword?"*this field is required":(!passwordregex.hasMatch(_loginpassword.text)?"Ex:Mg@1234 ":null),
+                              ),
+                            ),
                           )
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: (){
+                        setState(() {
+                          _loginusername.text.isEmpty?_validateloginusername=true:_validateloginusername=false;
+                          _loginpassword.text.isEmpty? _validateloginpassword=true:_validateloginpassword=false;
+                        });
+                        if (_loginusername.text.isNotEmpty && _loginpassword.text.isNotEmpty && userregex.hasMatch(_loginusername.text) && passwordregex.hasMatch(_loginpassword.text) ){
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (context) => mainpage()));
+                        }
+                      },
+                      child: Container(
+                        height: 50,
+                        width: MediaQuery.of(context).size.height*0.25,
+                        margin: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.1,
+                            right: MediaQuery.of(context).size.height*0.1),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: Colors.red.shade300,
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Login",style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16.0
+                          ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text("Don't have an account ? "),
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (context) => signup()));
+                          },
+                          child: Text("Sign Up",style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -328,229 +319,229 @@ class _signupState extends State<signup> {
           scrollDirection: Axis.vertical,
           children: <Widget>[
             Column(
+              children: <Widget>[
+                Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1,),),
+                Row(
                   children: <Widget>[
-                    Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1,),),
-                    Row(
-                      children: <Widget>[
-                        Padding(padding: EdgeInsets.only(left: MediaQuery.of(context).size.height * 0.015,),),
-                        Text("Create Your Account",
-                          style: TextStyle(
-                            fontSize: 23.0,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.red.shade300,
-                          ),),
-                      ],
-                    ),
-                     Container(
-                       child: TextFormField(
-                         cursorColor: Colors.red.shade300,
-                         controller: _username,
-                         decoration: InputDecoration(
-                           enabledBorder: OutlineInputBorder(
-                             borderRadius: BorderRadius.circular(20.0),
-                             borderSide: BorderSide(color: Colors.red.shade300,width: 2),
-                           ),
-                           focusedBorder: OutlineInputBorder(
-                             borderSide: BorderSide(color: Colors.red.shade300,width: 2),
-                             borderRadius: BorderRadius.circular(20.0),
-                           ),
-                           prefixIcon: Icon(Icons.person,color: Colors.red.shade300),
-                           hintText: "Username/Phone Number",
-                           filled: true,
-                           fillColor: Colors.white,
-                             errorText: _validateuser?"this field is Required*":(!userregex.hasMatch(_username.text)?"enter  alphabets only":null),
-                             errorStyle: TextStyle(color:Colors.red.shade300),
-                         ),
-                       ),
-                       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.04,
-                         left: MediaQuery.of(context).size.height * 0.03,
-                         right: MediaQuery.of(context).size.height * 0.03,),
-                     ),
-                    Container(
-                      child: TextFormField(
-                        controller: _password,
-                        obscureText: !this._showPassword,
-                        cursorColor: Colors.red.shade300,
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.red.shade300,width: 2),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red.shade300,width: 2),
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          prefixIcon: Icon(Icons.lock,color: Colors.red.shade300),
-                            suffixIcon: IconButton(icon:this._showPassword?Icon(Icons.visibility,color:Colors.red.shade300):Icon(Icons.visibility_off_rounded,color:Colors.red.shade300),
-                              onPressed: (){
-                                setState(() {
-                                  this._showPassword = !this._showPassword;
-                                });
-                              },
-                            ),
-                          hintText: "Password",
-                          filled: true,
-                          fillColor: Colors.white,
-                            errorText:_validatepassword? "this field is Required*":(!passwordregex.hasMatch(_password.text)?"Ex:Mg@1234 ":null),
-                            errorStyle: TextStyle(color:Colors.red.shade300)
-                        ),
-                      ),
-                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015,
-                        left: MediaQuery.of(context).size.height * 0.03,
-                        right: MediaQuery.of(context).size.height * 0.03,),
-                    ),
-                    Container(
-                      child: TextFormField(
-
-                        controller: _email,
-                        cursorColor: Colors.red.shade300,
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.red.shade300,width: 2),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red.shade300,width: 2),
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          prefixIcon: Icon(Icons.email,color: Colors.red.shade300),
-                          hintText: "E-mail",
-                          filled: true,
-                          fillColor: Colors.white,
-                            errorText:_validateemail ? "this field is Required*":(!emailregex.hasMatch(_email.text)?"enter valid email":null),
-                            errorStyle: TextStyle(color:Colors.red.shade300)
-                        ),
-                      ),
-                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015,
-                        left: MediaQuery.of(context).size.height * 0.03,
-                        right: MediaQuery.of(context).size.height * 0.03,),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: (){
-                        setState(() {
-                          _username.text.isEmpty?_validateuser=true:_validateuser=false;
-                          _password.text.isEmpty? _validatepassword=true:_validatepassword=false;
-                          _email.text.isEmpty?_validateemail=true:_validateemail=false;
-                        });
-                        if ((userregex.hasMatch(_username.text)&&passwordregex.hasMatch(_password.text)&& emailregex.hasMatch(_email.text))&&(_username.text.isNotEmpty && _password.text.isNotEmpty &&
-                            _email.text.isNotEmpty)){
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => mainpage()));
-                        }
-                      },
-                      child: Container(
-                        height: 50,
-                        width: MediaQuery.of(context).size.height*0.25,
-                        margin: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.1,
-                            right: MediaQuery.of(context).size.height*0.1),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: Colors.black,
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Sign Up",style: TextStyle(
-                            color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16.0
-                          ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01,
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text("Already have an account ? "),
-                        GestureDetector(
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(
-                                builder: (context) => loginpage()));
-                          },
-                          child: Text("Login",style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),),
-                        )
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                    ),
-                    Center(
-                      child: Text("Or",style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
+                    Padding(padding: EdgeInsets.only(left: MediaQuery.of(context).size.height * 0.015,),),
+                    Text("Create Your Account",
+                      style: TextStyle(
+                        fontSize: 23.0,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.red.shade300,
                       ),),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => mainpage()));
-                      },
-                      child: Container(
-                        height: 50,
-                        width: MediaQuery.of(context).size.height*0.6,
-                        margin: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.05,
-                            right: MediaQuery.of(context).size.height*0.05),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.indigo,
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Continue with Facebook",style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16.0
-                          ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => mainpage()));
-                      },
-                      child: Container(
-                        height: 50,
-                        width: MediaQuery.of(context).size.height*0.6,
-                        margin: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.05,
-                            right: MediaQuery.of(context).size.height*0.05),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.deepOrange,
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Continue with Google",style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16.0
-                          ),
-                          ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
+                Container(
+                  child: TextFormField(
+                    cursorColor: Colors.red.shade300,
+                    controller: _username,
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        borderSide: BorderSide(color: Colors.red.shade300,width: 2),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red.shade300,width: 2),
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      prefixIcon: Icon(Icons.person,color: Colors.red.shade300),
+                      hintText: "Username/Phone Number",
+                      filled: true,
+                      fillColor: Colors.white,
+                      errorText: _validateuser?"this field is Required*":(!userregex.hasMatch(_username.text)?"enter  alphabets only":null),
+                      errorStyle: TextStyle(color:Colors.red.shade300),
+                    ),
+                  ),
+                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.04,
+                    left: MediaQuery.of(context).size.height * 0.03,
+                    right: MediaQuery.of(context).size.height * 0.03,),
+                ),
+                Container(
+                  child: TextFormField(
+                    controller: _password,
+                    obscureText: !this._showPassword,
+                    cursorColor: Colors.red.shade300,
+                    decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Colors.red.shade300,width: 2),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red.shade300,width: 2),
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        prefixIcon: Icon(Icons.lock,color: Colors.red.shade300),
+                        suffixIcon: IconButton(icon:this._showPassword?Icon(Icons.visibility,color:Colors.red.shade300):Icon(Icons.visibility_off_rounded,color:Colors.red.shade300),
+                          onPressed: (){
+                            setState(() {
+                              this._showPassword = !this._showPassword;
+                            });
+                          },
+                        ),
+                        hintText: "Password",
+                        filled: true,
+                        fillColor: Colors.white,
+                        errorText:_validatepassword? "this field is Required*":(!passwordregex.hasMatch(_password.text)?"Ex:Mg@1234 ":null),
+                        errorStyle: TextStyle(color:Colors.red.shade300)
+                    ),
+                  ),
+                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015,
+                    left: MediaQuery.of(context).size.height * 0.03,
+                    right: MediaQuery.of(context).size.height * 0.03,),
+                ),
+                Container(
+                  child: TextFormField(
+
+                    controller: _email,
+                    cursorColor: Colors.red.shade300,
+                    decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Colors.red.shade300,width: 2),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red.shade300,width: 2),
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        prefixIcon: Icon(Icons.email,color: Colors.red.shade300),
+                        hintText: "E-mail",
+                        filled: true,
+                        fillColor: Colors.white,
+                        errorText:_validateemail ? "this field is Required*":(!emailregex.hasMatch(_email.text)?"enter valid email":null),
+                        errorStyle: TextStyle(color:Colors.red.shade300)
+                    ),
+                  ),
+                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015,
+                    left: MediaQuery.of(context).size.height * 0.03,
+                    right: MediaQuery.of(context).size.height * 0.03,),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                ),
+                InkWell(
+                  onTap: (){
+                    setState(() {
+                      _username.text.isEmpty?_validateuser=true:_validateuser=false;
+                      _password.text.isEmpty? _validatepassword=true:_validatepassword=false;
+                      _email.text.isEmpty?_validateemail=true:_validateemail=false;
+                    });
+                    if ((userregex.hasMatch(_username.text)&&passwordregex.hasMatch(_password.text)&& emailregex.hasMatch(_email.text))&&(_username.text.isNotEmpty && _password.text.isNotEmpty &&
+                        _email.text.isNotEmpty)){
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => mainpage()));
+                    }
+                  },
+                  child: Container(
+                    height: 50,
+                    width: MediaQuery.of(context).size.height*0.25,
+                    margin: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.1,
+                        right: MediaQuery.of(context).size.height*0.1),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: Colors.black,
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Sign Up",style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16.0
+                      ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text("Already have an account ? "),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => loginpage()));
+                      },
+                      child: Text("Login",style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),),
+                    )
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                ),
+                Center(
+                  child: Text("Or",style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                  ),),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                ),
+                InkWell(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => mainpage()));
+                  },
+                  child: Container(
+                    height: 50,
+                    width: MediaQuery.of(context).size.height*0.6,
+                    margin: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.05,
+                        right: MediaQuery.of(context).size.height*0.05),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.indigo,
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Continue with Facebook",style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16.0
+                      ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015,
+                  ),
+                ),
+                InkWell(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => mainpage()));
+                  },
+                  child: Container(
+                    height: 50,
+                    width: MediaQuery.of(context).size.height*0.6,
+                    margin: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.05,
+                        right: MediaQuery.of(context).size.height*0.05),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.deepOrange.shade400,
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Continue with Google",style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16.0
+                      ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -575,17 +566,17 @@ class _mainpageState extends State<mainpage> {
         onTap: onTabTapped,
         currentIndex: currentIndex,
         items:
-      [
-        BottomNavigationBarItem(icon: Icon(Icons.home, color: Colors.red.shade300,),
+        [
+          BottomNavigationBarItem(icon: Icon(Icons.home, color: Colors.red.shade300,),
             label: 'home',
-        ),
-        BottomNavigationBarItem(icon: Icon(Icons.reorder, color: Colors.red.shade300,),
-            label:"bookings"
-        ),
-        BottomNavigationBarItem(icon: Icon(Icons.account_circle, color: Colors.red.shade300,),
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.reorder, color: Colors.red.shade300,),
+              label:"bookings"
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.account_circle, color: Colors.red.shade300,),
             label: "profile",
-        ),
-      ],
+          ),
+        ],
         backgroundColor: Colors.grey.shade300,
       ),
       backgroundColor: Colors.white,
@@ -641,9 +632,6 @@ class _entrypageState extends State<entrypage> {
               ],
             ),
           ),
-          Padding(
-              padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.02)
-          ),
           InkWell(
             onTap: (){
 
@@ -654,24 +642,24 @@ class _entrypageState extends State<entrypage> {
               width: MediaQuery.of(context).size.width*0.2,
               child: Center(
                 child: Text("Flat 50% off on first two booking",style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.0,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold
+                    color: Colors.white,
+                    fontSize: 16.0,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold
                 ),),
               ),
               decoration: BoxDecoration(
-                color: Colors.black87,
-                borderRadius: BorderRadius.circular(20)
+                  color: Colors.black87,
+                  borderRadius: BorderRadius.circular(20)
               ),
             ),
           ),
           Padding(
             padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.02),
             child: Text("USE CODE : TWO50",style: TextStyle(
-              color: Colors.red.shade300,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold
+                color: Colors.red.shade300,
+                fontSize: 14.0,
+                fontWeight: FontWeight.bold
             ),),
           ),
           InkWell(
@@ -700,7 +688,7 @@ class _entrypageState extends State<entrypage> {
             padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.02),
             child: Text("USE CODE : WEEKEND20",style: TextStyle(
                 color: Colors.red.shade300,
-                fontSize: 18.0,
+                fontSize: 14.0,
                 fontWeight: FontWeight.bold
             ),),
           ),
@@ -756,10 +744,10 @@ class _datetimeState extends State<datetime> {
   Widget build(BuildContext context) {
     return Container(
       child: Form(
-          autovalidateMode: AutovalidateMode.always,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25.0),
-            child: Column(
+        autovalidateMode: AutovalidateMode.always,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 25.0),
+          child: Column(
             children: <Widget>[
               GestureDetector(
                 onTap: yearMonthDayPicker,
@@ -782,15 +770,15 @@ class _datetimeState extends State<datetime> {
                     },
                     validator: (val) {
                       if (val == null || val.isEmpty) {
-                       // return "*This field is required";
+                        // return "*This field is required";
                       }
                       return null;
                     },
                   ),
                 ),
               ),
-             Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01,
-             ),),
+              Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01,
+              ),),
               GestureDetector(
                 onTap: yearMonthDayTimePicker,
                 child: AbsorbPointer(
@@ -843,9 +831,9 @@ class _datetimeState extends State<datetime> {
                 ),
               )
             ],
+          ),
+        ),
       ),
-    ),
-    ),
     );
   }
 }
@@ -863,9 +851,23 @@ class _selecttypeState extends State<selecttype> {
         ),
         child: Column(
           children: <Widget>[
-          Container(
-          height: 100,
-          ),
+            Container(
+              height: 100,
+              child:Column(
+                children: [
+                  Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.06)),
+                  Row(
+                    children: [
+                      Padding(padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.85,),),
+                      IconButton(onPressed:() {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => cartpage()),
+                        );},
+                        icon:Icon(Icons.shopping_cart,color: Colors.black),)
+                    ],
+                  ),
+                ],
+              ),
+            ),
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
@@ -873,34 +875,34 @@ class _selecttypeState extends State<selecttype> {
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
                     topRight: Radius.circular(45),),
                 ),
-                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1,
+                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03,
                   left: MediaQuery.of(context).size.height * 0.025,
                   right: MediaQuery.of(context).size.height * 0.025,),
                 child: ListView(
                   children: <Widget>[
                     Column(
                       children: <Widget>[
-                            InkWell(
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => menselectpage()));
-                                },
-                              child: Container(
-                                height: MediaQuery.of(context).size.height*0.08,
-                                width: MediaQuery.of(context).size.width*0.9,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade300,
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.022,
-                                    left: MediaQuery.of(context).size.height*0.03),
-                                child: Text("Men",style: TextStyle(
-                                  color: Colors.red.shade300,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500,
-                                ),),
-                              ),
+                        InkWell(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (context) => menselectpage()));
+                          },
+                          child: Container(
+                            height: MediaQuery.of(context).size.height*0.08,
+                            width: MediaQuery.of(context).size.width*0.9,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(20.0),
                             ),
+                            padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.022,
+                                left: MediaQuery.of(context).size.height*0.03),
+                            child: Text("Men",style: TextStyle(
+                              color: Colors.red.shade300,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),),
+                          ),
+                        ),
                         Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.015)),
                         InkWell(
                           onTap: (){
@@ -966,14 +968,14 @@ class _detailspageState extends State<detailspage> {
   String dropdownValue = 'Andhra Pradesh';
   List<String> States=['Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jammu and Kashmir', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', ' Uttarakhand', 'Uttar Pradesh', 'West Bengal', 'Andaman and Nicobar Islands', ''
       'Chandigarh', 'Dadra and Nagar Haveli', 'Daman and Diu', 'Delhi', 'Lakshadweep', 'Puducherry'];
-String Name,House_no,SAC,CTV;
-int Phno,Pincode;
+  String Name,House_no,SAC,CTV;
+  int Phno,Pincode;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-        color: Colors.red.shade300,
+          color: Colors.red.shade300,
         ),
         child: Column(
           children: <Widget>[
@@ -984,213 +986,213 @@ int Phno,Pincode;
                   Padding(padding: EdgeInsets.only(left: MediaQuery.of(context).size.height * 0.015,),
                   ),
                   Text("Enter Your Details!!",
-                  style: TextStyle(
-                    fontSize: 23.0,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.white,
-                  ),),
+                    style: TextStyle(
+                      fontSize: 23.0,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                    ),),
                 ],
               ),
             ),
             Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
-                      topRight: Radius.circular(45),),
-                  ),
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03,
-                    ),
-                  child: ListView(
-                    scrollDirection: Axis.vertical,
-                    children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          Container(
-                            child: TextField(
-                              cursorColor: Colors.red.shade300,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  borderSide: BorderSide(color: Colors.red.shade300,width: 2),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  borderSide: BorderSide(color: Colors.red.shade300,width: 2),
-                                ),
-                                hintText: "Name",
-                                filled: true,
-                                fillColor: Colors.white,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
+                    topRight: Radius.circular(45),),
+                ),
+                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03,
+                ),
+                child: ListView(
+                  scrollDirection: Axis.vertical,
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        Container(
+                          child: TextField(
+                            cursorColor: Colors.red.shade300,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                borderSide: BorderSide(color: Colors.red.shade300,width: 2),
                               ),
-                              onChanged: (text){
-                                Name=text;
-                              },
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                borderSide: BorderSide(color: Colors.red.shade300,width: 2),
+                              ),
+                              hintText: "Name",
+                              filled: true,
+                              fillColor: Colors.white,
                             ),
-                            padding: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.025,
+                            onChanged: (text){
+                              Name=text;
+                            },
+                          ),
+                          padding: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.025,
                             right: MediaQuery.of(context).size.height*0.025,),
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015,)
-                          ),
-                          Container(
-                            child: TextField(
-                              cursorColor: Colors.red.shade300,
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  borderSide: BorderSide(color: Colors.red.shade300,width: 2),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  borderSide: BorderSide(color: Colors.red.shade300,width: 2),
-                                ),
-                                hintText: "Phone Number",
-                                filled: true,
-                                fillColor: Colors.white,
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015,)
+                        ),
+                        Container(
+                          child: TextField(
+                            cursorColor: Colors.red.shade300,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                borderSide: BorderSide(color: Colors.red.shade300,width: 2),
                               ),
-                              onChanged: (text){
-                                Phno=int.parse(text);
-                              },
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                borderSide: BorderSide(color: Colors.red.shade300,width: 2),
+                              ),
+                              hintText: "Phone Number",
+                              filled: true,
+                              fillColor: Colors.white,
                             ),
-                            padding: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.025,
-                              right: MediaQuery.of(context).size.height*0.025,),
+                            onChanged: (text){
+                              Phno=int.parse(text);
+                            },
                           ),
-                          Padding(
-                              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.025,
-                              ),
+                          padding: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.025,
+                            right: MediaQuery.of(context).size.height*0.025,),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.025,
                           ),
-                          Row(
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Padding(padding: EdgeInsets.only(left: MediaQuery.of(context).size.height * 0.015,
+                            ),
+                            ),
+                            Text("Address:",style:
+                            TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w700,
+                            ),),
+                          ],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015,
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(left: MediaQuery.of(context).size.height * 0.025,
+                            right: MediaQuery.of(context).size.height * 0.025,),
+                          child: Column(
                             children: <Widget>[
-                              Padding(padding: EdgeInsets.only(left: MediaQuery.of(context).size.height * 0.015,
+                              TextField(
+                                cursorColor: Colors.black,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.all(10.0),
+                                  hintText: "Pin Code",
+                                ),
+                                onChanged: (text){
+                                  Pincode=int.parse(text);
+                                },
                               ),
+                              Padding(
+                                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)
                               ),
-                              Text("Address:",style:
-                                TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.w700,
-                                ),),
+                              TextField(
+                                cursorColor: Colors.black,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.all(10.0),
+                                  hintText: "House No.,Building name",
+                                ),
+                                onChanged: (text){
+                                  House_no=text;
+                                },
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)
+                              ),
+                              TextField(
+                                cursorColor: Colors.black,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.all(10.0),
+                                  hintText: "Street,Area,Colony",
+                                ),
+                                onChanged: (text){
+                                  SAC=text;
+                                },
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)
+                              ),
+                              TextField(
+                                cursorColor: Colors.black,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.all(10.0),
+                                  hintText: "City/Town/Village",
+                                ),
+                                onChanged: (text){
+                                  CTV=text;
+                                },
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)
+                              ),
+                              DropdownButton<String>(
+                                isExpanded: true,
+                                value: dropdownValue,
+                                icon: Icon(Icons.arrow_drop_down_outlined),
+                                iconSize: 24,
+                                elevation: 16,
+                                style: TextStyle(color: Colors.black),
+                                underline: Container(
+                                  height: 1.5,
+                                  color: Colors.grey.shade400,
+                                ),
+                                onChanged: (String newValue) {
+                                  setState(() {
+                                    dropdownValue = newValue;
+                                  });
+                                },
+                                items: States
+                                    .map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text("   "+value),
+                                  );
+                                }).toList(),
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.05)
+                              ),
+                              InkWell(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => mypay()));
+                                },
+                                child: Container(
+                                  height: 45,
+                                  width: 300,
+                                  child: Center(
+                                    child: Text("DONE",style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                    ),),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red.shade300,
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015,
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(left: MediaQuery.of(context).size.height * 0.025,
-                            right: MediaQuery.of(context).size.height * 0.025,),
-                            child: Column(
-                              children: <Widget>[
-                                TextField(
-                                  cursorColor: Colors.black,
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(10.0),
-                                    hintText: "Pin Code",
-                                  ),
-                                  onChanged: (text){
-                                    Pincode=int.parse(text);
-                                  },
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)
-                                ),
-                                TextField(
-                                  cursorColor: Colors.black,
-                                  keyboardType: TextInputType.text,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(10.0),
-                                    hintText: "House No.,Building name",
-                                  ),
-                                  onChanged: (text){
-                                    House_no=text;
-                                  },
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)
-                                ),
-                                TextField(
-                                  cursorColor: Colors.black,
-                                  keyboardType: TextInputType.text,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(10.0),
-                                    hintText: "Street,Area,Colony",
-                                  ),
-                                  onChanged: (text){
-                                    SAC=text;
-                                  },
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)
-                                ),
-                                TextField(
-                                  cursorColor: Colors.black,
-                                  keyboardType: TextInputType.text,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(10.0),
-                                    hintText: "City/Town/Village",
-                                  ),
-                                  onChanged: (text){
-                                    CTV=text;
-                                  },
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)
-                                ),
-                            DropdownButton<String>(
-                              isExpanded: true,
-                              value: dropdownValue,
-                              icon: Icon(Icons.arrow_drop_down_outlined),
-                              iconSize: 24,
-                              elevation: 16,
-                              style: TextStyle(color: Colors.black),
-                              underline: Container(
-                                height: 1.5,
-                                color: Colors.grey.shade400,
-                              ),
-                              onChanged: (String newValue) {
-                                setState(() {
-                                  dropdownValue = newValue;
-                                });
-                              },
-                              items: States
-                                  .map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text("   "+value),
-                                );
-                              }).toList(),
-                            ),
-                                 Padding(
-                                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.05)
-                                ),
-                            InkWell(
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => mypay()));
-                              },
-                              child: Container(
-                                height: 45,
-                                width: 300,
-                                child: Center(
-                                  child: Text("DONE",style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                  ),),
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.red.shade300,
-                                ),
-                            ),
-                            ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
+                        ),
+                      ],
+                    )
+                  ],
                 ),
+              ),
             ),
           ],
         ),
@@ -1225,64 +1227,64 @@ class _mypayState extends State<mypay> {
               fontWeight: FontWeight.bold,
             ),)),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15.0),
-              border: Border.all(
-                color: Colors.black,
-                width: 1,
-              )
+                borderRadius: BorderRadius.circular(15.0),
+                border: Border.all(
+                  color: Colors.black,
+                  width: 1,
+                )
             ),
           ),
           Row(
-              children: <Widget>[
-                Container(
-                  height: 70,
-                  width: MediaQuery.of(context).size.width*0.75,
-                  margin: EdgeInsets.only(left: 40),
-                  child: TextField(
-                    controller: entercoupoun,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide: BorderSide(color: Colors.black,width: 2),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black,width: 2),
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      hintText: "Coupoun Code",
-                      errorText: entercoupoun.text.isEmpty?null:(checkCoupoun.contains(entercoupoun.text)?"coupoun valid":"not found"),
-                      filled: true,
-                      fillColor: Colors.white,
+            children: <Widget>[
+              Container(
+                height: 70,
+                width: MediaQuery.of(context).size.width*0.75,
+                margin: EdgeInsets.only(left: 40),
+                child: TextField(
+                  controller: entercoupoun,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                      borderSide: BorderSide(color: Colors.black,width: 2),
                     ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black,width: 2),
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    hintText: "Coupoun Code",
+                    errorText: entercoupoun.text.isEmpty?null:(checkCoupoun.contains(entercoupoun.text)?"coupoun valid":"not found"),
+                    filled: true,
+                    fillColor: Colors.white,
                   ),
                 ),
-                Padding(padding:EdgeInsets.only(left: MediaQuery.of(context).size.width*0.03)),
-                InkWell(
-                  onTap: (){
+              ),
+              Padding(padding:EdgeInsets.only(left: MediaQuery.of(context).size.width*0.03)),
+              InkWell(
+                onTap: (){
                   if(entercoupoun.text.isEmpty || checkCoupoun.contains(entercoupoun.text) ) {
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context) => lastpage()));
                   }
-                  },
-                  child: Container(
-                    height: 50,
-                    width: MediaQuery.of(context).size.width*0.15,
-                    child: Center(
-                      child: Text("APPLY",style: TextStyle(
+                },
+                child: Container(
+                  height: 50,
+                  width: MediaQuery.of(context).size.width*0.15,
+                  child: Center(
+                    child: Text("APPLY",style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
                         color: Colors.white
-                      ),),
-                    ),
-                    decoration: BoxDecoration(
+                    ),),
+                  ),
+                  decoration: BoxDecoration(
                       color: Colors.red.shade300,
                       borderRadius: BorderRadius.circular(17.0)
-                    ),
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
+          ),
           Container(
             child: Column(
               children: <Widget>[
@@ -1320,7 +1322,7 @@ class _mypayState extends State<mypay> {
                       ),
                       RadioListTile<Paymentoption>(
                         value: Paymentoption.Debit_or_Credit,
-                       groupValue: _paymentoption,
+                        groupValue: _paymentoption,
                         onChanged: (Paymentoption value){
                           print("selected $value");
                           setState(() {
@@ -1365,7 +1367,7 @@ class _mypayState extends State<mypay> {
                         onChanged: (Paymentoption val){
                           print("selected $val");
                           setState(() {
-                           _paymentoption = val;
+                            _paymentoption = val;
                           });
                         },
                         activeColor: Colors.red.shade300,
@@ -1474,7 +1476,7 @@ class _lastpageState extends State<lastpage> {
                   ),
                   Container(
                     height: 200,
-                   margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.02,
+                    margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.02,
                         right: MediaQuery.of(context).size.width*0.02),
                     color: Colors.grey.shade200,
                     child: Center(
@@ -1642,8 +1644,18 @@ class _menselectpageState extends State<menselectpage> {
               height: 100,
               child: Column(
                 children: [
-                  Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.1)),
-                  Text("Add Your Clothes",style: TextStyle(fontWeight: FontWeight.w800),),
+                  Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.04)),
+                  Row(
+                    children: [
+                      Padding(padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.85,),),
+                      IconButton(onPressed:() {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => cartpage()),
+                        );},
+                        icon:Icon(Icons.shopping_cart,color: Colors.black),)
+                    ],
+                  ),
+                 // Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.01)),
+                  Text("Add Your Clothes",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 16.0),),
                 ],
               ),
             ),
@@ -1654,9 +1666,8 @@ class _menselectpageState extends State<menselectpage> {
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
                     topRight: Radius.circular(45),),
                 ),
-                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1,
-                  left: MediaQuery.of(context).size.height * 0.025,
-                  right: MediaQuery.of(context).size.height * 0.025,),
+                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
+                  ),
                 child: ListView.builder(
                   itemCount: men_dresses.length,
                   itemBuilder: (BuildContext context,int index){
@@ -1689,18 +1700,17 @@ class _cloth_counterState extends State<cloth_counter> {
   bool change_to=false;
   String name;
   int _personcount=0;
-
   _cloth_counterState({this.name});
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height*0.17,
-      width: MediaQuery.of(context).size.width*0.9,
+      height: MediaQuery.of(context).size.height*0.1,
+      width: MediaQuery.of(context).size.width*1,
       decoration: BoxDecoration(
         color: Colors.grey.shade300,
         borderRadius: BorderRadius.circular(20.0),
       ),
       padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.025,
-          left: MediaQuery.of(context).size.width*0.025                                                 ),
+          left: MediaQuery.of(context).size.width*0.025),
       child: Row(
         children: [
           Column(
@@ -1708,26 +1718,20 @@ class _cloth_counterState extends State<cloth_counter> {
               Row(
                 children: [
                   Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.025,
-                      left: MediaQuery.of(context).size.height*0.04),),
+                      left: MediaQuery.of(context).size.width*0.05),),
                   Text("$name",style: TextStyle(
                     color: Colors.red.shade300,
-                    fontSize:18,
+                    fontSize:16,
                     fontWeight: FontWeight.w500,
                   ),
                   ),
-                ],
-              ),
-              Row(
-                children: [
+                  Padding(padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.3)),
                   InkWell(
                     onTap: (){
                       setState(() {
                         if(_personcount>0){
                           _personcount--;
-                          if(_personcount==0) {
-                            this.change_to = false;
-                            this.add_symbol=this.change_to?"added":"add";
-                          }
+                          flutter_toast("Removed Successfully");
                         }
                         else{
                           //do nothing
@@ -1764,6 +1768,9 @@ class _cloth_counterState extends State<cloth_counter> {
                     onTap: (){
                       setState(() {
                         _personcount++;
+                        if(_personcount>0){
+                          flutter_toast("Successfully added to cart");
+                        }
                       });
                     },
                     child: Container(
@@ -1787,39 +1794,17 @@ class _cloth_counterState extends State<cloth_counter> {
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
-          InkWell(
-            onTap: (){
-              setState(() {
-                if(_personcount>0)
-                this.change_to=!this.change_to;
-                this.add_symbol=this.change_to?"added":"add";
-              });
-
-            },
-            child: Container(
-              margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.53,),
-              height: 30,
-              width: MediaQuery.of(context).size.width*0.1,
-              decoration: BoxDecoration(
-                border: Border.all(
-                    color: this.change_to?Colors.green:Colors.red.shade300,
-                    width: 2
-                ),
-                borderRadius: BorderRadius.circular(35),
-                color: Colors.white,
-              ),
-              child: Center(child: Text(this.add_symbol,style: TextStyle(
-                color: this.change_to?Colors.green:Colors.black,
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-              ),),),
-            ),
-          )
         ],
       ),
+    );
+  }
+  flutter_toast(String a){
+    return Fluttertoast.showToast(
+      msg: "$a",
+      toastLength: Toast.LENGTH_LONG,
     );
   }
 }
@@ -1840,7 +1825,8 @@ class _womenselectpageState extends State<womenselectpage> {
         borderRadius: BorderRadius.circular(20.0),
       ),
       padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.025,
-          left: MediaQuery.of(context).size.width*0.025                                                 ),
+          left: MediaQuery.of(context).size.width*0.025
+      ),
       child: Row(
         children: [
           Column(
@@ -2015,7 +2001,16 @@ class _kidsselectpageState extends State<kidsselectpage> {
     );
   }
 }
-
-
-
+class cartpage extends StatefulWidget {
+  @override
+  _cartpageState createState() => _cartpageState();
+}
+class _cartpageState extends State<cartpage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(child: Text("your cart is empty. Add clothes.")),
+    );
+  }
+}
 

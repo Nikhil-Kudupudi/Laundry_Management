@@ -1,14 +1,16 @@
-[
+{
+  "items": [
     {
       "Name": "shirt",
-      "Price": 4
+      "Price": "4"
     },
     {
       "Name": "t-shirt",
-      "Price": 5
+      "Price": "5"
     },
     {
       "Name": "trousers",
-      "Price": 2
+      "Price": "2"
     }
   ]
+}

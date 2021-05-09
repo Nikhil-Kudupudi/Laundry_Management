@@ -3,6 +3,6 @@ import 'LaundryApp/home.dart';
 
 void main() => runApp(new MaterialApp(
   debugShowCheckedModeBanner: false,
-  home: lgorsgpage(),
+  home: menselectpage(),
 
 ));

@@ -1,8 +1,11 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'Clothes.dart';
 
 RegExp userregex=new RegExp(r"[a-zA-Z]+\w[a-zA-Z]*");
 RegExp passwordregex =new RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
@@ -1625,189 +1628,220 @@ class _userprofileState extends State<userprofile> {
     );
   }
 }
+
 class menselectpage extends StatefulWidget {
   @override
   _menselectpageState createState() => _menselectpageState();
 }
 class _menselectpageState extends State<menselectpage> {
-  List men_dresses=["Shirt","T-Shirt","Trouser","Jean","Short","Track Pant"];
   @override
+  List men_dresses= ["T-shirt","Track","Jeans","Short","Long-_-","paijama","Kurtha"];
+
+ /* Future<List<Clothes>> fetchNotes() async{
+    String url="https://raw.githubusercontent.com/Nikhil-Kudupudi/android_app/master/lib/LaundryApp/Mens_clothes.json";
+     var response=await http.get(Uri.encodeFull(url),headers:{"Accept":"application/json"});
+    // ignore: deprecated_member_use
+    var clothes=List<Clothes>();
+    if(response.statusCode==200){
+      var notesJson=json.decode(response.body);
+      for(var noteJson in notesJson["items"] as List){
+clothes.add(Clothes.fromJson(noteJson));
+      }
+    }
+    return clothes;
+  }
+*/
+@override
   Widget build(BuildContext context) {
+/*fetchNotes().then((value){
+ setState((){
+   men_dresses.addAll(value);
+ });
+});*/
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          color: Colors.red.shade300,
-        ),
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: 100,
-              child: Column(
-                children: [
-                  Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.04)),
-                  //
-                  Row(
-                    children: [
-                      Padding(padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.85,),),
-                      IconButton(onPressed:() {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => cartpage()),
-                        );},
-                        icon:Icon(Icons.shopping_cart,color: Colors.black),)
-                    ],
-                  ),
-                 // Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.01)),
-                  Text("Add Your Clothes",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 16.0),),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
-                    topRight: Radius.circular(45),),
-                ),
-                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
-                  ),
-                child: ListView.builder(
-                  itemCount: men_dresses.length,
-                  itemBuilder: (BuildContext context,int index){
-                    return ListTile(
-                        subtitle: Column(
-                        children: [
-                        cloth_counter(name:men_dresses[index])
-                    ],
-                    ),);
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+
+      body:
+          Container(
+
+            color: Colors.red.shade300,
+            padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.17),
+            child:Column(
+              children: [
+
+                IconButton(icon: Icon(Icons.shopping_cart), onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>cartpage()));
+                }),
+                cloth_counter(items:men_dresses),
+              ],
+            ),),
     );
   }
 }
 class cloth_counter extends StatefulWidget {
   @override
-  final String name;
-  cloth_counter({Key key,this.name}):super(key:key);
-  _cloth_counterState createState() => _cloth_counterState(name:this.name);
+  final List  items;
+
+  cloth_counter({Key key,this.items}):super(key:key);
+  _cloth_counterState createState() => _cloth_counterState(items:this.items);
 }
 class _cloth_counterState extends State<cloth_counter> {
+
   @override
+
   String add_symbol="add";
   bool change_to=false;
-  String name;
-  int _personcount=0;
-  _cloth_counterState({this.name});
+  List items;
+
+int _personcounter=0;
+
+  _cloth_counterState({this.items});
   Widget build(BuildContext context) {
+
     return Container(
-      height: MediaQuery.of(context).size.height*0.1,
-      width: MediaQuery.of(context).size.width*1,
+      padding: EdgeInsets.only(top:34),
+      height: MediaQuery.of(context).size.height*0.77,
+      width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         color: Colors.grey.shade300,
         borderRadius: BorderRadius.circular(20.0),
       ),
-      padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.025,
-          left: MediaQuery.of(context).size.width*0.025),
-      child: Row(
-        children: [
-          Column(
-            children: [
-              Row(
-                children: [
-                  Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.025,
-                      left: MediaQuery.of(context).size.width*0.05),),
-                  Text("$name",style: TextStyle(
-                    color: Colors.red.shade300,
-                    fontSize:16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  ),
-                  Padding(padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.3)),
-                  InkWell(
-                    onTap: (){
-                      setState(() {
-                        if(_personcount>0){
-                          _personcount--;
-                          flutter_toast("Removed Successfully");
-                        }
-                        else{
-                          //do nothing
-                        }
-                      });
-                    },
-                    child: Container(
-                      width: 30,
-                      height: 30,
-                      margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.04,
-                        top: MediaQuery.of(context).size.height*0.010,
-                        right: 10,),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(7.0),
-                        color: Colors.grey,
-                      ),
-                      child: Center(
-                        child: Text(
-                          "-",style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Text("$_personcount", style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17.0,
-                  ),),
-                  InkWell(
-                    onTap: (){
-                      setState(() {
-                        _personcount++;
-                        if(_personcount>0){
-                          flutter_toast("Successfully added to cart");
-                        }
-                      });
-                    },
-                    child: Container(
-                      width: 30,
-                      height: 30,
-                      margin: EdgeInsets.only(left:10,
-                          top: MediaQuery.of(context).size.height*0.010),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(7.0),
-                        color: Colors.grey,
-                      ),
-                      child: Center(
-                        child: Text(
-                          "+",style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
+      child: ListView.separated(
+          itemCount: items.length,
+            itemBuilder: (BuildContext context,int index){
+           
+            return Material(
+              shadowColor: Colors.blueAccent,
+
+              borderRadius: BorderRadius.circular(43.4),
+              child:counter(name:items[index]),
+
+              elevation: 7,
+
+            );
+            }, separatorBuilder: (BuildContext context, int index) {
+        return SizedBox(
+          height: 10,
+        );
+      },
       ),
     );
   }
+}
+List products=[];
+class counter extends StatefulWidget {
+  @override
+  final String name;
+
+  counter({Key key,this.name}):super(key: key);
+  _counterState createState() => _counterState(name:this.name);
+
+
+
+}
+
+class _counterState extends State<counter> {
+  @override
+
+  String name;
+
+  int _personcounter=0;
+  _counterState({this.name});
+
+  Widget build(BuildContext context) {
+    return ListTile(
+      hoverColor: Colors.red.shade300,
+
+      title: Text("$name"),
+      subtitle: Text(" "),
+      leading: CircleAvatar(
+        backgroundImage: NetworkImage("https://images.pexels.com/photos/6348041/pexels-photo-6348041.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
+        backgroundColor: Colors.white10,
+        child: Container(
+        ),
+      ),
+      trailing:Row(
+        mainAxisSize: MainAxisSize.min,
+
+        children:<Widget> [
+
+          SizedBox(
+            width: 30,
+            height: 30,
+            child: ElevatedButton(
+                style:ButtonStyle(
+                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.pressed))
+                        return Colors.green;
+                      return null; // Use the component's default.
+                    },
+                  ),
+
+                ),
+                onPressed: (){
+                  setState(() {
+                   _personcounter++;
+                    flutter_toast("Added to cart");
+                   if(!products.contains(name)) {
+                     products.add(name);
+                   }
+
+                  });
+                }, child:Text("+")),
+          ),
+          Padding(padding: EdgeInsets.only(right: 3)),
+          Center(
+            child: Text("$_personcounter"),
+          ),
+          Padding(padding: EdgeInsets.only(right: 3)),
+          SizedBox(
+            width: 30,
+            height: 30,
+            child: ElevatedButton(
+                style:ButtonStyle(
+                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.pressed))
+                        return Colors.red.shade300;
+                      return Colors.grey; // Use the component's default.
+                    },
+                  ),
+
+                ) ,
+                onPressed: (){
+                  setState(() {
+                    if(_personcounter>0){
+
+                      _personcounter--;
+                      if(_personcounter==0){
+                        products.remove(name);
+                      }
+                      flutter_toast("Removed succesfully");
+
+                    }
+                  });
+                }, child:Center(child:Text("-"))),
+          ),
+          Padding(padding: EdgeInsets.only(right: 15)),
+        ],
+      ),
+
+    );
+  }
+
   flutter_toast(String a){
     return Fluttertoast.showToast(
       msg: "$a",
-      toastLength: Toast.LENGTH_LONG,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.white12,
+      textColor: Colors.white
     );
   }
+
 }
+
 class womenselectpage extends StatefulWidget {
   @override
   _womenselectpageState createState() => _womenselectpageState();
@@ -1850,9 +1884,7 @@ class _womenselectpageState extends State<womenselectpage> {
                       setState(() {
                         if(_personcount>0){
                           _personcount--;
-                        }
-                        else{
-                          //do nothing
+
                         }
                       });
                     },
@@ -1886,6 +1918,7 @@ class _womenselectpageState extends State<womenselectpage> {
                     onTap: (){
                       setState(() {
                         _personcount++;
+
                       });
                     },
                     child: Container(
@@ -2002,15 +2035,34 @@ class _kidsselectpageState extends State<kidsselectpage> {
   }
 }
 class cartpage extends StatefulWidget {
+
+
   @override
   _cartpageState createState() => _cartpageState();
 }
 class _cartpageState extends State<cartpage> {
   @override
+
+  _cartpageState();
   Widget build(BuildContext context) {
+
+    print(products);
     return Scaffold(
-      body: Center(child: Text("your cart is empty. Add clothes.")),
+      appBar: AppBar(
+        title: Text("cart page"),
+      ),
+      body:Container(child:ListView.separated(
+          itemBuilder: (BuildContext context,int index){
+            return ListTile(
+              title: Text("${products[index]}"),
+            );
+          }, separatorBuilder:(BuildContext context, int index) {
+        return SizedBox(
+          height: 10,
+        );
+      }, itemCount: products.length),),
     );
   }
+
 }
 

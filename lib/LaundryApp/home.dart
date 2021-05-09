@@ -1807,7 +1807,7 @@ class _counterState extends State<counter> {
                     },
                   ),
 
-                ) ,
+                ),
                 onPressed: (){
                   setState(() {
                     if(_personcounter>0){

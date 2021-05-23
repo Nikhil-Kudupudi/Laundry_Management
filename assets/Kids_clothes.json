@@ -1,35 +1,35 @@
 {
   "items":[
     {
-      "Name": "shirt",
+      "Name": "shirt(k)",
       "Price": 4
     },
     {
-      "Name": "t-shirt",
+      "Name": "t-shirt(k)",
       "Price": 5
     },
     {
-      "Name": "trousers",
+      "Name": "trousers(k)",
       "Price": 2
     },
     {
-      "Name": "Jeans",
+      "Name": "Jeans(k)",
       "Price": 12
     },
     {
-      "Name": "Shorts",
+      "Name": "Shorts(k)",
       "Price": 10
     },
     {
-      "Name": "Track Pant",
+      "Name": "Track Pant(k)",
       "Price": 6
     },
     {
-      "Name": "Suit",
+      "Name": "Suit(k)",
       "Price": 20
     },
     {
-      "Name": "Hoodie",
+      "Name": "Hoodie(k)",
       "Price": 7
     }
   ]

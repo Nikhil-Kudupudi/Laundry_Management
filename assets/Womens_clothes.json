@@ -1,0 +1,40 @@
+{
+  "items":[
+    {
+      "Name": "Womens_shirt",
+      "Price": 4
+    },
+    {
+      "Name": "Womens_t-shirt",
+      "Price": 5
+    },
+    {
+      "Name": "trousers(F)",
+      "Price": 2
+    },
+    {
+      "Name": "Jeans(F)",
+      "Price": 12
+    },
+    {
+      "Name": "Shorts(F)",
+      "Price": 10
+    },
+    {
+      "Name": "Track Pant(F)",
+      "Price": 6
+    },
+    {
+      "Name": "Suit(F)",
+      "Price": 20
+    },
+    {
+      "Name": "Hoodie(F)",
+      "Price": 7
+    },
+    {
+      "Name": "Saree",
+      "Price": 15
+    }
+  ]
+}

@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'dart:convert';
-import 'Clothes.dart';
+
 
 RegExp userregex=new RegExp(r"[a-zA-Z]+\w[a-zA-Z]*");
 RegExp passwordregex =new RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
@@ -25,10 +29,11 @@ class _lgorsgpageState extends State<lgorsgpage> {
               Column(
                 children: <Widget>[
                   Padding(
-                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.3,)
+                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.33,)
                   ),
                   Container(
-                    margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.28),
+                    //margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.28),
+                    padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.27),
                     child: Row(
                       children: <Widget>[
                         Text("We",style: TextStyle(
@@ -46,7 +51,7 @@ class _lgorsgpageState extends State<lgorsgpage> {
                     ),
                   ),
                   Padding(
-                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.05,)
+                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02,)
                   ),
                   InkWell(
                     onTap: (){
@@ -77,8 +82,8 @@ class _lgorsgpageState extends State<lgorsgpage> {
                   ),
                   InkWell(
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => signup()));
+                      Navigator.pushReplacement( context, MaterialPageRoute( builder: (context) => signup(), ));
+
                     },
                     child: Container(
                       height: 50,
@@ -303,20 +308,52 @@ class _loginpageState extends State<loginpage> {
     );
   }
 }
+GoogleSignInAccount _user;
+GoogleSignIn _googleSignIn=GoogleSignIn();
 class signup extends StatefulWidget {
   @override
   _signupState createState() => _signupState();
 }
 class _signupState extends State<signup> {
   @override
+  bool _isLoggedin=false;
+  int currentIndex=0;
+  final List<Widget> _children=[
+    entrypage(),
+    bookingspage(),
+    userprofile()
+  ];
   bool _showPassword=false;
   final _username=TextEditingController();
   final _password=TextEditingController();
   final _email=TextEditingController();
   bool _validateuser=true;bool _validatepassword=true;bool _validateemail=true;
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
+  Widget buildbody(){
+    if(_user!=null ||_isLoggedin){
+      return Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: onTabTapped,
+          currentIndex: currentIndex,
+          items:
+          [
+            BottomNavigationBarItem(icon: Icon(Icons.home,color: Colors.red.shade300,),
+              label: "Home",
+            ),
+            BottomNavigationBarItem(icon: Icon(Icons.reorder, color: Colors.red.shade300,),
+                label:"Bookings"
+            ),
+            BottomNavigationBarItem(icon: Icon(Icons.account_circle, color: Colors.red.shade300,),
+              label: "Profile",
+            ),
+          ],
+          backgroundColor: Colors.grey.shade300,
+        ),
+        //backgroundColor: Colors.white,
+        body: _children[currentIndex],
+      );
+    }
+    else{
+       return Container(
         color: Colors.white,
         child: ListView(
           scrollDirection: Axis.vertical,
@@ -432,8 +469,8 @@ class _signupState extends State<signup> {
                     });
                     if ((userregex.hasMatch(_username.text)&&passwordregex.hasMatch(_password.text)&& emailregex.hasMatch(_email.text))&&(_username.text.isNotEmpty && _password.text.isNotEmpty &&
                         _email.text.isNotEmpty)){
-                      Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => mainpage()));
+                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                          mainpage()), (Route<dynamic> route) => false);
                     }
                   },
                   child: Container(
@@ -518,37 +555,59 @@ class _signupState extends State<signup> {
                   padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015,
                   ),
                 ),
-                InkWell(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => mainpage()));
-                  },
-                  child: Container(
-                    height: 50,
-                    width: MediaQuery.of(context).size.height*0.6,
-                    margin: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.05,
-                        right: MediaQuery.of(context).size.height*0.05),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.deepOrange.shade400,
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Continue with Google",style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16.0
+                Container(
+                    child: InkWell(
+                      onTap: (){
+                        _googleSignIn.signIn().then((userData) {
+                          setState(() {
+                            _isLoggedin = true;
+                            _user = userData;
+                          });
+                        }).catchError((e) {
+                          print(e);
+                        });
+
+                      },
+                      child: Container(
+                        height: 50,
+                        width: MediaQuery.of(context).size.height*0.6,
+                        margin: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.05,
+                            right: MediaQuery.of(context).size.height*0.05),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.deepOrange.shade400,
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Continue with Google",style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16.0
+                          ),
+                          ),
+                        ),
                       ),
-                      ),
-                    ),
-                  ),
+                    )
                 ),
               ],
             ),
           ],
         ),
-      ),
+      );
+    }
+  }
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ConstrainedBox(
+        constraints: const BoxConstraints.expand(),
+        child: buildbody()
+      )
     );
+  }
+  void onTabTapped(int index){
+    setState(() {
+      currentIndex=index;
+    });
   }
 }
 class mainpage extends StatefulWidget {
@@ -570,19 +629,19 @@ class _mainpageState extends State<mainpage> {
         currentIndex: currentIndex,
         items:
         [
-          BottomNavigationBarItem(icon: Icon(Icons.home, color: Colors.red.shade300,),
-            label: 'home',
+          BottomNavigationBarItem(icon: Icon(Icons.home,color: Colors.red.shade300,),
+            label: "Home",
           ),
           BottomNavigationBarItem(icon: Icon(Icons.reorder, color: Colors.red.shade300,),
-              label:"bookings"
+              label:"Bookings"
           ),
           BottomNavigationBarItem(icon: Icon(Icons.account_circle, color: Colors.red.shade300,),
-            label: "profile",
+            label: "Profile",
           ),
         ],
         backgroundColor: Colors.grey.shade300,
       ),
-      backgroundColor: Colors.white,
+      //backgroundColor: Colors.white,
       body: _children[currentIndex],
     );
   }
@@ -762,7 +821,7 @@ class _datetimeState extends State<datetime> {
                         borderRadius: BorderRadius.circular(20.0),
                         borderSide: BorderSide(color: Colors.transparent),
                       ),
-                      prefixIcon: Icon(Icons.calendar_today,color: Colors.black,),
+                      prefixIcon: Icon(Icons.calendar_today,color: Colors.black),
                       hintText: "Please Select Date",
                       hintStyle: TextStyle(color: Colors.black),
                       fillColor: Colors.white,
@@ -840,12 +899,36 @@ class _datetimeState extends State<datetime> {
     );
   }
 }
+List Mens_dresses=[];
+List Women_dresses=[];
+List Kids_dresses=[];
 class selecttype extends StatefulWidget {
   @override
   _selecttypeState createState() => _selecttypeState();
 }
 class _selecttypeState extends State<selecttype> {
   @override
+
+  Future<void> readJson() async {
+    final String response = await rootBundle.loadString('assets/Mens_clothes.json');
+    final String responsewomen=await rootBundle.loadString('assets/Womens_clothes.json');
+    final String responsekids=await rootBundle.loadString('assets/Kids_clothes.json');
+    final data = await json.decode(response);
+    final datawomen = await json.decode(responsewomen);
+    final datakids = await json.decode(responsekids);
+    setState(() {
+      Mens_dresses = data["items"];
+      Women_dresses=datawomen["items"];
+      Kids_dresses=datakids["items"];
+    });
+
+  }
+  void initState(){
+    readJson().then((value){
+      print(Mens_dresses);
+    });
+    super.initState();
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -894,8 +977,13 @@ class _selecttypeState extends State<selecttype> {
                             height: MediaQuery.of(context).size.height*0.08,
                             width: MediaQuery.of(context).size.width*0.9,
                             decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              borderRadius: BorderRadius.circular(20.0),
+                                color: Colors.white70,
+                                borderRadius: BorderRadius.circular(20.0),
+                                boxShadow: [BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius: 30.0,
+                                    offset: Offset(5.0,0.0)
+                                )]
                             ),
                             padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.022,
                                 left: MediaQuery.of(context).size.height*0.03),
@@ -916,8 +1004,13 @@ class _selecttypeState extends State<selecttype> {
                             height: MediaQuery.of(context).size.height*0.08,
                             width: MediaQuery.of(context).size.width*0.9,
                             decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              borderRadius: BorderRadius.circular(20.0),
+                                color: Colors.white70,
+                                borderRadius: BorderRadius.circular(20.0),
+                                boxShadow: [BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius: 30.0,
+                                    offset: Offset(5.0,0.0)
+                                )]
                             ),
                             padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.022,
                                 left: MediaQuery.of(context).size.height*0.03),
@@ -950,9 +1043,617 @@ class _selecttypeState extends State<selecttype> {
                             ),),
                           ),
                         ),
+                        Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.015)),
+                        InkWell(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (context) => others()));
+                          },
+                          child: Container(
+                            height: MediaQuery.of(context).size.height*0.08,
+                            width: MediaQuery.of(context).size.width*0.9,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.022,
+                                left: MediaQuery.of(context).size.height*0.03),
+                            child: Text("Others",style: TextStyle(
+                              color: Colors.red.shade300,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),),
+                          ),
+                        ),
                       ],
                     ),
                   ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+class menselectpage extends StatefulWidget {
+  @override
+  _menselectpageState createState() => _menselectpageState();
+}
+class _menselectpageState extends State<menselectpage> {
+  @override
+  List men_dresses= ["Shirts","T-Shirts","Trousers","Jeans","Shorts","Track Pant","Suit","Hoodie"];
+  Widget build(BuildContext context){
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.red.shade300,
+        ),
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 100,
+              child: Column(
+                children: [
+                  Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.04)),
+                  Row(
+                    children: [
+                      Padding(padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.85,),),
+                      IconButton(onPressed:() {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => cartpage()),
+                        );},
+                        icon:Icon(Icons.shopping_cart,color: Colors.black),)
+                    ],
+                  ),
+                  Text("Add Your Clothes",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 16.0),),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
+                      topRight: Radius.circular(45),),
+                  ),
+                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  child: cloth_counter(items: Mens_dresses,)
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+class womenselectpage extends StatefulWidget {
+  const womenselectpage({Key key}) : super(key: key);
+  @override
+  _womenselectpageState createState() => _womenselectpageState();
+}
+class _womenselectpageState extends State<womenselectpage> {
+  @override
+  List women_dresses= ["Shirts","T-Shirts","Leggings","Jeans","Chudidhar","Saree","Shorts","Tops"];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.red.shade300,
+        ),
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 100,
+              child: Column(
+                children: [
+                  Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.04)),
+                  Row(
+                    children: [
+                      Padding(padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.85,),),
+                      IconButton(onPressed:() {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => cartpage()),
+                        );},
+                        icon:Icon(Icons.shopping_cart,color: Colors.black),)
+                    ],
+                  ),
+                  Text("Add Your Clothes",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 16.0),),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
+                      topRight: Radius.circular(45),),
+                  ),
+                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  child: cloth_counter(items: Women_dresses,)
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+class kidsselectpage extends StatefulWidget {
+  @override
+  _kidsselectpageState createState() => _kidsselectpageState();
+}
+class _kidsselectpageState extends State<kidsselectpage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Container(
+          decoration: BoxDecoration(
+            color: Colors.red.shade300,
+          ),
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: 100,
+                child: Column(
+                  children: [
+                    Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.04)),
+                    Row(
+                      children: [
+                        Padding(padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.85,),),
+                        IconButton(onPressed:() {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => cartpage()),
+                          );},
+                          icon:Icon(Icons.shopping_cart,color: Colors.black),)
+                      ],
+                    ),
+                    Text("Add Your Clothes",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 16.0),),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
+                        topRight: Radius.circular(45),),
+                    ),
+                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
+                    ),
+                    child: cloth_counter(items: Kids_dresses,)
+                ),
+              ),
+            ],
+          ),
+        ),
+    );
+  }
+}
+class others extends StatefulWidget {
+  const others({Key key}) : super(key: key);
+  @override
+  _othersState createState() => _othersState();
+}
+class _othersState extends State<others> {
+  @override
+  List others=["Towel","Bed Sheet","Pillow Cover","Curtain","Blanket","Sofa Cover"];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.red.shade300,
+        ),
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 100,
+              child: Column(
+                children: [
+                  Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.04)),
+                  Row(
+                    children: [
+                      Padding(padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.85,),),
+                      IconButton(onPressed:() {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => cartpage()),
+                        );},
+                        icon:Icon(Icons.shopping_cart,color: Colors.black),)
+                    ],
+                  ),
+                  Text("Add Your Clothes",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 16.0),),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
+                      topRight: Radius.circular(45),),
+                  ),
+                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  child: cloth_counter(items: others,)
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+class cloth_counter extends StatefulWidget {
+  @override
+  final List  items;
+  cloth_counter({Key key,this.items}):super(key:key);
+  _cloth_counterState createState() => _cloth_counterState(items:this.items);
+}
+class _cloth_counterState extends State<cloth_counter> {
+  @override
+  String add_symbol="add";
+  bool change_to=false;
+  List items;
+  _cloth_counterState({this.items});
+  Widget build(BuildContext context) {
+    return  ListView.separated(
+      padding: EdgeInsets.only(left: 17.0,right: 17.0,top: 27.0,bottom: 20.0),
+      itemCount: items.length,
+      itemBuilder: (BuildContext context,int index){
+        return Material(
+          shadowColor: Colors.blueAccent,
+          borderRadius: BorderRadius.circular(20.0),
+          child:nameplusminus(name:items[index]["Name"],Price: items[index]["Price"]),
+          elevation: 5,
+        );
+      }, separatorBuilder: (BuildContext context, int index) {
+      return SizedBox(
+        height: 8,
+      );
+    },
+    );
+  }
+}
+var products={};
+class nameplusminus extends StatefulWidget {
+  @override
+  final String name;final int Price;
+  nameplusminus({Key key,this.name,this.Price}):super(key: key);
+  _nameplusminusState createState() => _nameplusminusState(name:this.name,Price: this.Price);
+}
+class _nameplusminusState extends State<nameplusminus> {
+  @override
+  String name; int Price=0;
+  int _personcounter=0;
+  _nameplusminusState({this.name,this.Price});
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text("$name",style: TextStyle(
+        color: Colors.red.shade300,
+        fontSize:16,
+        fontWeight: FontWeight.w500,
+      ),),
+      subtitle: Text("$Price".toString()),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children:<Widget> [
+          InkWell(
+            onTap: (){
+              setState(() {
+                if(_personcounter>0){
+                  _personcounter--;
+                  if(_personcounter==0){
+                    products.remove(name);
+                  }
+                  else{
+                    products[name]=[_personcounter,Price,_personcounter*Price];
+                  }
+                  flutter_toast("Removed succesfully");
+                }
+              });
+            },
+            child: Container(
+              width: 25,
+              height: 25,
+              // margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.010),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(7.0),
+                border: Border.all(color: Colors.red.shade300),
+                color: Colors.white,
+              ),
+              child: Center(
+                child: Text(
+                  "-",style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+                ),
+              ),
+            ),
+          ),
+          Padding(padding: EdgeInsets.only(right: 5)),
+          Text("$_personcounter",style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 17.0
+          ),),
+          Padding(padding: EdgeInsets.only(right: 5)),
+          InkWell(
+            onTap: (){
+              setState(() {
+                _personcounter++;
+                flutter_toast("Added to cart");
+                if(!products.containsKey(name)) {
+                  products[name]=[_personcounter,Price,_personcounter*Price];
+                }
+                else{
+                  products[name]=[_personcounter,Price,_personcounter*Price];
+                }
+              });
+            },
+            child: Container(
+              width: 25,
+              height: 25,
+              //margin: EdgeInsets.only(top:0.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(7.0),
+                border: Border.all(color: Colors.red.shade300),
+                color: Colors.white,
+              ),
+              child: Center(
+                child: Text(
+                  "+",style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+                ),
+              ),
+            ),
+          ),
+          Padding(padding: EdgeInsets.only(right: 15)),
+        ],
+      ),
+    );
+  }
+  flutter_toast(String a){
+    return Fluttertoast.showToast(
+        msg: "$a",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.white12,
+        textColor: Colors.white
+    );
+  }
+}
+class cartpage extends StatefulWidget {
+  @override
+  _cartpageState createState() => _cartpageState();
+}
+class _cartpageState extends State<cartpage> {
+  bool validatecoupoun=true;
+  List<String> checkCoupoun=["Firsttime","secondVisit","developed","experienced"];
+  final entercoupoun=TextEditingController();
+  bool _iscoupoun=false;
+  bool found=false;
+  @override
+  _cartpageState();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Clothes in Cart"),
+        backgroundColor: Colors.red.shade300,
+        leading: Icon(Icons.arrow_back),
+      ),
+      body:Column(
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height-300,
+            child: ListView.separated(
+                    itemBuilder: (BuildContext context,int index){
+                      String key = products.keys.elementAt(index);
+                      return ListTile(
+                            title: Text("$key",style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 17.0,
+                            ),),
+                            trailing: Text("${products[key][0]}x ${products[key][1]}=${products[key][2]}",style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 17.0,
+                            ),),
+                          );
+                    }, separatorBuilder:(BuildContext context, int index) {
+                  return SizedBox(
+                    height: 0,
+                  );
+                },
+                    itemCount: products.length
+                ),
+
+
+          ),
+          Row(
+            children: <Widget>[
+              Container(
+                height: 60,
+                width: MediaQuery.of(context).size.width*0.7,
+                margin: EdgeInsets.all(10.0),
+                child: TextField(
+                  controller: entercoupoun,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                      borderSide: BorderSide(color: Colors.black,width: 2),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black,width: 2),
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    hintText: "Coupoun Code",
+                    suffixIcon: checkCoupoun.contains(entercoupoun.text)?Icon(Icons.assignment_turned_in_rounded):Icon(Icons.dangerous),
+                    errorText: entercoupoun.text.isEmpty?null:(checkCoupoun.contains(entercoupoun.text)?"coupoun valid":"not found"),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: (){
+                  if(!entercoupoun.text.isEmpty) {
+
+
+                  if(checkCoupoun.contains(entercoupoun.text)){
+                    setState(() {
+                      _iscoupoun=true;
+                    });
+
+                  }
+                  else
+                    setState(() {
+                      _iscoupoun=false;
+
+                    });
+    }
+                },
+                child: Container(
+                  height: 50,
+                  width: MediaQuery.of(context).size.width*0.2,
+                  child: Center(
+                    child: Text(_iscoupoun?"applied":"apply",style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        color: Colors.white
+                    ),),
+                  ),
+                  decoration: BoxDecoration(
+                      color: Colors.red.shade300,
+                      borderRadius: BorderRadius.circular(17.0)
+                  ),
+                ),
+              )
+            ],
+          ),
+
+          Row(
+            children: [
+              Center(
+                child: Container(
+                  child:  InkWell(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => detailspage()));
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(top:10.0,left: 20.0,right: 20.0),
+                      height: 40,
+                      width: 300,
+                      child: Center(child: Text("submit",style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16.0),)),
+                      color: Colors.red.shade300,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
+class bookingspage extends StatefulWidget {
+  @override
+  String Name,House_no,SAC,CTV,dropdownValue;
+  int Phno,Pincode;
+  bookingspage({ Key key ,this.Name,this.Phno,this.Pincode,this.House_no,this.SAC,this.CTV,this.dropdownValue }):super(key:key);
+  _bookingspageState createState() => _bookingspageState(Name,Phno,Pincode,House_no,SAC,CTV,dropdownValue);
+}
+class _bookingspageState extends State<bookingspage> {
+  String Name,House_no,SAC,CTV,dropdownValue;
+  int Phno,Pincode;
+  _bookingspageState(this.Name, this.Phno ,this.Pincode, this.House_no,this.SAC,this.CTV,this.dropdownValue);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+
+    );
+  }
+}
+class userprofile extends StatefulWidget {
+  @override
+  _userprofileState createState() => _userprofileState();
+}
+class _userprofileState extends State<userprofile> {
+  final List useroptions=["Account Details","Bookings","Help","Feedback","Logout"];
+  final vals=[userprofile(),bookingspage(),userprofile(),selecttype(),bookingspage()];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+
+        decoration: BoxDecoration(
+          color: Colors.red.shade300,
+        ),
+        child: Column(
+          children: <Widget>[
+            Padding(padding: EdgeInsets.only(top:40)),
+            Row(
+
+              children: [Center(
+                child: Container(
+                  height:150,
+                  child:Column(
+                    children: [
+                      Image.network(_user.photoUrl),
+                      Text(_user.displayName),
+                      Text(_user.email),
+                    ],
+                  ),
+                ),
+              )],
+            ),
+            Container(
+              height: 200,
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
+                    topRight: Radius.circular(45),),
+                ),
+                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.04,
+                  left: MediaQuery.of(context).size.height * 0.015,
+                  right: MediaQuery.of(context).size.height * 0.015,),
+                child: ListView.builder(
+                    itemCount: useroptions.length,
+                    itemBuilder: (BuildContext context, int index){
+                      return Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          // side: BorderSide(color: Colors.transparent)
+                        ),
+                        margin: EdgeInsets.all(8.0),
+                        elevation: 6.0,
+                        color: Colors.white,
+                        child: ListTile(
+                          title: Text(useroptions[index],style: TextStyle(
+                            color: Colors.red.shade300,
+                          ),),
+                          trailing: Icon(Icons.arrow_forward_ios,color: Colors.red.shade300,),
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (context) => vals[index]));
+                          },
+                        ),
+                      );
+                    }
                 ),
               ),
             ),
@@ -1237,57 +1938,6 @@ class _mypayState extends State<mypay> {
                 )
             ),
           ),
-          Row(
-            children: <Widget>[
-              Container(
-                height: 70,
-                width: MediaQuery.of(context).size.width*0.75,
-                margin: EdgeInsets.only(left: 40),
-                child: TextField(
-                  controller: entercoupoun,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                      borderSide: BorderSide(color: Colors.black,width: 2),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black,width: 2),
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    hintText: "Coupoun Code",
-                    errorText: entercoupoun.text.isEmpty?null:(checkCoupoun.contains(entercoupoun.text)?"coupoun valid":"not found"),
-                    filled: true,
-                    fillColor: Colors.white,
-                  ),
-                ),
-              ),
-              Padding(padding:EdgeInsets.only(left: MediaQuery.of(context).size.width*0.03)),
-              InkWell(
-                onTap: (){
-                  if(entercoupoun.text.isEmpty || checkCoupoun.contains(entercoupoun.text) ) {
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => lastpage()));
-                  }
-                },
-                child: Container(
-                  height: 50,
-                  width: MediaQuery.of(context).size.width*0.15,
-                  child: Center(
-                    child: Text("APPLY",style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        color: Colors.white
-                    ),),
-                  ),
-                  decoration: BoxDecoration(
-                      color: Colors.red.shade300,
-                      borderRadius: BorderRadius.circular(17.0)
-                  ),
-                ),
-              )
-            ],
-          ),
           Container(
             child: Column(
               children: <Widget>[
@@ -1296,11 +1946,8 @@ class _mypayState extends State<mypay> {
                     fontSize: 16,
                     fontWeight: FontWeight.w900,
                   ),),
-                Padding(padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.02,),
-                ),
                 Container(
-                  margin: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.015,
-                    right: MediaQuery.of(context).size.height*0.015,),
+                  margin: EdgeInsets.all(10.0),
                   decoration: BoxDecoration(
                     color: Colors.transparent,
                     border: Border.all(
@@ -1318,6 +1965,7 @@ class _mypayState extends State<mypay> {
                           print("selected $value");
                           setState(() {
                             _paymentoption = value;
+
                           });
                         },
                         activeColor: Colors.red.shade300,
@@ -1543,526 +2191,5 @@ class _lastpageState extends State<lastpage> {
       ),
     );
   }
-}
-class bookingspage extends StatefulWidget {
-  @override
-  String Name,House_no,SAC,CTV,dropdownValue;
-  int Phno,Pincode;
-  bookingspage({ Key key ,this.Name,this.Phno,this.Pincode,this.House_no,this.SAC,this.CTV,this.dropdownValue }):super(key:key);
-  _bookingspageState createState() => _bookingspageState(Name,Phno,Pincode,House_no,SAC,CTV,dropdownValue);
-}
-class _bookingspageState extends State<bookingspage> {
-  String Name,House_no,SAC,CTV,dropdownValue;
-  int Phno,Pincode;
-  _bookingspageState(this.Name, this.Phno ,this.Pincode, this.House_no,this.SAC,this.CTV,this.dropdownValue);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-
-    );
-  }
-}
-class userprofile extends StatefulWidget {
-  @override
-  _userprofileState createState() => _userprofileState();
-}
-class _userprofileState extends State<userprofile> {
-  final List useroptions=["Account Details",
-    "Bookings",
-    "Help",
-    "feedback",
-    "logout"];
-  final vals=[userprofile(),bookingspage(),userprofile(),selecttype(),bookingspage()];
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          color: Colors.red.shade300,
-        ),
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: 200,
-            ),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
-                    topRight: Radius.circular(45),),
-                ),
-                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.04,
-                  left: MediaQuery.of(context).size.height * 0.02,
-                  right: MediaQuery.of(context).size.height * 0.02,),
-                child: ListView.builder(
-                    itemCount: useroptions.length,
-                    itemBuilder: (BuildContext context, int index){
-                      return Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0.0),
-                            side: BorderSide(color: Colors.transparent)
-                        ),
-                        margin: EdgeInsets.all(10.0),
-                        elevation: 6.0,
-                        color: Colors.grey.shade300,
-                        child: ListTile(
-                          title: Text(useroptions[index],style: TextStyle(
-                            color: Colors.red.shade300,
-                          ),),
-                          trailing: Icon(Icons.arrow_forward_ios,color: Colors.red.shade300,),
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(
-                                builder: (context) => vals[index]));
-                          },
-                        ),
-                      );
-                    }
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class menselectpage extends StatefulWidget {
-  @override
-  _menselectpageState createState() => _menselectpageState();
-}
-class _menselectpageState extends State<menselectpage> {
-  @override
-  List men_dresses= ["T-shirt","Track","Jeans","Short","Long-_-","paijama","Kurtha"];
-
- /* Future<List<Clothes>> fetchNotes() async{
-    String url="https://raw.githubusercontent.com/Nikhil-Kudupudi/android_app/master/lib/LaundryApp/Mens_clothes.json";
-     var response=await http.get(Uri.encodeFull(url),headers:{"Accept":"application/json"});
-    // ignore: deprecated_member_use
-    var clothes=List<Clothes>();
-    if(response.statusCode==200){
-      var notesJson=json.decode(response.body);
-      for(var noteJson in notesJson["items"] as List){
-clothes.add(Clothes.fromJson(noteJson));
-      }
-    }
-    return clothes;
-  }
-*/
-@override
-  Widget build(BuildContext context) {
-/*fetchNotes().then((value){
- setState((){
-   men_dresses.addAll(value);
- });
-});*/
-    return Scaffold(
-
-      body:
-          Container(
-
-            color: Colors.red.shade300,
-            padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.17),
-            child:Column(
-              children: [
-
-                IconButton(icon: Icon(Icons.shopping_cart), onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>cartpage()));
-                }),
-                cloth_counter(items:men_dresses),
-              ],
-            ),),
-    );
-  }
-}
-class cloth_counter extends StatefulWidget {
-  @override
-  final List  items;
-
-  cloth_counter({Key key,this.items}):super(key:key);
-  _cloth_counterState createState() => _cloth_counterState(items:this.items);
-}
-class _cloth_counterState extends State<cloth_counter> {
-
-  @override
-
-  String add_symbol="add";
-  bool change_to=false;
-  List items;
-
-int _personcounter=0;
-
-  _cloth_counterState({this.items});
-  Widget build(BuildContext context) {
-
-    return Container(
-      padding: EdgeInsets.only(top:34),
-      height: MediaQuery.of(context).size.height*0.77,
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        color: Colors.grey.shade300,
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      child: ListView.separated(
-          itemCount: items.length,
-            itemBuilder: (BuildContext context,int index){
-           
-            return Material(
-              shadowColor: Colors.blueAccent,
-
-              borderRadius: BorderRadius.circular(43.4),
-              child:counter(name:items[index]),
-
-              elevation: 7,
-
-            );
-            }, separatorBuilder: (BuildContext context, int index) {
-        return SizedBox(
-          height: 10,
-        );
-      },
-      ),
-    );
-  }
-}
-List products=[];
-class counter extends StatefulWidget {
-  @override
-  final String name;
-
-  counter({Key key,this.name}):super(key: key);
-  _counterState createState() => _counterState(name:this.name);
-
-
-
-}
-
-class _counterState extends State<counter> {
-  @override
-
-  String name;
-
-  int _personcounter=0;
-  _counterState({this.name});
-
-  Widget build(BuildContext context) {
-    return ListTile(
-      hoverColor: Colors.red.shade300,
-
-      title: Text("$name"),
-      subtitle: Text(" "),
-      leading: CircleAvatar(
-        backgroundImage: NetworkImage("https://images.pexels.com/photos/6348041/pexels-photo-6348041.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
-        backgroundColor: Colors.white10,
-        child: Container(
-        ),
-      ),
-      trailing:Row(
-        mainAxisSize: MainAxisSize.min,
-
-        children:<Widget> [
-
-          SizedBox(
-            width: 30,
-            height: 30,
-            child: ElevatedButton(
-                style:ButtonStyle(
-                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.pressed))
-                        return Colors.green;
-                      return null; // Use the component's default.
-                    },
-                  ),
-
-                ),
-                onPressed: (){
-                  setState(() {
-                   _personcounter++;
-                    flutter_toast("Added to cart");
-                   if(!products.contains(name)) {
-                     products.add(name);
-                   }
-
-                  });
-                }, child:Text("+")),
-          ),
-          Padding(padding: EdgeInsets.only(right: 3)),
-          Center(
-            child: Text("$_personcounter"),
-          ),
-          Padding(padding: EdgeInsets.only(right: 3)),
-          SizedBox(
-            width: 30,
-            height: 30,
-            child: ElevatedButton(
-                style:ButtonStyle(
-                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.pressed))
-                        return Colors.red.shade300;
-                      return Colors.grey; // Use the component's default.
-                    },
-                  ),
-
-                ),
-                onPressed: (){
-                  setState(() {
-                    if(_personcounter>0){
-
-                      _personcounter--;
-                      if(_personcounter==0){
-                        products.remove(name);
-                      }
-                      flutter_toast("Removed succesfully");
-
-                    }
-                  });
-                }, child:Center(child:Text("-"))),
-          ),
-          Padding(padding: EdgeInsets.only(right: 15)),
-        ],
-      ),
-
-    );
-  }
-
-  flutter_toast(String a){
-    return Fluttertoast.showToast(
-      msg: "$a",
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.white12,
-      textColor: Colors.white
-    );
-  }
-
-}
-
-class womenselectpage extends StatefulWidget {
-  @override
-  _womenselectpageState createState() => _womenselectpageState();
-}
-class _womenselectpageState extends State<womenselectpage> {
-  int _personcount=0;
-  List ladies_dresses=["Shirt","T-Shirt","Legging","Jean","Saree","Top"];
-  @override
-  womens_dress(var name){
-    return  Container(
-      height: MediaQuery.of(context).size.height*0.17,
-      width: MediaQuery.of(context).size.width*0.9,
-      decoration: BoxDecoration(
-        color: Colors.grey.shade300,
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.025,
-          left: MediaQuery.of(context).size.width*0.025
-      ),
-      child: Row(
-        children: [
-          Column(
-            children: [
-              Row(
-                children: [
-                  Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.025,
-                      left: MediaQuery.of(context).size.height*0.04),),
-                  Text("$name",style: TextStyle(
-                    color: Colors.red.shade300,
-                    fontSize:18,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  InkWell(
-                    onTap: (){
-                      setState(() {
-                        if(_personcount>0){
-                          _personcount--;
-
-                        }
-                      });
-                    },
-                    child: Container(
-                      width: 30,
-                      height: 30,
-                      margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.04,
-                        top: MediaQuery.of(context).size.height*0.010,
-                        right: 10,),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(7.0),
-                        color: Colors.grey,
-                      ),
-                      child: Center(
-                        child: Text(
-                          "-",style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Text("$_personcount", style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17.0,
-                  ),),
-                  InkWell(
-                    onTap: (){
-                      setState(() {
-                        _personcount++;
-
-                      });
-                    },
-                    child: Container(
-                      width: 30,
-                      height: 30,
-                      margin: EdgeInsets.only(left:10,
-                          top: MediaQuery.of(context).size.height*0.010),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(7.0),
-                        color: Colors.grey,
-                      ),
-                      child: Center(
-                        child: Text(
-                          "+",style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          InkWell(
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => detailspage()));
-            },
-            child: Container(
-              margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.53,),
-              height: 30,
-              width: MediaQuery.of(context).size.width*0.1,
-              decoration: BoxDecoration(
-                border: Border.all(
-                    color: Colors.red.shade300,
-                    width: 2
-                ),
-                borderRadius: BorderRadius.circular(35),
-                color: Colors.white,
-              ),
-              child: Center(child: Text("Add",style: TextStyle(
-                color: Colors.black,
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-              ),),),
-            ),
-          )
-        ],
-      ),
-    );
-
-  }
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          color: Colors.red.shade300,
-        ),
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: 100,
-            ),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(45),
-                    topRight: Radius.circular(45),),
-                ),
-                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1,
-                  left: MediaQuery.of(context).size.height * 0.025,
-                  right: MediaQuery.of(context).size.height * 0.025,),
-                child: ListView(
-                  children: [
-                    Column(
-                      children: [
-                        womens_dress(ladies_dresses[0]),
-                        Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)),
-                        womens_dress(ladies_dresses[1]),
-                        Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)),
-                        womens_dress(ladies_dresses[2]),
-                        Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)),
-                        womens_dress(ladies_dresses[3]),
-                        Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)),
-                        womens_dress(ladies_dresses[4]),
-                        Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02)),
-                        womens_dress(ladies_dresses[5]),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-class kidsselectpage extends StatefulWidget {
-  @override
-  _kidsselectpageState createState() => _kidsselectpageState();
-}
-class _kidsselectpageState extends State<kidsselectpage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-
-    );
-  }
-}
-class cartpage extends StatefulWidget {
-
-
-  @override
-  _cartpageState createState() => _cartpageState();
-}
-class _cartpageState extends State<cartpage> {
-  @override
-
-  _cartpageState();
-  Widget build(BuildContext context) {
-
-    print(products);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("cart page"),
-      ),
-      body:Container(child:ListView.separated(
-          itemBuilder: (BuildContext context,int index){
-            return ListTile(
-              title: Text("${products[index]}"),
-            );
-          }, separatorBuilder:(BuildContext context, int index) {
-        return SizedBox(
-          height: 10,
-        );
-      }, itemCount: products.length),),
-    );
-  }
-
 }
 

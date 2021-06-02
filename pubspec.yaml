@@ -41,6 +41,7 @@ dependencies:
   firebase_auth: ^1.2.0
   cloud_firestore: ^2.2.0
   firebase_analytics: ^8.1.0
+
   google_sign_in: ^5.0.3
   date_range_picker: ^1.0.5
   syncfusion_flutter_datepicker: ^19.1.64-beta

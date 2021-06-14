@@ -1,18 +1,25 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
+import 'package:firebase_database/firebase_database.dart';
 
+import 'authentication.dart';
 
 RegExp userregex=new RegExp(r"[a-zA-Z]+\w[a-zA-Z]*");
-RegExp passwordregex =new RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+RegExp passwordregex =new RegExp(r"^[a-zA-Z]*");
 RegExp emailregex=new RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+") ;
 
 class lgorsgpage extends StatefulWidget {
@@ -21,6 +28,7 @@ class lgorsgpage extends StatefulWidget {
 }
 class _lgorsgpageState extends State<lgorsgpage> {
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       body:Container(
@@ -200,10 +208,10 @@ class _loginpageState extends State<loginpage> {
                                   borderRadius: BorderRadius.circular(20.0),
                                 ),
                                 prefixIcon: Icon(Icons.person,color: Colors.red.shade300,),
-                                hintText: "Username/Phone Number",
+                                hintText: "email",
                                 filled: true,
                                 fillColor: Colors.white,
-                                errorText:_validateloginusername? "*this field is Required":(!userregex.hasMatch(_loginusername.text)?"Ex:Mg@1234 ":null),
+                                errorText:_validateloginusername? "*this field is Required":(!emailregex.hasMatch(_loginusername.text)?"Ex:Mg@1234 ":null),
                               ),
                             ),
                           ),
@@ -254,10 +262,18 @@ class _loginpageState extends State<loginpage> {
                           _loginusername.text.isEmpty?_validateloginusername=true:_validateloginusername=false;
                           _loginpassword.text.isEmpty? _validateloginpassword=true:_validateloginpassword=false;
                         });
-                        if (_loginusername.text.isNotEmpty && _loginpassword.text.isNotEmpty && userregex.hasMatch(_loginusername.text) && passwordregex.hasMatch(_loginpassword.text) ){
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => mainpage()));
-                        }
+                        /*if (_loginusername.text.isNotEmpty && _loginpassword.text.isNotEmpty && emailregex.hasMatch(_loginusername.text) && passwordregex.hasMatch(_loginpassword.text) ){
+
+                        }*/
+                        AuthClass().signIN(_loginusername.text,_loginpassword.text).then((value){
+                          if(value=="Welcome"){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                                mainpage()));
+                          }
+                          else{
+                            print(value);
+                          }
+                        });
                       },
                       child: Container(
                         height: 50,
@@ -307,9 +323,17 @@ class _loginpageState extends State<loginpage> {
       ),
     );
   }
+
+
 }
 GoogleSignInAccount _user;
 GoogleSignIn _googleSignIn=GoogleSignIn();
+
+final FirebaseAuth _auth=FirebaseAuth.instance;
+final FirebaseFirestore _db=FirebaseFirestore.instance;
+var displayName;
+var photo;
+var name;
 class signup extends StatefulWidget {
   @override
   _signupState createState() => _signupState();
@@ -323,13 +347,19 @@ class _signupState extends State<signup> {
     bookingspage(),
     userprofile()
   ];
+
+  final FocusNode _passwordFocusNode=FocusNode();
+  final FocusNode _usernameFocusNode=FocusNode();
+  final FocusNode _emailFocusNode=FocusNode();
+
   bool _showPassword=false;
   final _username=TextEditingController();
   final _password=TextEditingController();
   final _email=TextEditingController();
   bool _validateuser=true;bool _validatepassword=true;bool _validateemail=true;
+
   Widget buildbody(){
-    if(_user!=null ||_isLoggedin){
+    if(_isLoggedin){
       return Scaffold(
         bottomNavigationBar: BottomNavigationBar(
           onTap: onTabTapped,
@@ -358,84 +388,30 @@ class _signupState extends State<signup> {
         child: ListView(
           scrollDirection: Axis.vertical,
           children: <Widget>[
-            Column(
-              children: <Widget>[
-                Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1,),),
-                Row(
-                  children: <Widget>[
-                    Padding(padding: EdgeInsets.only(left: MediaQuery.of(context).size.height * 0.015,),),
-                    Text("Create Your Account",
-                      style: TextStyle(
-                        fontSize: 23.0,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.red.shade300,
-                      ),),
-                  ],
-                ),
-                Container(
-                  child: TextFormField(
-                    cursorColor: Colors.red.shade300,
-                    controller: _username,
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide: BorderSide(color: Colors.red.shade300,width: 2),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.red.shade300,width: 2),
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      prefixIcon: Icon(Icons.person,color: Colors.red.shade300),
-                      hintText: "Username/Phone Number",
-                      filled: true,
-                      fillColor: Colors.white,
-                      errorText: _validateuser?"this field is Required*":(!userregex.hasMatch(_username.text)?"enter  alphabets only":null),
-                      errorStyle: TextStyle(color:Colors.red.shade300),
-                    ),
-                  ),
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.04,
-                    left: MediaQuery.of(context).size.height * 0.03,
-                    right: MediaQuery.of(context).size.height * 0.03,),
-                ),
-                Container(
-                  child: TextFormField(
-                    controller: _password,
-                    obscureText: !this._showPassword,
-                    cursorColor: Colors.red.shade300,
-                    decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: BorderSide(color: Colors.red.shade300,width: 2),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red.shade300,width: 2),
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        prefixIcon: Icon(Icons.lock,color: Colors.red.shade300),
-                        suffixIcon: IconButton(icon:this._showPassword?Icon(Icons.visibility,color:Colors.red.shade300):Icon(Icons.visibility_off_rounded,color:Colors.red.shade300),
-                          onPressed: (){
-                            setState(() {
-                              this._showPassword = !this._showPassword;
-                            });
-                          },
-                        ),
-                        hintText: "Password",
-                        filled: true,
-                        fillColor: Colors.white,
-                        errorText:_validatepassword? "this field is Required*":(!passwordregex.hasMatch(_password.text)?"Ex:Mg@1234 ":null),
-                        errorStyle: TextStyle(color:Colors.red.shade300)
-                    ),
-                  ),
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015,
-                    left: MediaQuery.of(context).size.height * 0.03,
-                    right: MediaQuery.of(context).size.height * 0.03,),
-                ),
-                Container(
-                  child: TextFormField(
+            Form(
 
-                    controller: _email,
-                    cursorColor: Colors.red.shade300,
-                    decoration: InputDecoration(
+              child: Column(
+                children: <Widget>[
+                  Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1,),),
+                  Row(
+                    children: <Widget>[
+                      Padding(padding: EdgeInsets.only(left: MediaQuery.of(context).size.height * 0.015,),),
+                      Text("Create Your Account",
+                        style: TextStyle(
+                          fontSize: 23.0,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.red.shade300,
+                        ),),
+                    ],
+                  ),
+                  Container(
+                    child: TextFormField(
+                      cursorColor: Colors.red.shade300,
+                      controller: _username,
+                      focusNode: _usernameFocusNode,
+                      key: ValueKey('name'),
+                      onEditingComplete: ()=>FocusScope.of(context).requestFocus(_usernameFocusNode),
+                      decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
                           borderSide: BorderSide(color: Colors.red.shade300,width: 2),
@@ -444,158 +420,240 @@ class _signupState extends State<signup> {
                           borderSide: BorderSide(color: Colors.red.shade300,width: 2),
                           borderRadius: BorderRadius.circular(20.0),
                         ),
-                        prefixIcon: Icon(Icons.email,color: Colors.red.shade300),
-                        hintText: "E-mail",
+                        prefixIcon: Icon(Icons.person,color: Colors.red.shade300),
+                        hintText: "Username",
                         filled: true,
                         fillColor: Colors.white,
-                        errorText:_validateemail ? "this field is Required*":(!emailregex.hasMatch(_email.text)?"enter valid email":null),
-                        errorStyle: TextStyle(color:Colors.red.shade300)
-                    ),
-                  ),
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015,
-                    left: MediaQuery.of(context).size.height * 0.03,
-                    right: MediaQuery.of(context).size.height * 0.03,),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
-                  ),
-                ),
-                InkWell(
-                  onTap: (){
-                    setState(() {
-                      _username.text.isEmpty?_validateuser=true:_validateuser=false;
-                      _password.text.isEmpty? _validatepassword=true:_validatepassword=false;
-                      _email.text.isEmpty?_validateemail=true:_validateemail=false;
-                    });
-                    if ((userregex.hasMatch(_username.text)&&passwordregex.hasMatch(_password.text)&& emailregex.hasMatch(_email.text))&&(_username.text.isNotEmpty && _password.text.isNotEmpty &&
-                        _email.text.isNotEmpty)){
-                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                          mainpage()), (Route<dynamic> route) => false);
-                    }
-                  },
-                  child: Container(
-                    height: 50,
-                    width: MediaQuery.of(context).size.height*0.25,
-                    margin: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.1,
-                        right: MediaQuery.of(context).size.height*0.1),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: Colors.black,
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Sign Up",style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16.0
-                      ),
+                        errorText: _validateuser?"this field is Required*":(!userregex.hasMatch(_username.text)?"enter  alphabets only":null),
+                        errorStyle: TextStyle(color:Colors.red.shade300),
                       ),
                     ),
+                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.04,
+                      left: MediaQuery.of(context).size.height * 0.03,
+                      right: MediaQuery.of(context).size.height * 0.03,),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01,
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text("Already have an account ? "),
-                    GestureDetector(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => loginpage()));
-                      },
-                      child: Text("Login",style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),),
-                    )
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
-                  ),
-                ),
-                Center(
-                  child: Text("Or",style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                  ),),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
-                  ),
-                ),
-                InkWell(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => mainpage()));
-                  },
-                  child: Container(
-                    height: 50,
-                    width: MediaQuery.of(context).size.height*0.6,
-                    margin: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.05,
-                        right: MediaQuery.of(context).size.height*0.05),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.indigo,
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Continue with Facebook",style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16.0
-                      ),
+                  Container(
+                    child: TextField(
+                      controller: _password,
+                      obscureText: !this._showPassword,
+                      cursorColor: Colors.red.shade300,
+                      decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.red.shade300,width: 2),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red.shade300,width: 2),
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          prefixIcon: Icon(Icons.lock,color: Colors.red.shade300),
+                          suffixIcon: IconButton(icon:this._showPassword?Icon(Icons.visibility,color:Colors.red.shade300):Icon(Icons.visibility_off_rounded,color:Colors.red.shade300),
+                            onPressed: (){
+                              setState(() {
+                                this._showPassword = !this._showPassword;
+                              });
+                            },
+                          ),
+                          hintText: "Password",
+                          filled: true,
+                          fillColor: Colors.white,
+                          errorText:_validatepassword? "this field is Required*":(!passwordregex.hasMatch(_password.text)?"Ex:Mg@1234 ":null),
+                          errorStyle: TextStyle(color:Colors.red.shade300)
                       ),
                     ),
+                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015,
+                      left: MediaQuery.of(context).size.height * 0.03,
+                      right: MediaQuery.of(context).size.height * 0.03,),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015,
+                  Container(
+                    child: TextFormField(
+                      controller: _email,
+                      cursorColor: Colors.red.shade300,
+                      decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.red.shade300,width: 2),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red.shade300,width: 2),
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          prefixIcon: Icon(Icons.email,color: Colors.red.shade300),
+                          hintText: "E-mail",
+                          filled: true,
+                          fillColor: Colors.white,
+                          errorText:_validateemail ? "this field is Required*":(!emailregex.hasMatch(_email.text)?"enter valid email":null),
+                          errorStyle: TextStyle(color:Colors.red.shade300)
+                      ),
+                    ),
+                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015,
+                      left: MediaQuery.of(context).size.height * 0.03,
+                      right: MediaQuery.of(context).size.height * 0.03,),
                   ),
-                ),
-                Container(
-                    child: InkWell(
-                      onTap: (){
-                        _googleSignIn.signIn().then((userData) {
+                  Padding(
+                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
+                    ),
+                  ),
+                  InkWell(
+                    onTap: (){
+                      /*setState(() {
+                            /*_username.text.isEmpty?_validateuser=true:_validateuser=false;
+                            _password.text.isEmpty? _validatepassword=true:_validatepassword=false;
+                            _email.text.isEmpty?_validateemail=true:_validateemail=false;*/
+                            _isLoggedin=true;
+                          });*/
+                      AuthClass().createAccount(email:_email.text.trim(),password:_password.text.trim()).then((value){
+                        if(value=="Account created"){
+
                           setState(() {
-                            _isLoggedin = true;
-                            _user = userData;
+                            _isLoggedin=true;
                           });
-                        }).catchError((e) {
-                          print(e);
-                        });
 
-                      },
-                      child: Container(
-                        height: 50,
-                        width: MediaQuery.of(context).size.height*0.6,
-                        margin: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.05,
-                            right: MediaQuery.of(context).size.height*0.05),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.deepOrange.shade400,
+                        }
+                        else{
+                          print(value);
+                        }
+
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(SnackBar(content: Text(value)));
+                      });
+
+
+
+                      /*if ((userregex.hasMatch(_username.text)&&passwordregex.hasMatch(_password.text)&& emailregex.hasMatch(_email.text))&&(_username.text.isNotEmpty && _password.text.isNotEmpty &&
+                          _email.text.isNotEmpty)){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                            mainpage()));
+                      }*/
+
+
+                    },
+                    child: Container(
+                      height: 50,
+                      width: MediaQuery.of(context).size.height*0.25,
+                      margin: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.1,
+                          right: MediaQuery.of(context).size.height*0.1),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: Colors.black,
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Sign Up",style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16.0
                         ),
-                        child: Center(
-                          child: Text(
-                            "Continue with Google",style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16.0
-                          ),
-                          ),
                         ),
                       ),
-                    )
-                ),
-              ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text("Already have an account ? "),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (context) => loginpage()));
+                        },
+                        child: Text("Login",style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),),
+                      )
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
+                    ),
+                  ),
+                  Center(
+                    child: Text("Or",style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                    ),),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02,
+                    ),
+                  ),
+                  InkWell(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => mainpage()));
+                    },
+                    child: Container(
+                      height: 50,
+                      width: MediaQuery.of(context).size.height*0.6,
+                      margin: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.05,
+                          right: MediaQuery.of(context).size.height*0.05),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.indigo,
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Continue with Facebook",style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16.0
+                        ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015,
+                    ),
+                  ),
+                  Container(
+                      child: InkWell(
+                        onTap: (){
+                         AuthClass().signWithGoogle().then((UserCredential value) {
+                           displayName = value.user.displayName;
+                           photo=value.user.photoURL;
+                           name=value.user.email;
+
+                           setState(() {
+                             _isLoggedin=true;
+                           });
+                         });
+                        },
+                        child: Container(
+                          height: 50,
+                          width: MediaQuery.of(context).size.height*0.6,
+                          margin: EdgeInsets.only(left: MediaQuery.of(context).size.height*0.05,
+                              right: MediaQuery.of(context).size.height*0.05),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.deepOrange.shade400,
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Continue with Google",style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16.0
+                            ),
+                            ),
+                          ),
+                        ),
+                      )
+                  ),
+                ],
+              ),
             ),
           ],
         ),
       );
     }
   }
+
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: ConstrainedBox(
@@ -605,6 +663,7 @@ class _signupState extends State<signup> {
     );
   }
   void onTabTapped(int index){
+
     setState(() {
       currentIndex=index;
     });
@@ -1593,6 +1652,7 @@ class _userprofileState extends State<userprofile> {
   final List useroptions=["Account Details","Bookings","Help","Feedback","Logout"];
   final vals=[userprofile(),bookingspage(),userprofile(),selecttype(),bookingspage()];
   @override
+  File _image;
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -1605,21 +1665,63 @@ class _userprofileState extends State<userprofile> {
             Padding(padding: EdgeInsets.only(top:40)),
             Row(
 
-              children: [Center(
-                child: Container(
-                  height:150,
+              children: [
+                 Container(
+                  height:250,
                   child:Column(
+
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.network(_user.photoUrl),
-                      Text(_user.displayName),
-                      Text(_user.email),
+                      Padding(padding: EdgeInsets.only(left:MediaQuery.of(context).size.width*1),),
+                      Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 32,
+                          ),
+                          Center(
+                            child: GestureDetector(
+                              onTap: () {
+                                _showPicker(context);
+                              },
+                              child: CircleAvatar(
+                                radius: 75,
+                                backgroundColor: Color(0xffFDCF09),
+                                child: _image != null
+                                    ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: Image.file(
+                                    _image,
+                                    fit: BoxFit.cover,
+                                  ),
+                                )
+                                    :ClipOval(
+                                  child: Image.network(
+                                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCz09J6ttpcnF1sBFNH25uFT7mc_R4cSeBNA&usqp=CAU',
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      Padding(padding: EdgeInsets.only(top:10),),
+                      RaisedButton.icon( icon: Icon(Icons.exit_to_app_rounded), label: Text("signout"),color: Colors.blue.shade300,onPressed: (){
+                        AuthClass().signOut();
+                      },)
                     ],
                   ),
+
                 ),
-              )],
+
+              ],
             ),
             Container(
-              height: 200,
+              height: 25,
             ),
             Expanded(
               child: Container(
@@ -1657,9 +1759,61 @@ class _userprofileState extends State<userprofile> {
                 ),
               ),
             ),
+
+
           ],
+
         ),
       ),
+    );
+  }
+  _imgFromCamera() async {
+    PickedFile image = await ImagePicker().getImage(
+        source: ImageSource.camera, imageQuality: 50
+    );
+
+    setState(() {
+      _image = File(image.path) ;
+    });
+  }
+
+  _imgFromGallery() async {
+    PickedFile image = await  ImagePicker().getImage(
+        source: ImageSource.gallery, imageQuality: 50
+    );
+
+    setState(() {
+      _image = File(image.path);
+    });
+  }
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      leading: new Icon(Icons.photo_library),
+                      title: new Text('Photo Library'),
+                      onTap: () {
+                        _imgFromGallery();
+                        Navigator.of(context).pop();
+                      }),
+                  new ListTile(
+                    leading: new Icon(Icons.photo_camera),
+                    title: new Text('Camera'),
+                    onTap: () {
+                      _imgFromCamera();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
     );
   }
 }

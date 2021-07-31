@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:we_wash/LaundryApp/authentication.dart';
+import 'package:we_wash/LaundryApp/home/mainpage.dart';
+import 'package:we_wash/LaundryApp/initial/Signup.dart';
+import 'package:we_wash/LaundryApp/initial/login.dart';
 
-import 'LaundryApp/home.dart';
+
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -158,9 +160,10 @@ User _auth=FirebaseAuth.instance.currentUser;
     }
     else{
 
-      if (_auth!= null || !_auth.emailVerified) {
-         _auth.sendEmailVerification();
+if (_auth!= null || !_auth.emailVerified) {
+         //_auth.sendEmailVerification();
       }
+
       return mainpage();
     }
   }

@@ -45,7 +45,7 @@ dependencies:
   google_sign_in: ^5.0.3
   date_range_picker: ^1.0.5
   syncfusion_flutter_datepicker: ^19.1.64-beta
-
+  audioplayers: ^0.19.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -71,6 +71,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - assets/audio/
     - donate (2).jpg
     - like.jpg
     - scissor.jpg

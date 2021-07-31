@@ -19,12 +19,16 @@ class AuthClass {
     } catch (e) {
       return "Error occurred";
     }
+return "";
   }
 
   //Sign in user
   Future<String> signIN(String email, String password) async {
     try {
       await auth.signInWithEmailAndPassword(email: email, password: password);
+       EmailAuthCredential credential=EmailAuthProvider.credential(email: email, password: password);
+       auth.currentUser.linkWithCredential(credential);
+
       return "Welcome";
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
